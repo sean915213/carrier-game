@@ -1,0 +1,645 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		740FD03621B5FCB400C34FF8 /* ModuleJobInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740FD03521B5FCB400C34FF8 /* ModuleJobInstance.swift */; };
+		7415561E21BB3CBC009EA087 /* MovementComponentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415561D21BB3CBC009EA087 /* MovementComponentProtocol.swift */; };
+		7415562021BC6CC3009EA087 /* GridRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415561F21BC6CC3009EA087 /* GridRect.swift */; };
+		7415562421BC818C009EA087 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415562321BC818B009EA087 /* SceneController.swift */; };
+		7415562621BC9F9A009EA087 /* TimeIntervalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415562521BC9F9A009EA087 /* TimeIntervalExtension.swift */; };
+		742C3640219A4CAC007FA1B5 /* DeckScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C363F219A4CAC007FA1B5 /* DeckScene.swift */; };
+		742C3643219A4D87007FA1B5 /* CrewmanEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */; };
+		742C3646219A4DE2007FA1B5 /* MovementComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */; };
+		742C3648219A4FB5007FA1B5 /* SpriteComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3647219A4FB5007FA1B5 /* SpriteComponent.swift */; };
+		742C364A219A6258007FA1B5 /* ModuleEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3649219A6258007FA1B5 /* ModuleEntity.swift */; };
+		743152C8219CE50100E3101F /* CrewmanInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152C7219CE50100E3101F /* CrewmanInstance.swift */; };
+		743152CA219CE58000E3101F /* CrewmanNeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152C9219CE58000E3101F /* CrewmanNeed.swift */; };
+		743152CC219CE67100E3101F /* ModuleJobBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152CB219CE67100E3101F /* ModuleJobBlueprint.swift */; };
+		743152CE219CE6AA00E3101F /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152CD219CE6AA00E3101F /* Action.swift */; };
+		743152D2219CE80E00E3101F /* ModuleNeedBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152D1219CE80E00E3101F /* ModuleNeedBlueprint.swift */; };
+		743152D4219CF43D00E3101F /* CDPoint2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152D3219CF43D00E3101F /* CDPoint2.swift */; };
+		74405C66218E247500BA3A69 /* JSONTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C65218E247500BA3A69 /* JSONTransformer.swift */; };
+		74405C72218E438200BA3A69 /* DeckInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C71218E438100BA3A69 /* DeckInstance.swift */; };
+		74405C74218E44E100BA3A69 /* ModuleInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C73218E44E100BA3A69 /* ModuleInstance.swift */; };
+		74405C76218E476800BA3A69 /* IdentifiableEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C75218E476800BA3A69 /* IdentifiableEntity.swift */; };
+		74405C78218E4EF100BA3A69 /* DeckBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C77218E4EF100BA3A69 /* DeckBlueprint.swift */; };
+		74405C7A218E4F9B00BA3A69 /* ShipBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C79218E4F9B00BA3A69 /* ShipBlueprint.swift */; };
+		74405C7C218E516D00BA3A69 /* ShipInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C7B218E516D00BA3A69 /* ShipInstance.swift */; };
+		74405C7E218E57C300BA3A69 /* ModulePlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C7D218E57C300BA3A69 /* ModulePlacement.swift */; };
+		746BB01421B327980028D040 /* GKGraphExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746BB01321B327980028D040 /* GKGraphExtension.swift */; };
+		7471650D21AE0D2500F5AA48 /* ShipEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650C21AE0D2500F5AA48 /* ShipEntity.swift */; };
+		7471650F21AE0E1400F5AA48 /* DeckEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650E21AE0E1400F5AA48 /* DeckEntity.swift */; };
+		747D271A2191210C00ECFA45 /* DeckPlacementBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747D27192191210C00ECFA45 /* DeckPlacementBlueprint.swift */; };
+		749CB13D2177E7F800949734 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB13C2177E7F800949734 /* AppDelegate.swift */; };
+		749CB13F2177E7F800949734 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 749CB13E2177E7F800949734 /* art.scnassets */; };
+		749CB1412177E7F800949734 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1402177E7F800949734 /* GameViewController.swift */; };
+		749CB1462177E7F900949734 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 749CB1452177E7F900949734 /* Assets.xcassets */; };
+		749CB1492177E7F900949734 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 749CB1472177E7F900949734 /* LaunchScreen.storyboard */; };
+		749CB1512177E8F200949734 /* BuildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1502177E8F200949734 /* BuildViewController.swift */; };
+		749CB1572177F30B00949734 /* Vector2Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1562177F30B00949734 /* Vector2Extensions.swift */; };
+		749CB1592177F8C400949734 /* CrossSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1582177F8C400949734 /* CrossSectionViewController.swift */; };
+		74B97DD421B9FC23009973A3 /* CDPoint3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B97DD321B9FC23009973A3 /* CDPoint3.swift */; };
+		74BA5CE52183CB640039A2D5 /* NSPersistentContainerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA5CE42183CB640039A2D5 /* NSPersistentContainerExtension.swift */; };
+		74BA5CE82183CD0D0039A2D5 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74BA5CE62183CD0D0039A2D5 /* Model.xcdatamodeld */; };
+		74BA5CEA2183D1610039A2D5 /* DataSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA5CE92183D1610039A2D5 /* DataSeeder.swift */; };
+		74BA5CEF2183D4A50039A2D5 /* ModuleBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA5CEE2183D4A50039A2D5 /* ModuleBlueprint.swift */; };
+		74BA5CF721867F190039A2D5 /* ModuleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA5CF621867F190039A2D5 /* ModuleListViewController.swift */; };
+		74BDA04221926F950034DD20 /* CGRectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BDA04121926F950034DD20 /* CGRectExtensions.swift */; };
+		74BDA0442192778E0034DD20 /* CGPointExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BDA0432192778E0034DD20 /* CGPointExtensions.swift */; };
+		74EE317F21BF2B3E00D4A5FC /* StatsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EE317E21BF2B3E00D4A5FC /* StatsProvider.swift */; };
+		74EE318121BF2D1900D4A5FC /* StatReportingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EE318021BF2D1900D4A5FC /* StatReportingEntity.swift */; };
+		74FC7A1521B0C856001B4E83 /* float3Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FC7A1421B0C856001B4E83 /* float3Extensions.swift */; };
+		7727E3B9B88D48C6BC60CABE /* Pods_Carrier_Game.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D105AD9CFC12333219AEE4 /* Pods_Carrier_Game.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5E91DE9759731EDC5892EA1A /* Pods-Carrier Game.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrier Game.release.xcconfig"; path = "Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game.release.xcconfig"; sourceTree = "<group>"; };
+		740FD03521B5FCB400C34FF8 /* ModuleJobInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleJobInstance.swift; sourceTree = "<group>"; };
+		7415561D21BB3CBC009EA087 /* MovementComponentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponentProtocol.swift; sourceTree = "<group>"; };
+		7415561F21BC6CC3009EA087 /* GridRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRect.swift; sourceTree = "<group>"; };
+		7415562321BC818B009EA087 /* SceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
+		7415562521BC9F9A009EA087 /* TimeIntervalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtension.swift; sourceTree = "<group>"; };
+		742C363F219A4CAC007FA1B5 /* DeckScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckScene.swift; sourceTree = "<group>"; };
+		742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanEntity.swift; sourceTree = "<group>"; };
+		742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponent2D.swift; sourceTree = "<group>"; };
+		742C3647219A4FB5007FA1B5 /* SpriteComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteComponent.swift; sourceTree = "<group>"; };
+		742C3649219A6258007FA1B5 /* ModuleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntity.swift; sourceTree = "<group>"; };
+		743152C7219CE50100E3101F /* CrewmanInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanInstance.swift; sourceTree = "<group>"; };
+		743152C9219CE58000E3101F /* CrewmanNeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanNeed.swift; sourceTree = "<group>"; };
+		743152CB219CE67100E3101F /* ModuleJobBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleJobBlueprint.swift; sourceTree = "<group>"; };
+		743152CD219CE6AA00E3101F /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		743152D1219CE80E00E3101F /* ModuleNeedBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleNeedBlueprint.swift; sourceTree = "<group>"; };
+		743152D3219CF43D00E3101F /* CDPoint2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPoint2.swift; sourceTree = "<group>"; };
+		74405C65218E247500BA3A69 /* JSONTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONTransformer.swift; sourceTree = "<group>"; };
+		74405C71218E438100BA3A69 /* DeckInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckInstance.swift; sourceTree = "<group>"; };
+		74405C73218E44E100BA3A69 /* ModuleInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleInstance.swift; sourceTree = "<group>"; };
+		74405C75218E476800BA3A69 /* IdentifiableEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableEntity.swift; sourceTree = "<group>"; };
+		74405C77218E4EF100BA3A69 /* DeckBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckBlueprint.swift; sourceTree = "<group>"; };
+		74405C79218E4F9B00BA3A69 /* ShipBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipBlueprint.swift; sourceTree = "<group>"; };
+		74405C7B218E516D00BA3A69 /* ShipInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipInstance.swift; sourceTree = "<group>"; };
+		74405C7D218E57C300BA3A69 /* ModulePlacement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulePlacement.swift; sourceTree = "<group>"; };
+		746BB01321B327980028D040 /* GKGraphExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GKGraphExtension.swift; sourceTree = "<group>"; };
+		7471650C21AE0D2500F5AA48 /* ShipEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipEntity.swift; sourceTree = "<group>"; };
+		7471650E21AE0E1400F5AA48 /* DeckEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckEntity.swift; sourceTree = "<group>"; };
+		747D27192191210C00ECFA45 /* DeckPlacementBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckPlacementBlueprint.swift; sourceTree = "<group>"; };
+		749CB1392177E7F800949734 /* Carrier Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Carrier Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		749CB13C2177E7F800949734 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		749CB13E2177E7F800949734 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
+		749CB1402177E7F800949734 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		749CB1452177E7F900949734 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		749CB1482177E7F900949734 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		749CB14A2177E7F900949734 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		749CB1502177E8F200949734 /* BuildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildViewController.swift; sourceTree = "<group>"; };
+		749CB1562177F30B00949734 /* Vector2Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector2Extensions.swift; sourceTree = "<group>"; };
+		749CB1582177F8C400949734 /* CrossSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossSectionViewController.swift; sourceTree = "<group>"; };
+		74B97DD321B9FC23009973A3 /* CDPoint3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPoint3.swift; sourceTree = "<group>"; };
+		74BA5CE42183CB640039A2D5 /* NSPersistentContainerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentContainerExtension.swift; sourceTree = "<group>"; };
+		74BA5CE72183CD0D0039A2D5 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		74BA5CE92183D1610039A2D5 /* DataSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSeeder.swift; sourceTree = "<group>"; };
+		74BA5CEE2183D4A50039A2D5 /* ModuleBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBlueprint.swift; sourceTree = "<group>"; };
+		74BA5CF621867F190039A2D5 /* ModuleListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleListViewController.swift; sourceTree = "<group>"; };
+		74BDA04121926F950034DD20 /* CGRectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtensions.swift; sourceTree = "<group>"; };
+		74BDA0432192778E0034DD20 /* CGPointExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtensions.swift; sourceTree = "<group>"; };
+		74EE317E21BF2B3E00D4A5FC /* StatsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsProvider.swift; sourceTree = "<group>"; };
+		74EE318021BF2D1900D4A5FC /* StatReportingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatReportingEntity.swift; sourceTree = "<group>"; };
+		74FC7A1421B0C856001B4E83 /* float3Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = float3Extensions.swift; sourceTree = "<group>"; };
+		7C886EB8ABAF79B71BDACB79 /* Pods-Carrier Game.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrier Game.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game.debug.xcconfig"; sourceTree = "<group>"; };
+		C1D105AD9CFC12333219AEE4 /* Pods_Carrier_Game.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Carrier_Game.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		749CB1362177E7F800949734 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7727E3B9B88D48C6BC60CABE /* Pods_Carrier_Game.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		16C1C158367964A69A311F60 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C1D105AD9CFC12333219AEE4 /* Pods_Carrier_Game.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2F923BE58044EE8B7D794DCB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7C886EB8ABAF79B71BDACB79 /* Pods-Carrier Game.debug.xcconfig */,
+				5E91DE9759731EDC5892EA1A /* Pods-Carrier Game.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7415561C21BB3C5E009EA087 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7415561D21BB3CBC009EA087 /* MovementComponentProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		742C3641219A4D60007FA1B5 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */,
+				742C3649219A6258007FA1B5 /* ModuleEntity.swift */,
+				7471650C21AE0D2500F5AA48 /* ShipEntity.swift */,
+				7471650E21AE0E1400F5AA48 /* DeckEntity.swift */,
+				74EE318021BF2D1900D4A5FC /* StatReportingEntity.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		742C3644219A4DC0007FA1B5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				7415561C21BB3C5E009EA087 /* Protocols */,
+				742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */,
+				742C3647219A4FB5007FA1B5 /* SpriteComponent.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		749CB1302177E7F800949734 = {
+			isa = PBXGroup;
+			children = (
+				749CB13B2177E7F800949734 /* Carrier Game */,
+				749CB13A2177E7F800949734 /* Products */,
+				2F923BE58044EE8B7D794DCB /* Pods */,
+				16C1C158367964A69A311F60 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		749CB13A2177E7F800949734 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				749CB1392177E7F800949734 /* Carrier Game.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		749CB13B2177E7F800949734 /* Carrier Game */ = {
+			isa = PBXGroup;
+			children = (
+				742C3644219A4DC0007FA1B5 /* Components */,
+				742C3641219A4D60007FA1B5 /* Entities */,
+				74BA5CF221867CCF0039A2D5 /* View Controllers */,
+				74BA5CE32183CB440039A2D5 /* Extensions */,
+				74BA5CE02183CAA30039A2D5 /* CoreData */,
+				749CB13C2177E7F800949734 /* AppDelegate.swift */,
+				749CB13E2177E7F800949734 /* art.scnassets */,
+				749CB1402177E7F800949734 /* GameViewController.swift */,
+				749CB1452177E7F900949734 /* Assets.xcassets */,
+				749CB1472177E7F900949734 /* LaunchScreen.storyboard */,
+				749CB14A2177E7F900949734 /* Info.plist */,
+				749CB1502177E8F200949734 /* BuildViewController.swift */,
+				749CB1582177F8C400949734 /* CrossSectionViewController.swift */,
+				74405C65218E247500BA3A69 /* JSONTransformer.swift */,
+				742C363F219A4CAC007FA1B5 /* DeckScene.swift */,
+				7415561F21BC6CC3009EA087 /* GridRect.swift */,
+				7415562321BC818B009EA087 /* SceneController.swift */,
+				74EE317E21BF2B3E00D4A5FC /* StatsProvider.swift */,
+			);
+			path = "Carrier Game";
+			sourceTree = "<group>";
+		};
+		74BA5CE02183CAA30039A2D5 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				74BA5CEB2183D3CF0039A2D5 /* Model */,
+				74BA5CE62183CD0D0039A2D5 /* Model.xcdatamodeld */,
+				74BA5CE92183D1610039A2D5 /* DataSeeder.swift */,
+				74405C75218E476800BA3A69 /* IdentifiableEntity.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		74BA5CE32183CB440039A2D5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				749CB1562177F30B00949734 /* Vector2Extensions.swift */,
+				74BA5CE42183CB640039A2D5 /* NSPersistentContainerExtension.swift */,
+				74BDA04121926F950034DD20 /* CGRectExtensions.swift */,
+				74BDA0432192778E0034DD20 /* CGPointExtensions.swift */,
+				74FC7A1421B0C856001B4E83 /* float3Extensions.swift */,
+				746BB01321B327980028D040 /* GKGraphExtension.swift */,
+				7415562521BC9F9A009EA087 /* TimeIntervalExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		74BA5CEB2183D3CF0039A2D5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				74BA5CEE2183D4A50039A2D5 /* ModuleBlueprint.swift */,
+				74405C71218E438100BA3A69 /* DeckInstance.swift */,
+				74405C73218E44E100BA3A69 /* ModuleInstance.swift */,
+				74405C77218E4EF100BA3A69 /* DeckBlueprint.swift */,
+				74405C79218E4F9B00BA3A69 /* ShipBlueprint.swift */,
+				74405C7B218E516D00BA3A69 /* ShipInstance.swift */,
+				74405C7D218E57C300BA3A69 /* ModulePlacement.swift */,
+				747D27192191210C00ECFA45 /* DeckPlacementBlueprint.swift */,
+				743152C7219CE50100E3101F /* CrewmanInstance.swift */,
+				743152C9219CE58000E3101F /* CrewmanNeed.swift */,
+				743152CB219CE67100E3101F /* ModuleJobBlueprint.swift */,
+				743152CD219CE6AA00E3101F /* Action.swift */,
+				743152D1219CE80E00E3101F /* ModuleNeedBlueprint.swift */,
+				743152D3219CF43D00E3101F /* CDPoint2.swift */,
+				740FD03521B5FCB400C34FF8 /* ModuleJobInstance.swift */,
+				74B97DD321B9FC23009973A3 /* CDPoint3.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		74BA5CF221867CCF0039A2D5 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				74BA5CF521867F190039A2D5 /* ModuleListViewController */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		74BA5CF521867F190039A2D5 /* ModuleListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				74BA5CF621867F190039A2D5 /* ModuleListViewController.swift */,
+			);
+			path = ModuleListViewController;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		749CB1382177E7F800949734 /* Carrier Game */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 749CB14D2177E7F900949734 /* Build configuration list for PBXNativeTarget "Carrier Game" */;
+			buildPhases = (
+				2BFAA8C2C7C8F0EE56CAAAF0 /* [CP] Check Pods Manifest.lock */,
+				749CB1352177E7F800949734 /* Sources */,
+				749CB1362177E7F800949734 /* Frameworks */,
+				749CB1372177E7F800949734 /* Resources */,
+				2741AACCA7B75D6E9516E092 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Carrier Game";
+			productName = "Carrier Game";
+			productReference = 749CB1392177E7F800949734 /* Carrier Game.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		749CB1312177E7F800949734 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1000;
+				LastUpgradeCheck = 1000;
+				ORGANIZATIONNAME = "Sean G Young";
+				TargetAttributes = {
+					749CB1382177E7F800949734 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+				};
+			};
+			buildConfigurationList = 749CB1342177E7F800949734 /* Build configuration list for PBXProject "Carrier Game" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 749CB1302177E7F800949734;
+			productRefGroup = 749CB13A2177E7F800949734 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				749CB1382177E7F800949734 /* Carrier Game */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		749CB1372177E7F800949734 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				749CB13F2177E7F800949734 /* art.scnassets in Resources */,
+				749CB1492177E7F900949734 /* LaunchScreen.storyboard in Resources */,
+				749CB1462177E7F900949734 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2741AACCA7B75D6E9516E092 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SGYSwiftUtility/SGYSwiftUtility.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SGYSwiftUtility.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2BFAA8C2C7C8F0EE56CAAAF0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Carrier Game-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		749CB1352177E7F800949734 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				742C3648219A4FB5007FA1B5 /* SpriteComponent.swift in Sources */,
+				7415562421BC818C009EA087 /* SceneController.swift in Sources */,
+				743152CE219CE6AA00E3101F /* Action.swift in Sources */,
+				742C3643219A4D87007FA1B5 /* CrewmanEntity.swift in Sources */,
+				7415562021BC6CC3009EA087 /* GridRect.swift in Sources */,
+				74BDA04221926F950034DD20 /* CGRectExtensions.swift in Sources */,
+				74BA5CEA2183D1610039A2D5 /* DataSeeder.swift in Sources */,
+				7415562621BC9F9A009EA087 /* TimeIntervalExtension.swift in Sources */,
+				74405C66218E247500BA3A69 /* JSONTransformer.swift in Sources */,
+				74405C7C218E516D00BA3A69 /* ShipInstance.swift in Sources */,
+				74405C7A218E4F9B00BA3A69 /* ShipBlueprint.swift in Sources */,
+				74405C7E218E57C300BA3A69 /* ModulePlacement.swift in Sources */,
+				743152D2219CE80E00E3101F /* ModuleNeedBlueprint.swift in Sources */,
+				749CB1412177E7F800949734 /* GameViewController.swift in Sources */,
+				7471650F21AE0E1400F5AA48 /* DeckEntity.swift in Sources */,
+				74EE318121BF2D1900D4A5FC /* StatReportingEntity.swift in Sources */,
+				74EE317F21BF2B3E00D4A5FC /* StatsProvider.swift in Sources */,
+				749CB1572177F30B00949734 /* Vector2Extensions.swift in Sources */,
+				743152C8219CE50100E3101F /* CrewmanInstance.swift in Sources */,
+				74BA5CF721867F190039A2D5 /* ModuleListViewController.swift in Sources */,
+				742C364A219A6258007FA1B5 /* ModuleEntity.swift in Sources */,
+				74405C72218E438200BA3A69 /* DeckInstance.swift in Sources */,
+				74BA5CEF2183D4A50039A2D5 /* ModuleBlueprint.swift in Sources */,
+				743152D4219CF43D00E3101F /* CDPoint2.swift in Sources */,
+				743152CA219CE58000E3101F /* CrewmanNeed.swift in Sources */,
+				74405C74218E44E100BA3A69 /* ModuleInstance.swift in Sources */,
+				740FD03621B5FCB400C34FF8 /* ModuleJobInstance.swift in Sources */,
+				74BA5CE52183CB640039A2D5 /* NSPersistentContainerExtension.swift in Sources */,
+				74B97DD421B9FC23009973A3 /* CDPoint3.swift in Sources */,
+				749CB1512177E8F200949734 /* BuildViewController.swift in Sources */,
+				747D271A2191210C00ECFA45 /* DeckPlacementBlueprint.swift in Sources */,
+				74BA5CE82183CD0D0039A2D5 /* Model.xcdatamodeld in Sources */,
+				749CB1592177F8C400949734 /* CrossSectionViewController.swift in Sources */,
+				743152CC219CE67100E3101F /* ModuleJobBlueprint.swift in Sources */,
+				74405C76218E476800BA3A69 /* IdentifiableEntity.swift in Sources */,
+				7471650D21AE0D2500F5AA48 /* ShipEntity.swift in Sources */,
+				746BB01421B327980028D040 /* GKGraphExtension.swift in Sources */,
+				74405C78218E4EF100BA3A69 /* DeckBlueprint.swift in Sources */,
+				74BDA0442192778E0034DD20 /* CGPointExtensions.swift in Sources */,
+				749CB13D2177E7F800949734 /* AppDelegate.swift in Sources */,
+				742C3646219A4DE2007FA1B5 /* MovementComponent2D.swift in Sources */,
+				7415561E21BB3CBC009EA087 /* MovementComponentProtocol.swift in Sources */,
+				74FC7A1521B0C856001B4E83 /* float3Extensions.swift in Sources */,
+				742C3640219A4CAC007FA1B5 /* DeckScene.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		749CB1472177E7F900949734 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				749CB1482177E7F900949734 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		749CB14B2177E7F900949734 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		749CB14C2177E7F900949734 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		749CB14E2177E7F900949734 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C886EB8ABAF79B71BDACB79 /* Pods-Carrier Game.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BC5GKF3W79;
+				INFOPLIST_FILE = "Carrier Game/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sdot.Carrier-Game";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		749CB14F2177E7F900949734 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E91DE9759731EDC5892EA1A /* Pods-Carrier Game.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BC5GKF3W79;
+				INFOPLIST_FILE = "Carrier Game/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sdot.Carrier-Game";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		749CB1342177E7F800949734 /* Build configuration list for PBXProject "Carrier Game" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				749CB14B2177E7F900949734 /* Debug */,
+				749CB14C2177E7F900949734 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		749CB14D2177E7F900949734 /* Build configuration list for PBXNativeTarget "Carrier Game" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				749CB14E2177E7F900949734 /* Debug */,
+				749CB14F2177E7F900949734 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		74BA5CE62183CD0D0039A2D5 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				74BA5CE72183CD0D0039A2D5 /* Model.xcdatamodel */,
+			);
+			currentVersion = 74BA5CE72183CD0D0039A2D5 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 749CB1312177E7F800949734 /* Project object */;
+}

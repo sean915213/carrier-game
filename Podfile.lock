@@ -1,0 +1,21 @@
+PODS:
+  - SGYSwiftUtility (0.1.0)
+
+DEPENDENCIES:
+  - SGYSwiftUtility (from `https://github.com/sean915213/SGYSwiftUtility.git`)
+
+EXTERNAL SOURCES:
+  SGYSwiftUtility:
+    :git: https://github.com/sean915213/SGYSwiftUtility.git
+
+CHECKOUT OPTIONS:
+  SGYSwiftUtility:
+    :commit: 440d8130813f8685839fdb6c70bc9454704503b8
+    :git: https://github.com/sean915213/SGYSwiftUtility.git
+
+SPEC CHECKSUMS:
+  SGYSwiftUtility: ac059df59d20016207619adf2b67bb739b6be4fd
+
+PODFILE CHECKSUM: 9c478babf20afd89a1ede75aace1c702f668dadd
+
+COCOAPODS: 1.5.3

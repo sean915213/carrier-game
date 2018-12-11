@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18B75" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CrewmanInstance" representedClassName=".CrewmanInstance" syncable="YES">
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="position" attributeType="Transformable" valueTransformerName="CDPoint3Transformer" customClassName="." syncable="YES"/>
+        <attribute name="shift" attributeType="Integer 16" minValueString="0" maxValueString="2" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="job" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ModuleJobInstance" inverseName="assignedCrewmen" inverseEntity="ModuleJobInstance" syncable="YES"/>
+        <relationship name="needs" toMany="YES" deletionRule="Cascade" destinationEntity="CrewmanNeed" inverseName="crewman" inverseEntity="CrewmanNeed" syncable="YES"/>
+        <relationship name="ship" maxCount="1" deletionRule="Nullify" destinationEntity="ShipInstance" inverseName="crewmen" inverseEntity="ShipInstance" syncable="YES"/>
+    </entity>
+    <entity name="CrewmanNeed" representedClassName=".CrewmanNeed" syncable="YES">
+        <attribute name="action" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="decayFactor" attributeType="Double" minValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="priority" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="value" attributeType="Double" minValueString="0" maxValueString="100" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="crewman" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CrewmanInstance" inverseName="needs" inverseEntity="CrewmanInstance" syncable="YES"/>
+    </entity>
+    <entity name="DeckBlueprint" representedClassName=".DeckBlueprint" syncable="YES">
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="modules" toMany="YES" deletionRule="Nullify" destinationEntity="ModulePlacement" inverseName="deck" inverseEntity="ModulePlacement" syncable="YES"/>
+        <relationship name="ship" maxCount="1" deletionRule="Nullify" destinationEntity="ShipBlueprint" syncable="YES"/>
+    </entity>
+    <entity name="DeckInstance" representedClassName=".DeckInstance" syncable="YES">
+        <relationship name="blueprint" maxCount="1" deletionRule="Nullify" destinationEntity="DeckPlacementBlueprint" syncable="YES"/>
+        <relationship name="modules" toMany="YES" deletionRule="Cascade" destinationEntity="ModuleInstance" inverseName="deck" inverseEntity="ModuleInstance" syncable="YES"/>
+        <relationship name="ship" maxCount="1" deletionRule="Nullify" destinationEntity="ShipInstance" inverseName="decks" inverseEntity="ShipInstance" syncable="YES"/>
+    </entity>
+    <entity name="DeckPlacementBlueprint" representedClassName=".DeckPlacementBlueprint" syncable="YES">
+        <attribute name="position" attributeType="Integer 16" minValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="blueprint" maxCount="1" deletionRule="Nullify" destinationEntity="DeckBlueprint" syncable="YES"/>
+        <relationship name="ship" maxCount="1" deletionRule="Nullify" destinationEntity="ShipBlueprint" inverseName="decks" inverseEntity="ShipBlueprint" syncable="YES"/>
+    </entity>
+    <entity name="ModuleBlueprint" representedClassName=".ModuleBlueprint" syncable="YES">
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="size" attributeType="Transformable" valueTransformerName="CDPoint2Transformer" syncable="YES"/>
+        <attribute name="xyOpenCoords" optional="YES" attributeType="Transformable" valueTransformerName="CDPoint2SetTransformer" syncable="YES"/>
+        <attribute name="zOpenCoords" optional="YES" attributeType="Transformable" valueTransformerName="CDPoint2SetTransformer" syncable="YES"/>
+        <relationship name="fulfilledNeeds" toMany="YES" deletionRule="Cascade" destinationEntity="ModuleNeedBlueprint" inverseName="module" inverseEntity="ModuleNeedBlueprint" syncable="YES"/>
+        <relationship name="jobs" toMany="YES" deletionRule="Cascade" destinationEntity="ModuleJobBlueprint" inverseName="module" inverseEntity="ModuleJobBlueprint" syncable="YES"/>
+    </entity>
+    <entity name="ModuleInstance" representedClassName=".ModuleInstance" syncable="YES">
+        <relationship name="deck" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DeckInstance" inverseName="modules" inverseEntity="DeckInstance" syncable="YES"/>
+        <relationship name="jobs" toMany="YES" deletionRule="Cascade" destinationEntity="ModuleJobInstance" inverseName="module" inverseEntity="ModuleJobInstance" syncable="YES"/>
+        <relationship name="placement" maxCount="1" deletionRule="Nullify" destinationEntity="ModulePlacement" syncable="YES"/>
+    </entity>
+    <entity name="ModuleJobBlueprint" representedClassName=".ModuleJobBlueprint" syncable="YES">
+        <attribute name="action" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="requiredCrewmen" attributeType="Integer 64" minValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="module" maxCount="1" deletionRule="Nullify" destinationEntity="ModuleBlueprint" inverseName="jobs" inverseEntity="ModuleBlueprint" syncable="YES"/>
+    </entity>
+    <entity name="ModuleJobInstance" representedClassName=".ModuleJobInstance" syncable="YES">
+        <relationship name="assignedCrewmen" toMany="YES" deletionRule="Nullify" destinationEntity="CrewmanInstance" inverseName="job" inverseEntity="CrewmanInstance" syncable="YES"/>
+        <relationship name="blueprint" maxCount="1" deletionRule="Nullify" destinationEntity="ModuleJobBlueprint" syncable="YES"/>
+        <relationship name="module" maxCount="1" deletionRule="Deny" destinationEntity="ModuleInstance" inverseName="jobs" inverseEntity="ModuleInstance" syncable="YES"/>
+    </entity>
+    <entity name="ModuleNeedBlueprint" representedClassName=".ModuleNeedBlueprint" syncable="YES">
+        <attribute name="action" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="increaseFactor" attributeType="Double" minValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="module" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ModuleBlueprint" inverseName="fulfilledNeeds" inverseEntity="ModuleBlueprint" syncable="YES"/>
+    </entity>
+    <entity name="ModulePlacement" representedClassName=".ModulePlacement" syncable="YES">
+        <attribute name="origin" optional="YES" attributeType="Transformable" valueTransformerName="CDPoint2Transformer" syncable="YES"/>
+        <relationship name="blueprint" maxCount="1" deletionRule="Nullify" destinationEntity="ModuleBlueprint" syncable="YES"/>
+        <relationship name="deck" maxCount="1" deletionRule="Nullify" destinationEntity="DeckBlueprint" inverseName="modules" inverseEntity="DeckBlueprint" syncable="YES"/>
+    </entity>
+    <entity name="ShipBlueprint" representedClassName=".ShipBlueprint" syncable="YES">
+        <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="decks" toMany="YES" deletionRule="Nullify" destinationEntity="DeckPlacementBlueprint" inverseName="ship" inverseEntity="DeckPlacementBlueprint" syncable="YES"/>
+    </entity>
+    <entity name="ShipInstance" representedClassName=".ShipInstance" syncable="YES">
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="time" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="blueprint" maxCount="1" deletionRule="Nullify" destinationEntity="ShipBlueprint" syncable="YES"/>
+        <relationship name="crewmen" toMany="YES" deletionRule="Cascade" destinationEntity="CrewmanInstance" inverseName="ship" inverseEntity="CrewmanInstance" syncable="YES"/>
+        <relationship name="decks" toMany="YES" deletionRule="Cascade" destinationEntity="DeckInstance" inverseName="ship" inverseEntity="DeckInstance" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="CrewmanInstance" positionX="-27" positionY="63" width="128" height="135"/>
+        <element name="CrewmanNeed" positionX="-36" positionY="63" width="128" height="120"/>
+        <element name="DeckBlueprint" positionX="-45" positionY="36" width="128" height="105"/>
+        <element name="DeckInstance" positionX="-18" positionY="54" width="128" height="90"/>
+        <element name="DeckPlacementBlueprint" positionX="-45" positionY="54" width="128" height="90"/>
+        <element name="ModuleBlueprint" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="ModuleInstance" positionX="-45" positionY="45" width="128" height="90"/>
+        <element name="ModuleJobBlueprint" positionX="-27" positionY="81" width="128" height="90"/>
+        <element name="ModuleJobInstance" positionX="-36" positionY="72" width="128" height="90"/>
+        <element name="ModuleNeedBlueprint" positionX="-9" positionY="99" width="128" height="90"/>
+        <element name="ModulePlacement" positionX="-36" positionY="54" width="128" height="90"/>
+        <element name="ShipBlueprint" positionX="-54" positionY="27" width="128" height="90"/>
+        <element name="ShipInstance" positionX="-36" positionY="45" width="128" height="120"/>
+    </elements>
+</model>
