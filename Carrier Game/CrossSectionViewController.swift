@@ -93,7 +93,7 @@ class CrossSectionViewController: UIViewController {
         // Add deck toggle button
         view.addSubview(deckButton)
         deckButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).activate()
-        deckButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).activate()
+        deckButton.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor).activate()
     }
     
     private func displayDeck(entity: DeckEntity) {
@@ -164,10 +164,8 @@ class CrossSectionViewController: UIViewController {
         for crewman in crewmen {
             // Add or remove from stat report on scene
             if let index = scene.reporter.providers.firstIndex(where: { $0 as? CrewmanEntity == crewman }) {
-                print("&& REMOVING CREWMAN: \(crewman.instance.name)")
                 scene.reporter.providers.remove(at: index)
             } else {
-                print("&& ADDING CREWMAN")
                 scene.reporter.providers.append(crewman)
             }
         }
@@ -176,18 +174,18 @@ class CrossSectionViewController: UIViewController {
 
 // TODO: MOVE
 
-extension GKGraphNode3D {
-    
-    open override var description: String {
-        return "GKGraphNode3D: {\(position.x), \(position.y), \(position.z)}"
-    }
-    
-}
+//extension GKGraphNode3D {
+//
+//    open override var description: String {
+//        return "GKGraphNode3D: {\(position.x), \(position.y), \(position.z)}"
+//    }
+//
+//}
 
-extension GKGraph {
-    
-    func findPath<T>(from origin: T, to destination: T) -> [T] where T: GKGraphNode {
-        return findPath(from: origin, to: destination) as! [T]
-    }
-    
-}
+//extension GKGraph {
+//    
+////    func findPath<T>(from origin: T, to destination: T) -> [T] where T: GKGraphNode {
+////        return findPath(from: origin, to: destination) as! [T]
+////    }
+//    
+//}

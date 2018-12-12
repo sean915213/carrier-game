@@ -9,10 +9,17 @@
 import Foundation
 import CoreData
 
-public class ShipBlueprint: NSManagedObject, IdentifiableEntity {
+class ShipBlueprint: NSManagedObject, IdentifiableEntity {
     
-    @NSManaged public var identifier: String
-    @NSManaged public var name: String
+    @NSManaged var identifier: String
+    @NSManaged var name: String
     
-    @NSManaged public var decks: Set<DeckPlacementBlueprint>
+    @NSManaged var decks: Set<DeckPlacementBlueprint>
+}
+
+extension ShipBlueprint {
+    
+    var moduleAttributes: [ModuleAttribute: Double] {
+        return decks.map({ $0.blueprint }).compactMap({ $0.moduleAttributes }).combined()
+    }
 }

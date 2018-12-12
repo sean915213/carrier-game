@@ -9,19 +9,19 @@ import Foundation
 
 struct CodableURL: SingleValueCodable {
     
-    init?(rawValue: String) {
+    public init?(rawValue: String) {
         guard let url = URL(string: rawValue) else { return nil }
         self.url = url
     }
     
-    init(url: URL) {
+    public init(url: URL) {
         self.url = url
     }
     
-    var url: URL
-    var rawValue: String { return url.absoluteString }
+    public var url: URL
+    public var rawValue: String { return url.absoluteString }
 }
 
 extension CodableURL: CustomStringConvertible {
-    var description: String { return rawValue }
+    public var description: String { return rawValue }
 }

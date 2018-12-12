@@ -64,6 +64,10 @@ enum DataSeeder {
         cafeModule.name = "Cafeteria"
         cafeModule.size = CDPoint2(x: 5, y: 5)
         cafeModule.mass = Measurement(value: 1, unit: UnitMass.kilograms)
+        
+        // TODO: DEBUGGIG
+        cafeModule.attributes = [ModuleAttribute.engineThrust: 56.7, ModuleAttribute.crewSupported: 56]
+        
         // Open area & cooridor
         cafeModule.xyOpenCoords = Set(CDPoint2.map(from: CGRect(x: 1, y: 1, width: 3, height: 3)))
         cafeModule.xyOpenCoords.insert(CDPoint2(x: 0, y: 2))
@@ -89,6 +93,8 @@ enum DataSeeder {
         engineModule.name = "Engine"
         engineModule.size = CDPoint2(x: 5, y: 5)
         engineModule.mass = Measurement(value: 1, unit: UnitMass.kilograms)
+        // Attributes
+        engineModule.attributes = [ModuleAttribute.engineThrust: 100]
         // Open area
         engineModule.xyOpenCoords = Set(CDPoint2.map(from: CGRect(x: 1, y: 1, width: 3, height: 3)))
         // Cooridor
@@ -106,6 +112,8 @@ enum DataSeeder {
         quartersModule.name = "Quarters"
         quartersModule.size = CDPoint2(x: 5, y: 5)
         quartersModule.mass = Measurement(value: 1, unit: UnitMass.kilograms)
+        // Attributes
+        quartersModule.attributes = [ModuleAttribute.crewSupported: 4]
         // Open area & cooridor
         quartersModule.xyOpenCoords = Set(CDPoint2.map(from: CGRect(x: 1, y: 1, width: 3, height: 3)))
         for point in CDPoint2.map(from: CGRect(x: 0, y: 2, width: 5, height: 1)) {

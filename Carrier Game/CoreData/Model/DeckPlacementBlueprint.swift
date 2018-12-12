@@ -9,10 +9,10 @@
 import Foundation
 import CoreData
 
-public class DeckPlacementBlueprint: NSManagedObject {
+class DeckPlacementBlueprint: NSManagedObject {
     
-    @NSManaged public var position: Int16
+    @NSManaged var position: Int16
     
-    @NSManaged public var blueprint: DeckBlueprint
-    @NSManaged public var ship: ShipBlueprint
+    @NSManaged var blueprint: DeckBlueprint
+    @NSManaged var ship: ShipBlueprint
 }

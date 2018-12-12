@@ -29,6 +29,9 @@ class ModuleEntity: GKEntity {
     // MARK: - Methods
     
     func makeNode() -> SKNode {
+        
+        print("&& MODULE ATTR: \(instance.blueprint.attributes)")
+        
         let textureNode = SKNode()
         let placement = instance.placement
         textureNode.position = CGPoint(x: CGFloat(placement.origin.x), y: CGFloat(placement.origin.y))
@@ -71,7 +74,7 @@ class ModuleEntity: GKEntity {
                     node = SKSpriteNode(imageNamed: "Barrel")
                     node.size = size
                 }
-                node.position = CGPoint(x: Int(x), y: Int(y))
+                node.position = CGPoint(x: CGFloat(x), y: CGFloat(y))
                 nodes.append(node)
             }
         }

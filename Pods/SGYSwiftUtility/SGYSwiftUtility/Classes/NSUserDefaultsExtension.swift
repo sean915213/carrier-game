@@ -17,7 +17,7 @@ extension UserDefaults {
      
      - returns: A instance of `T` retrieved from this `NSUserDefaults` instance or `nil` if no object was found or could not be cast to `T`.
      */
-    public func objectForKey<T>(_ defaultName: String) -> T? {
-        return object(forKey: defaultName) as? T
+    public func objectForKey<T>(_ key: String) -> T? {
+        return object(forKey: key) as? T
     }
 }

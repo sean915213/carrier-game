@@ -10,7 +10,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SGYSwiftUtility:
-    :commit: 440d8130813f8685839fdb6c70bc9454704503b8
+    :commit: 7e20be4668f6b8a8961c9a7be5293bc9bce2b63d
     :git: https://github.com/sean915213/SGYSwiftUtility.git
 
 SPEC CHECKSUMS:

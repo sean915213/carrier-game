@@ -32,6 +32,13 @@ extension GKGridGraph where NodeType == GKGridGraphNode {
     }
 }
 
+extension GKGraphNode3D {
+    
+    open override var description: String {
+        return "GKGraphNode3D: {\(position.x), \(position.y), \(position.z)}"
+    }
+}
+
 extension Sequence where Element: GKGraphNode3D {
     
     func first(atPoint point: float3) -> GKGraphNode3D? {
