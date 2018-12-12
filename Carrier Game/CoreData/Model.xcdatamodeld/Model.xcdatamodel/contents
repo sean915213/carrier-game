@@ -33,6 +33,7 @@
     </entity>
     <entity name="ModuleBlueprint" representedClassName=".ModuleBlueprint" syncable="YES">
         <attribute name="identifier" attributeType="String" syncable="YES"/>
+        <attribute name="mass" attributeType="Transformable" customClassName="." syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="size" attributeType="Transformable" valueTransformerName="CDPoint2Transformer" syncable="YES"/>
         <attribute name="xyOpenCoords" optional="YES" attributeType="Transformable" valueTransformerName="CDPoint2SetTransformer" syncable="YES"/>
@@ -83,7 +84,7 @@
         <element name="DeckBlueprint" positionX="-45" positionY="36" width="128" height="105"/>
         <element name="DeckInstance" positionX="-18" positionY="54" width="128" height="90"/>
         <element name="DeckPlacementBlueprint" positionX="-45" positionY="54" width="128" height="90"/>
-        <element name="ModuleBlueprint" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="ModuleBlueprint" positionX="-63" positionY="-18" width="128" height="165"/>
         <element name="ModuleInstance" positionX="-45" positionY="45" width="128" height="90"/>
         <element name="ModuleJobBlueprint" positionX="-27" positionY="81" width="128" height="90"/>
         <element name="ModuleJobInstance" positionX="-36" positionY="72" width="128" height="90"/>

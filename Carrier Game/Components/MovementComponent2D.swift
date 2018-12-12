@@ -14,11 +14,10 @@ private let moveActionKey = "com.sdot.movementAction"
 
 class MovementComponent2D: GKComponent, MovementComponentProtocol {
     
-    // TODO: Need to immediately make node visible/invisible when this changes mid-actions?
     var visibleVertical: Int = 0 {
         didSet {
             guard let crewman = crewman else { return }
-            checkVisibility(at: crewman.instance.position.z)
+            updateVisibility(at: crewman.instance.position.z)
         }
     }
     
@@ -58,14 +57,14 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
                 // Assign on entity's instance
                 self.crewman?.instance.position = CDPoint3(newNode.position)
                 // Check whether visible now
-                self.checkVisibility(at: node.position.z)
+                self.updateVisibility(at: node.position.z)
             }
             // Put into sequence so that update only happens once other actions are completed
             let sequenceAction = SKAction.sequence([moveAction, postAction])
             // Add sequence to final action array
             allActions.append(sequenceAction)
         }
-        // Add a completed block since we cannot add completion and assign key
+        // Add a completed block since we cannot add completion while also assigning key
         allActions.append(SKAction.run {
             // Nil relevant properties
             self.path = nil
@@ -88,7 +87,7 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
         self.callback?(.interrupted)
     }
     
-    private func checkVisibility(at vertical: Float) {
+    private func updateVisibility(at vertical: Float) {
         if self.movementNode.isHidden && self.visibleVertical == Int16(floor(vertical)) {
             self.movementNode.isHidden = false
         } else if !self.movementNode.isHidden && self.visibleVertical != Int16(floor(vertical)) {

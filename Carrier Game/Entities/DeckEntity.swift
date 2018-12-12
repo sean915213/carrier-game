@@ -37,10 +37,10 @@ class DeckEntity: GKEntity {
     
     // MARK: - Methods
     
-    func makeTextureNode() -> SKNode {
+    func makeNode() -> SKNode {
         let textureNode = SKNode()
         for module in moduleEntities {
-            textureNode.addChild(module.makeTextureNode())
+            textureNode.addChild(module.makeNode())
         }
         return textureNode
     }
@@ -90,35 +90,3 @@ class DeckEntity: GKEntity {
         return nodes
     }
 }
-
-// TODO: Move to an extension file
-
-extension Sequence where Element: GKGraphNode3D {
-    
-    func first(atPoint point: float3) -> GKGraphNode3D? {
-        return first { $0.position == point }
-    }
-}
-
-
-extension GKGridGraph where NodeType == GKGridGraphNode {
-    
-    enum PathfindingError: Error { case invalidOrigin, invalidDestination }
-    
-    func node(atPoint point: CGPoint) -> NodeType? {
-        return node(atGridPosition: vector_int2(point))
-    }
-    
-    func findPath(from origin: CGPoint, to destination: CGPoint) throws -> [CGPoint] {
-        guard let originNode = node(atGridPosition: vector_int2(origin)) else { throw PathfindingError.invalidOrigin }
-        guard let destinationNode = node(atGridPosition: vector_int2(destination)) else { throw PathfindingError.invalidDestination }
-        let nodes = findPath(from: originNode, to: destinationNode) as! [NodeType]
-        return nodes.map { CGPoint($0.gridPosition) }
-    }
-}
-
-//extension Set {
-//    func insert<T>(contentsOf contents: T) where T: Sequence, T.Element == Element {
-//
-//    }
-//}

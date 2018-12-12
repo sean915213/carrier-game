@@ -101,7 +101,7 @@ class CrossSectionViewController: UIViewController {
         // If another deck's node is currently displayed then remove
         currentDeck?.node.removeFromParent()
         // Add new deck's texture node
-        let newNode = entity.makeTextureNode()
+        let newNode = entity.makeNode()
         scene.addChild(newNode)
         // Update all crewman's movement component
         for crewman in shipEntity.crewmanEntities {

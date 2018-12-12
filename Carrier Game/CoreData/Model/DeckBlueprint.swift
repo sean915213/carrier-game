@@ -17,3 +17,10 @@ public class DeckBlueprint: NSManagedObject, IdentifiableEntity {
     @NSManaged public var modules: Set<ModulePlacement>
     @NSManaged public var ship: ShipBlueprint
 }
+
+extension DeckBlueprint {
+    
+    
+    
+    
+}
