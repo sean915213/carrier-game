@@ -31,7 +31,6 @@
 		74405C7A218E4F9B00BA3A69 /* ShipBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C79218E4F9B00BA3A69 /* ShipBlueprint.swift */; };
 		74405C7C218E516D00BA3A69 /* ShipInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C7B218E516D00BA3A69 /* ShipInstance.swift */; };
 		74405C7E218E57C300BA3A69 /* ModulePlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C7D218E57C300BA3A69 /* ModulePlacement.swift */; };
-		746BB01421B327980028D040 /* GKGraphExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746BB01321B327980028D040 /* GKGraphExtensions.swift */; };
 		7471650D21AE0D2500F5AA48 /* ShipEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650C21AE0D2500F5AA48 /* ShipEntity.swift */; };
 		7471650F21AE0E1400F5AA48 /* DeckEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650E21AE0E1400F5AA48 /* DeckEntity.swift */; };
 		747D271A2191210C00ECFA45 /* DeckPlacementBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747D27192191210C00ECFA45 /* DeckPlacementBlueprint.swift */; };
@@ -83,7 +82,6 @@
 		74405C79218E4F9B00BA3A69 /* ShipBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipBlueprint.swift; sourceTree = "<group>"; };
 		74405C7B218E516D00BA3A69 /* ShipInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipInstance.swift; sourceTree = "<group>"; };
 		74405C7D218E57C300BA3A69 /* ModulePlacement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulePlacement.swift; sourceTree = "<group>"; };
-		746BB01321B327980028D040 /* GKGraphExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GKGraphExtensions.swift; sourceTree = "<group>"; };
 		7471650C21AE0D2500F5AA48 /* ShipEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipEntity.swift; sourceTree = "<group>"; };
 		7471650E21AE0E1400F5AA48 /* DeckEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckEntity.swift; sourceTree = "<group>"; };
 		747D27192191210C00ECFA45 /* DeckPlacementBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckPlacementBlueprint.swift; sourceTree = "<group>"; };
@@ -233,7 +231,6 @@
 				74BDA04121926F950034DD20 /* CGRectExtensions.swift */,
 				74BDA0432192778E0034DD20 /* CGPointExtensions.swift */,
 				74FC7A1421B0C856001B4E83 /* float3Extensions.swift */,
-				746BB01321B327980028D040 /* GKGraphExtensions.swift */,
 				7415562521BC9F9A009EA087 /* TimeIntervalExtension.swift */,
 			);
 			path = Extensions;
@@ -426,7 +423,6 @@
 				743152CC219CE67100E3101F /* ModuleJobBlueprint.swift in Sources */,
 				74405C76218E476800BA3A69 /* IdentifiableEntity.swift in Sources */,
 				7471650D21AE0D2500F5AA48 /* ShipEntity.swift in Sources */,
-				746BB01421B327980028D040 /* GKGraphExtensions.swift in Sources */,
 				74405C78218E4EF100BA3A69 /* DeckBlueprint.swift in Sources */,
 				74BDA0442192778E0034DD20 /* CGPointExtensions.swift in Sources */,
 				749CB13D2177E7F800949734 /* AppDelegate.swift in Sources */,

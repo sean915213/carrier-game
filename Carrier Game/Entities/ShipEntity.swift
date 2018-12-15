@@ -47,7 +47,7 @@ class ShipEntity: GKEntity {
         return (deckEntities as [GKEntity]) + (moduleEntities as [GKEntity]) + (crewmanEntities as [GKEntity])
     }()
     
-    private(set) lazy var graph: GKGraph = {
+    private(set) lazy var graph: GKGridGraph3D<GKGridGraphNode3D> = {
         return makeGraph()
     }()
     
@@ -69,7 +69,7 @@ class ShipEntity: GKEntity {
     }
     
     // TODO: Is a graph even necessary for path finding? Or can just use origin node instance?
-    private func makeGraph() -> GKGraph {
+    private func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
         // Collect all nodes from decks
         let nodes = deckEntities.flatMap { $0.graphNodes }
         // Order deck entities by position then drop first deck since it's not needed
@@ -81,7 +81,7 @@ class ShipEntity: GKEntity {
             // Loop and make connections
             for coord in openCoords {
                 // Find an existing node at the below floor or skip
-                guard let belowNode = nodes.first(atPoint: coord - float3(x: 0, y: 0, z: 1)) else {
+                guard let belowNode = nodes.first(atPoint: coord - GridPoint3(0, 0, 1)) else {
                     logger.logInfo("No open node found below open z-position: \(coord)")
                     continue
                 }
@@ -91,6 +91,6 @@ class ShipEntity: GKEntity {
                 node.addConnections(to: [belowNode], bidirectional: true)
             }
         }
-        return GKGraph(nodes)
+        return GKGridGraph3D(nodes)
     }
 }

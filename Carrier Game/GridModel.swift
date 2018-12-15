@@ -9,8 +9,8 @@
 import UIKit
 import GameplayKit
 
-typealias GridPoint = Int32
-typealias GridPoint3 = int3
+typealias GridPoint = Int
+//typealias GridPoint3 = int3
 
 /// Represents a rect in game (similar to CGRect in 3D) but uses a slightly different coordinate system where a rect of size 1, 1 and origin 0, 0 only contains the origin coordinate. Each 1x1 grid section has origin at bottom left for purposes of determining whether floats are contained.
 struct GridRect {
@@ -18,15 +18,15 @@ struct GridRect {
     init(origin: GridPoint3, size: GridPoint3) {
         self.origin = origin
         // Do not allow negative sizes
-        self.size = GridPoint3([abs(size.x), abs(size.y), abs(size.z)])
+        self.size = GridPoint3(abs(size.x), abs(size.y), abs(size.z))
     }
     
     var origin: GridPoint3
     var size: GridPoint3
     
-    var xRange: Range<Int32> { return origin.x..<(origin.x + size.x) }
-    var yRange: Range<Int32> { return origin.y..<(origin.y + size.y) }
-    var zRange: Range<Int32> { return origin.z..<(origin.z + size.z) }
+    var xRange: Range<Int> { return origin.x..<(origin.x + size.x) }
+    var yRange: Range<Int> { return origin.y..<(origin.y + size.y) }
+    var zRange: Range<Int> { return origin.z..<(origin.z + size.z) }
     
     func contains(_ point: GridPoint3) -> Bool {
         return xRange.contains(point.x) && yRange.contains(point.y) && zRange.contains(point.z)
@@ -37,23 +37,56 @@ struct GridRect {
 extension GridPoint {
     
     init(point: Float) {
-        self = Int32(floor(point))
+        self = Int(floor(point))
     }
 }
 
 // Defined because conversion between other types and this int3 alias is done in a specific fashion. So rather than creating extension on generic int3 define our own type with this understood behavior
-extension GridPoint3 {
+struct GridPoint3: Hashable, Equatable {
     
     init(_ point: float3) {
-        self.init([GridPoint(point.x), GridPoint(point.y), GridPoint(point.z)])
+        self.init(GridPoint(point.x), GridPoint(point.y), GridPoint(point.z))
     }
     
     init(_ point: CDPoint3) {
-        self.init([GridPoint(point.x), GridPoint(point.y), GridPoint(point.z)])
+        self.init(GridPoint(point.x), GridPoint(point.y), GridPoint(point.z))
+    }
+    
+    init(_ point: CDPoint2, _ z: GridPoint) {
+        self.init(GridPoint(point.x), GridPoint(point.y), z)
     }
     
     init(_ point: CGPoint, _ z: GridPoint) {
-        self.init([GridPoint(point.x), GridPoint(point.y), z])
+        self.init(GridPoint(point.x), GridPoint(point.y), z)
+    }
+    
+    init(_ x: GridPoint, _ y: GridPoint, _ z: GridPoint) {
+        self.x = x
+        self.y = y
+        self.z = z
+    }
+    
+    var x: GridPoint
+    var y: GridPoint
+    var z: GridPoint
+}
+
+extension GridPoint3 {
+    
+    static func +(left: GridPoint3, right: GridPoint3) -> GridPoint3 {
+        return GridPoint3(left.x + right.x, left.y + right.y, left.z + right.z)
+    }
+    
+    static func -(left: GridPoint3, right: GridPoint3) -> GridPoint3 {
+        return GridPoint3(left.x - right.x, left.y - right.y, left.z - right.z)
+    }
+    
+    static func +=(left: inout GridPoint3, right: GridPoint3) {
+        left = left + right
+    }
+    
+    static func -=(left: inout GridPoint3, right: GridPoint3) {
+        left = left - right
     }
 }
 
@@ -88,5 +121,18 @@ class GKGridGraph3D<NodeType>: GKGraph where NodeType: GKGridGraphNode3D {
 extension Sequence where Element: GKGridGraphNode3D {
     func first(atPoint point: GridPoint3) -> Element? {
         return first { $0.position == point }
+    }
+}
+
+extension CDPoint3 {
+    
+    convenience init(_ point: GridPoint3) {
+        self.init(x: Float(point.x), y: Float(point.y), z: Float(point.z))
+    }
+}
+
+extension float3 {
+    init(_ point: GridPoint3) {
+        self.init(x: Float(point.x), y: Float(point.y), z: Float(point.z))
     }
 }

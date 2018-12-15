@@ -24,8 +24,8 @@ extension ModuleInstance {
     }
     
     var rect: GridRect {
-        let origin: int3 = [Int32(placement.origin.x), Int32(placement.origin.y), Int32(deck.blueprint.position)]
-        let size: int3 = [Int32(placement.blueprint.size.x), Int32(placement.blueprint.size.y), 1]
+        let origin = GridPoint3(placement.origin, Int(deck.blueprint.position))
+        let size = GridPoint3(placement.blueprint.size, 1)
         return GridRect(origin: origin, size: size)
     }
     
@@ -33,14 +33,15 @@ extension ModuleInstance {
 //        return CGRect(x: placement.origin.x, y: placement.origin.y, width: CGFloat(placement.blueprint.size.x), height: CGFloat(placement.blueprint.size.y))
 //    }
     
-    var xyEntranceCoords: [float3] {
+    var xyEntranceCoords: [GridPoint3] {
         // Translate all open coords by origin
-        let openCoords = blueprint.xyOpenCoords.map { float3(point: $0 + placement.origin, vertical: deck.blueprint.position) }
-        let gridRect = GridRect(origin: [Int32(placement.origin.x), Int32(placement.origin.y), Int32(deck.blueprint.position)], size: [Int32(placement.blueprint.size.x), Int32(placement.blueprint.size.y), 1])
+        let openCoords = blueprint.xyOpenCoords.map { GridPoint3($0 + placement.origin, Int(deck.blueprint.position)) }
+        // TODO: JUST USE RECT?
+        let gridRect = GridRect(origin: GridPoint3(placement.origin, Int(deck.blueprint.position)), size: GridPoint3(Int(placement.blueprint.size.x), Int(placement.blueprint.size.y), 1))
         // Filter those that open at barriers
         return openCoords.filter { coord in
-            if Int32(coord.x) == gridRect.xRange.first || Int32(coord.x) == gridRect.xRange.last { return true }
-            if Int32(coord.y) == gridRect.yRange.first || Int32(coord.y) == gridRect.yRange.last { return true }
+            if coord.x == gridRect.xRange.first || coord.x == gridRect.xRange.last { return true }
+            if coord.y == gridRect.yRange.first || coord.y == gridRect.yRange.last { return true }
             return false
         }
     }
@@ -56,12 +57,12 @@ extension ModuleInstance {
 //        }
 //    }
     
-    var zEntranceCoords: [float3] {
+    var zEntranceCoords: [GridPoint3] {
         // All z open coords are entrances to another deck so just map
-        return blueprint.zOpenCoords.map { float3(point: $0 + placement.origin, vertical: deck.blueprint.position) }
+        return blueprint.zOpenCoords.map { GridPoint3($0 + placement.origin, Int(deck.blueprint.position)) }
     }
     
-    var allEntranceCoords: Set<float3> {
+    var allEntranceCoords: Set<GridPoint3> {
         return Set(xyEntranceCoords + zEntranceCoords)
     }
 }

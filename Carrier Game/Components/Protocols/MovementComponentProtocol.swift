@@ -14,9 +14,9 @@ enum MovementResult { case completed, interrupted }
 protocol MovementComponentProtocol {
     
     // TODO: Make all these into a single struct?
-    var path: [GKGraphNode3D]? { get }
-    var remainingPath: [GKGraphNode3D]? { get }
+    var path: [GKGridGraphNode3D]? { get }
+    var remainingPath: [GKGridGraphNode3D]? { get }
     var callback: ((MovementResult) -> Void)? { get }
     
-    func setPath(nodes: [GKGraphNode3D], completed: ((MovementResult) -> Void)?)
+    func setPath(nodes: [GKGridGraphNode3D], completed: ((MovementResult) -> Void)?)
 }

@@ -46,8 +46,8 @@ class CrewmanEntity: GKEntity, StatsProvider {
         return component(ofType: GKSKNodeComponent.self)!.node
     }
     
-    var graphNode: GKGraphNode3D {
-        return ship.graph.node(atPoint: float3(point: rootNode.position, vertical: currentDeck.instance.blueprint.position).floored())!
+    var graphNode: GKGridGraphNode3D {
+        return ship.graph.node(atPoint: GridPoint3(rootNode.position, Int(currentDeck.instance.blueprint.position)))!
     }
     
     var currentDeck: DeckEntity {
@@ -239,14 +239,14 @@ class CrewmanEntity: GKEntity, StatsProvider {
         if movementComponent.path != nil { return }
         // Find a random coordinate within this module
         let rect = currentModule.instance.rect
-        let xCoord = Float(Int32.random(in: rect.xRange))
-        let yCoord = Float(Int32.random(in: rect.yRange))
+        let xCoord = Int.random(in: rect.xRange)
+        let yCoord = Int.random(in: rect.yRange)
         // Check for open node here
-        guard let node = ship.graph.node(atPoint: float3([xCoord, yCoord, Float(currentDeck.instance.blueprint.position)])) else {
+        guard let node = ship.graph.node(atPoint: GridPoint3(xCoord, yCoord, Int(currentDeck.instance.blueprint.position))) else {
             return
         }
         // Find path
-        let meanderPath = graphNode.findPath(to: node) as! [GKGraphNode3D]
+        let meanderPath = graphNode.findPath(to: node) as! [GKGridGraphNode3D]
         // If empty then no path (which probably should not happen?)
         guard !meanderPath.isEmpty else {
             logger.logError("Found empty meander path. Why would an orphaned graph node exist? Origin: \(graphNode). Destination: \(node)")
@@ -258,11 +258,11 @@ class CrewmanEntity: GKEntity, StatsProvider {
     
     // MARK: Pathing
     
-    private func findClosestEntrance(in modules: [ModuleEntity]) -> (module: ModuleEntity, entrance: GKGraphNode3D, path: [GKGraphNode3D])? {
+    private func findClosestEntrance(in modules: [ModuleEntity]) -> (module: ModuleEntity, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])? {
         // Get origin node in graph to prevent finding several times
         let originNode = graphNode
         // Collect distances to entrances
-        var distanceInfo = [(module: ModuleEntity, entrance: GKGraphNode3D, path: [GKGraphNode3D])]()
+        var distanceInfo = [(module: ModuleEntity, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])]()
         for module in modules {
             for entrance in module.instance.allEntranceCoords {
                 // Get node
@@ -272,7 +272,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
                     continue
                 }
                 // Get path
-                let path = originNode.findPath(to: node) as! [GKGraphNode3D]
+                let path = originNode.findPath(to: node) as! [GKGridGraphNode3D]
                 // If empty then path doesn't exist
                 guard !path.isEmpty else { continue }
                 // Append info

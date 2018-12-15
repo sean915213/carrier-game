@@ -14,7 +14,7 @@ private let moveActionKey = "com.sdot.movementAction"
 
 class MovementComponent2D: GKComponent, MovementComponentProtocol {
     
-    var visibleVertical: Int = 0 {
+    var visibleVertical: GridPoint = 0 {
         didSet {
             guard let crewman = crewman else { return }
             updateVisibility(at: crewman.instance.position.z)
@@ -22,8 +22,8 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
     }
     
     // TODO: Make all these into a single struct?
-    private(set) var path: [GKGraphNode3D]?
-    private(set) var remainingPath: [GKGraphNode3D]?
+    private(set) var path: [GKGridGraphNode3D]?
+    private(set) var remainingPath: [GKGridGraphNode3D]?
     private(set) var callback: ((MovementResult) -> Void)?
     
     private var movementNode: SKNode {
@@ -39,7 +39,7 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
         cancelRunningAction()
     }
     
-    func setPath(nodes: [GKGraphNode3D], completed: ((MovementResult) -> Void)?) {
+    func setPath(nodes: [GKGridGraphNode3D], completed: ((MovementResult) -> Void)?) {
         cancelRunningAction()
         // Assign new values
         path = nodes
@@ -57,7 +57,7 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
                 // Assign on entity's instance
                 self.crewman?.instance.position = CDPoint3(newNode.position)
                 // Check whether visible now
-                self.updateVisibility(at: node.position.z)
+                self.updateVisibility(at: Float(node.position.z))
             }
             // Put into sequence so that update only happens once other actions are completed
             let sequenceAction = SKAction.sequence([moveAction, postAction])
@@ -88,9 +88,9 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
     }
     
     private func updateVisibility(at vertical: Float) {
-        if self.movementNode.isHidden && self.visibleVertical == Int16(floor(vertical)) {
-            self.movementNode.isHidden = false
-        } else if !self.movementNode.isHidden && self.visibleVertical != Int16(floor(vertical)) {
+        if movementNode.isHidden && visibleVertical == GridPoint(vertical) {
+            movementNode.isHidden = false
+        } else if !movementNode.isHidden && visibleVertical != GridPoint(vertical) {
             self.movementNode.isHidden = true
         }
     }
