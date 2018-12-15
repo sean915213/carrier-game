@@ -57,7 +57,7 @@ extension GridPoint3 {
     }
 }
 
-class GKGridGraphNode3: GKGraphNode {
+class GKGridGraphNode3D: GKGraphNode {
     
     init(point: GridPoint3) {
         position = point
@@ -70,10 +70,23 @@ class GKGridGraphNode3: GKGraphNode {
     
     var position: GridPoint3
     
+    override var description: String {
+        return "GKGridGraphNode3D: {\(position.x), \(position.y), \(position.z)}"
+    }
+    
 }
 
-class GKGridGraph3<NodeType>: GKGraph where NodeType: GKGridGraphNode3 {
+class GKGridGraph3D<NodeType>: GKGraph where NodeType: GKGridGraphNode3D {
     
+    var gridNodes: [NodeType]? { return nodes as? [NodeType] }
     
-    
+    func node(atPoint point: GridPoint3) -> NodeType? {
+        return gridNodes?.first(atPoint: point)
+    }
+}
+
+extension Sequence where Element: GKGridGraphNode3D {
+    func first(atPoint point: GridPoint3) -> Element? {
+        return first { $0.position == point }
+    }
 }
