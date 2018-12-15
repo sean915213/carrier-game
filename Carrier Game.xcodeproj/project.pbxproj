@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		740FD03621B5FCB400C34FF8 /* ModuleJobInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740FD03521B5FCB400C34FF8 /* ModuleJobInstance.swift */; };
 		7415561E21BB3CBC009EA087 /* MovementComponentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415561D21BB3CBC009EA087 /* MovementComponentProtocol.swift */; };
-		7415562021BC6CC3009EA087 /* GridRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415561F21BC6CC3009EA087 /* GridRect.swift */; };
+		7415562021BC6CC3009EA087 /* GridModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415561F21BC6CC3009EA087 /* GridModel.swift */; };
 		7415562421BC818C009EA087 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415562321BC818B009EA087 /* SceneController.swift */; };
 		7415562621BC9F9A009EA087 /* TimeIntervalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415562521BC9F9A009EA087 /* TimeIntervalExtension.swift */; };
 		742C3640219A4CAC007FA1B5 /* DeckScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C363F219A4CAC007FA1B5 /* DeckScene.swift */; };
@@ -61,7 +61,7 @@
 		5E91DE9759731EDC5892EA1A /* Pods-Carrier Game.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrier Game.release.xcconfig"; path = "Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game.release.xcconfig"; sourceTree = "<group>"; };
 		740FD03521B5FCB400C34FF8 /* ModuleJobInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleJobInstance.swift; sourceTree = "<group>"; };
 		7415561D21BB3CBC009EA087 /* MovementComponentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponentProtocol.swift; sourceTree = "<group>"; };
-		7415561F21BC6CC3009EA087 /* GridRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRect.swift; sourceTree = "<group>"; };
+		7415561F21BC6CC3009EA087 /* GridModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridModel.swift; sourceTree = "<group>"; };
 		7415562321BC818B009EA087 /* SceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		7415562521BC9F9A009EA087 /* TimeIntervalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtension.swift; sourceTree = "<group>"; };
 		742C363F219A4CAC007FA1B5 /* DeckScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckScene.swift; sourceTree = "<group>"; };
@@ -207,7 +207,7 @@
 				749CB1582177F8C400949734 /* CrossSectionViewController.swift */,
 				74405C65218E247500BA3A69 /* JSONTransformer.swift */,
 				742C363F219A4CAC007FA1B5 /* DeckScene.swift */,
-				7415561F21BC6CC3009EA087 /* GridRect.swift */,
+				7415561F21BC6CC3009EA087 /* GridModel.swift */,
 				7415562321BC818B009EA087 /* SceneController.swift */,
 				74EE317E21BF2B3E00D4A5FC /* StatsProvider.swift */,
 			);
@@ -394,7 +394,7 @@
 				7415562421BC818C009EA087 /* SceneController.swift in Sources */,
 				743152CE219CE6AA00E3101F /* Action.swift in Sources */,
 				742C3643219A4D87007FA1B5 /* CrewmanEntity.swift in Sources */,
-				7415562021BC6CC3009EA087 /* GridRect.swift in Sources */,
+				7415562021BC6CC3009EA087 /* GridModel.swift in Sources */,
 				74BDA04221926F950034DD20 /* CGRectExtensions.swift in Sources */,
 				74BA5CEA2183D1610039A2D5 /* DataSeeder.swift in Sources */,
 				7415562621BC9F9A009EA087 /* TimeIntervalExtension.swift in Sources */,

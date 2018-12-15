@@ -57,7 +57,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
     var currentModule: ModuleEntity {
         // Find module crewman is in
         return currentDeck.moduleEntities.first(where: { module -> Bool in
-            return module.instance.rect.contains(GridPoint(instance.position))
+            return module.instance.rect.contains(GridPoint3(instance.position))
         })!
     }
     
