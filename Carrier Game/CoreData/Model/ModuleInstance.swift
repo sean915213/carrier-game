@@ -32,7 +32,6 @@ extension ModuleInstance {
     var xyEntranceCoords: [GridPoint3] {
         // Translate all open coords by origin
         let openCoords = blueprint.xyOpenCoords.map { GridPoint3($0 + placement.origin, Int(deck.blueprint.position)) }
-        
         // Filter those that open at barriers
         return openCoords.filter { coord in
             if coord.x == rect.xRange.first || coord.x == rect.xRange.last { return true }

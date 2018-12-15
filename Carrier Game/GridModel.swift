@@ -10,7 +10,6 @@ import UIKit
 import GameplayKit
 
 typealias GridPoint = Int
-//typealias GridPoint3 = int3
 
 /// Represents a rect in game (similar to CGRect in 3D) but uses a slightly different coordinate system where a rect of size 1, 1 and origin 0, 0 only contains the origin coordinate. Each 1x1 grid section has origin at bottom left for purposes of determining whether floats are contained.
 struct GridRect {
@@ -24,9 +23,9 @@ struct GridRect {
     var origin: GridPoint3
     var size: GridPoint3
     
-    var xRange: Range<Int> { return origin.x..<(origin.x + size.x) }
-    var yRange: Range<Int> { return origin.y..<(origin.y + size.y) }
-    var zRange: Range<Int> { return origin.z..<(origin.z + size.z) }
+    var xRange: Range<GridPoint> { return origin.x..<(origin.x + size.x) }
+    var yRange: Range<GridPoint> { return origin.y..<(origin.y + size.y) }
+    var zRange: Range<GridPoint> { return origin.z..<(origin.z + size.z) }
     
     func contains(_ point: GridPoint3) -> Bool {
         return xRange.contains(point.x) && yRange.contains(point.y) && zRange.contains(point.z)
@@ -106,7 +105,6 @@ class GKGridGraphNode3D: GKGraphNode {
     override var description: String {
         return "GKGridGraphNode3D: {\(position.x), \(position.y), \(position.z)}"
     }
-    
 }
 
 class GKGridGraph3D<NodeType>: GKGraph where NodeType: GKGridGraphNode3D {
