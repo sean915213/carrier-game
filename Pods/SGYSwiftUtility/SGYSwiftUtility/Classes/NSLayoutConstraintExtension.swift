@@ -6,9 +6,22 @@
 //
 //
 
-import Foundation
+import UIKit
+
+// No constant is exposed for the "aqua" space between siblings so calculate one on the fly
+private let siblingAquaSpacing: CGFloat = {
+    let container = UIView()
+    let sibling1 = UIView()
+    let sibling2 = UIView()
+    container.addSubviews([sibling1, sibling2])
+    return NSLayoutConstraint.constraints(withVisualFormat: "H:[sibling1]-[sibling2]", options: [], metrics: nil, views: ["sibling1": sibling1, "sibling2": sibling2]).first!.constant
+}()
 
 extension NSLayoutConstraint {
+    
+    public class var systemSiblingSpacing: CGFloat {
+        return siblingAquaSpacing
+    }
     
     /**
      Creates and returns an array of `NSLayoutConstraint` objects constructed to pin the provided view on all sides within its superview.  The applied margins are zero on all sides.

@@ -12,7 +12,7 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
-class CrossSectionViewController: UIViewController {
+class CrossSectionViewController: UIViewController, ModuleListViewControllerDelegate {
     
     // MARK: - Initialization
     
@@ -68,6 +68,8 @@ class CrossSectionViewController: UIViewController {
         }
     }
     
+    private var lastTranslation: CGPoint = .zero
+    
     // MARK: - Methods
     
     override func loadView() {
@@ -86,14 +88,12 @@ class CrossSectionViewController: UIViewController {
         setupShip()
         // Setup recognizers
         setupRecognizers()
+        // Setup button stack
+        setupButtonStack()
         
         // View first deck
         displayDeck(entity: shipEntity.deckEntities.first!)
-        
-        // Add deck toggle button
-        view.addSubview(deckButton)
-        deckButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).activate()
-        deckButton.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor).activate()
+
     }
     
     private func displayDeck(entity: DeckEntity) {
@@ -135,8 +135,28 @@ class CrossSectionViewController: UIViewController {
         }
     }
     
+    private func setupButtonStack() {
+        // Add stack
+        let stack = UIStackView(translatesAutoresizingMask: false)
+        stack.axis = .vertical
+        stack.spacing = NSLayoutConstraint.systemSiblingSpacing
+        view.addSubview(stack)
+        stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).activate()
+        stack.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor).activate()
+        // Add buttons
+        // - Deck toggle
+        stack.addArrangedSubview(deckButton)
+        // - Module list
+        let moduleButton = UIButton()
+        moduleButton.setTitle("Add Module", for: [])
+        moduleButton.setTitleColor(.blue, for: [])
+        moduleButton.addTarget(self, action: #selector(showModuleList), for: .touchUpInside)
+        stack.addArrangedSubview(moduleButton)
+    }
+    
     private func setupRecognizers() {
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(recognizedTap(_:))))
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(recognizedPan(_:))))
     }
     
     private func nextDeck() -> DeckEntity {
@@ -152,6 +172,12 @@ class CrossSectionViewController: UIViewController {
     
     @objc private func toggleDeck() {
         displayDeck(entity: nextDeck())
+    }
+    
+    @objc private func showModuleList() {
+        let listController = ModuleListViewController()
+        listController.delegate = self
+        present(listController, animated: true, completion: nil)
     }
     
     @objc private func recognizedTap(_ recognizer: UITapGestureRecognizer) {
@@ -170,22 +196,30 @@ class CrossSectionViewController: UIViewController {
             }
         }
     }
+    
+    @objc private func recognizedPan(_ recognizer: UIPanGestureRecognizer) {
+        guard recognizer.state != .ended else {
+            lastTranslation = .zero
+            return
+        }
+        let translation = recognizer.translation(in: view)
+        // Get delta by subtracting new value from current translation (still in view coord system)
+        let delta = translation - lastTranslation
+        // Translate camera position to view coords
+        var cameraPos = scene.convertPoint(toView: camera.position)
+        // Add delta and then translate back to scene coords
+        cameraPos -= delta
+        let newCameraPos = scene.convertPoint(fromView: cameraPos)
+        // Assign new position
+        camera.position = newCameraPos
+        // Assign last translation
+        lastTranslation = translation
+    }
+    
+    // MARK: ModuleListViewController Delegate
+    
+    func moduleListViewController(_: ModuleListViewController, selectedModule module: ModuleBlueprint) {
+        dismiss(animated: true, completion: nil)
+        print("&& SELECTED MODULE: \(module)")
+    }
 }
-
-// TODO: MOVE
-
-//extension GKGraphNode3D {
-//
-//    open override var description: String {
-//        return "GKGraphNode3D: {\(position.x), \(position.y), \(position.z)}"
-//    }
-//
-//}
-
-//extension GKGraph {
-//    
-////    func findPath<T>(from origin: T, to destination: T) -> [T] where T: GKGraphNode {
-////        return findPath(from: origin, to: destination) as! [T]
-////    }
-//    
-//}

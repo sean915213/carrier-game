@@ -24,6 +24,7 @@ class ModuleListViewController: UITableViewController, NSFetchedResultsControlle
     
     private lazy var fetchedResultsController: NSFetchedResultsController<ModuleBlueprint> = {
         let request = ModuleBlueprint.makeFetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \ModuleBlueprint.identifier, ascending: true)]
         let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: NSPersistentContainer.model.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         controller.delegate = self
         return controller

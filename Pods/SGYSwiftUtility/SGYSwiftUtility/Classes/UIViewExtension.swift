@@ -30,4 +30,8 @@ extension UIView {
     public func addSubviews(_ views: [UIView]) {
         for view in views { addSubview(view) }
     }
+    
+    public func addSubviews(_ views: UIView...) {
+        for view in views { addSubview(view) }
+    }
 }
