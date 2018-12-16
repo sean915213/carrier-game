@@ -20,14 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-//        let rect = GridRect(origin: [-1, -1, -1], size: [1, 1, 1])
-////        print("&& X: \(rect.xRange.contains(1)). Y: \(rect.yRange.contains(1))")
-//
-//        print("&& CONTAINS: \(rect.contains(GridPoint([-0.99, -0.9, 0])))")
-//
-//        return true;
-        
-        
         CDPoint2.registerTransformers()
         CDPoint3.registerTransformers()
         // Initial logic block

@@ -8,6 +8,7 @@
 
 import UIKit
 import GameplayKit
+import SGYSwiftUtility
 
 typealias GridPoint = Int
 
@@ -109,10 +110,66 @@ class GKGridGraphNode3D: GKGraphNode {
 
 class GKGridGraph3D<NodeType>: GKGraph where NodeType: GKGridGraphNode3D {
     
+    // MARK: - Initialization
+    
+    init(_ nodes: [NodeType]) {
+        super.init()
+        add(nodes)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Properties
+    
+    private(set) var positions = [GridPoint3: NodeType]()
+    
     var gridNodes: [NodeType]? { return nodes as? [NodeType] }
     
+    private var observer: NSKeyValueObservation?
+    
+    private lazy var logger = Logger(source: type(of: self))
+    
+    // MARK: - Methods
+    
     func node(atPoint point: GridPoint3) -> NodeType? {
-        return gridNodes?.first(atPoint: point)
+        return positions[point]
+    }
+    
+    override func add(_ nodes: [GKGraphNode]) {
+        var validNodes = [NodeType]()
+        for node in nodes {
+            // Check type requirements
+            guard let properNode = node as? NodeType else {
+                assertionFailure("Incorrect GKGraphNode type.")
+                continue
+            }
+            // If node exists then skip
+            guard positions[properNode.position] == nil else {
+                logger.logError("Attempted to add node with duplicate position. Skipping.")
+                continue
+            }
+            // Add to valid and positions
+            validNodes.append(properNode)
+            positions[properNode.position] = properNode
+        }
+        // Chain to super
+        super.add(validNodes)
+    }
+
+    override func remove(_ nodes: [GKGraphNode]) {
+        guard let properNodes = nodes as? [NodeType] else {
+            assertionFailure("Incorrect GKGraphNode type.")
+            return
+        }
+        super.remove(nodes)
+        // Remove entries
+        for node in properNodes { positions.removeValue(forKey: node.position) }
+    }
+
+    override func connectToLowestCostNode(node: GKGraphNode, bidirectional: Bool) {
+        fatalError("Not implemented. Should this be implemented?")
     }
 }
 
@@ -123,7 +180,6 @@ extension Sequence where Element: GKGridGraphNode3D {
 }
 
 extension CDPoint3 {
-    
     convenience init(_ point: GridPoint3) {
         self.init(x: Float(point.x), y: Float(point.y), z: Float(point.z))
     }
