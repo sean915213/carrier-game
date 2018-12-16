@@ -123,9 +123,9 @@ class GKGridGraph3D<NodeType>: GKGraph where NodeType: GKGridGraphNode3D {
     
     // MARK: - Properties
     
-    var gridNodes: [NodeType]? { return nodes as? [NodeType] }
-    
     private(set) var positions = [GridPoint3: NodeType]()
+    
+    var gridNodes: [NodeType]? { return nodes as? [NodeType] }
     
     private lazy var logger = Logger(source: type(of: self))
     
@@ -154,6 +154,17 @@ class GKGridGraph3D<NodeType>: GKGraph where NodeType: GKGridGraphNode3D {
         if let adjacent = positions[node.position + GridPoint3(0, 0, -1)] { adjacentNodes.append(adjacent) }
         // Add connections
         node.addConnections(to: adjacentNodes, bidirectional: true)
+    }
+    
+    func addGraph(_ graph: GKGridGraph3D<NodeType>, connectAdjacentNodes: Bool) {
+        let nodes = graph.gridNodes ?? []
+        // If not connecting then just add
+        guard connectAdjacentNodes else {
+            add(nodes)
+            return
+        }
+        // Otherwise perform connection
+        for node in nodes { connectToAdjacentNodes(node) }
     }
     
     override func add(_ nodes: [GKGraphNode]) {

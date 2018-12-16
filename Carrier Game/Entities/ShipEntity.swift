@@ -68,29 +68,35 @@ class ShipEntity: GKEntity {
         super.update(deltaTime: seconds)
     }
     
-    // TODO: Is a graph even necessary for path finding? Or can just use origin node instance?
     private func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
-        // Collect all nodes from decks
-        let nodes = deckEntities.flatMap { $0.graphNodes }
-        // Order deck entities by position then drop first deck since it's not needed
-        let orderedDecks = deckEntities.sorted(by: \.instance.blueprint.position).dropFirst()
-        // Loop through and connect open z-positions that match
+        // Main graph
+        let shipGraph = GKGridGraph3D<GKGridGraphNode3D>([])
+        // Order deck entities by position
+        let orderedDecks = deckEntities.sorted(by: \.instance.blueprint.position)
+        // Loop
         for deck in orderedDecks {
+            // Make graph
+            let deckGraph = deck.makeGraph()
+            // Add to main graph without connections
+            shipGraph.addGraph(deckGraph, connectAdjacentNodes: false)
+            // If this is first deck then there cannot be z connections so skip
+            guard deck != orderedDecks.first else { continue }
             // Get all module open z-positions
-            let openCoords = deck.moduleEntities.flatMap { $0.instance.zEntranceCoords }
+            let openZCoords = deck.moduleEntities.flatMap { $0.instance.zEntranceCoords }
             // Loop and make connections
-            for coord in openCoords {
+            for coord in openZCoords {
+                guard let node = deckGraph.node(atPoint: coord) else {
+                    fatalError("No graph node already mapped for open z coord.")
+                }
                 // Find an existing node at the below floor or skip
-                guard let belowNode = nodes.first(atPoint: coord - GridPoint3(0, 0, 1)) else {
+                guard let openZBelowNode = shipGraph.node(atPoint: coord - GridPoint3(0, 0, 1)) else {
                     logger.logInfo("No open node found below open z-position: \(coord)")
                     continue
                 }
-                // Get node for this coord
-                let node = nodes.first(atPoint: coord)!
-                // Make connection
-                node.addConnections(to: [belowNode], bidirectional: true)
+                // Make a z connection
+                node.addConnections(to: [openZBelowNode], bidirectional: true)
             }
         }
-        return GKGridGraph3D(nodes)
+        return shipGraph
     }
 }

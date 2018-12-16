@@ -45,6 +45,29 @@ class DeckEntity: GKEntity {
         return textureNode
     }
     
+    func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
+        let deckPosition = GridPoint(instance.blueprint.position)
+        // Gather & translate coordinates to deck coordinates
+        var coords = Set<CDPoint2>()
+        for entity in moduleEntities {
+            let blueprint = entity.instance.blueprint
+            let addCoord = { (coord: CDPoint2) in
+                // Translate coordinate by adding module origin to placement origin
+                let realCoord = entity.instance.placement.origin + coord
+                coords.insert(realCoord)
+            }
+            for coord in blueprint.xyOpenCoords { addCoord(coord) }
+            for coord in blueprint.zOpenCoords { addCoord(coord) }
+        }
+        // Make graph and add nodes
+        let graph = GKGridGraph3D([])
+        for coord in coords {
+            let node = GKGridGraphNode3D(point: GridPoint3(coord, deckPosition))
+            graph.connectToAdjacentNodes(node)
+        }
+        return graph
+    }
+    
     private func makeGraphNodes() -> [GKGridGraphNode3D] {
         let deckPosition = GridPoint(instance.blueprint.position)
         // Gather & translate coordinates to deck coordinates
