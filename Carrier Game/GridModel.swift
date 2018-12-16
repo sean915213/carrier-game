@@ -123,11 +123,9 @@ class GKGridGraph3D<NodeType>: GKGraph where NodeType: GKGridGraphNode3D {
     
     // MARK: - Properties
     
-    private(set) var positions = [GridPoint3: NodeType]()
-    
     var gridNodes: [NodeType]? { return nodes as? [NodeType] }
     
-    private var observer: NSKeyValueObservation?
+    private(set) var positions = [GridPoint3: NodeType]()
     
     private lazy var logger = Logger(source: type(of: self))
     
@@ -135,6 +133,27 @@ class GKGridGraph3D<NodeType>: GKGraph where NodeType: GKGridGraphNode3D {
     
     func node(atPoint point: GridPoint3) -> NodeType? {
         return positions[point]
+    }
+    
+    func connectToAdjacentNodes(_ node: NodeType) {
+        // Add
+        add([node])
+        // Find adjacent nodes and make connections
+        var adjacentNodes = [NodeType]()
+        // +X
+        if let adjacent = positions[node.position + GridPoint3(1, 0, 0)] { adjacentNodes.append(adjacent) }
+        // -X
+        if let adjacent = positions[node.position + GridPoint3(-1, 0, 0)] { adjacentNodes.append(adjacent) }
+        // +Y
+        if let adjacent = positions[node.position + GridPoint3(0, 1, 0)] { adjacentNodes.append(adjacent) }
+        // -Y
+        if let adjacent = positions[node.position + GridPoint3(0, -1, 0)] { adjacentNodes.append(adjacent) }
+        // +Z
+        if let adjacent = positions[node.position + GridPoint3(0, 0, 1)] { adjacentNodes.append(adjacent) }
+        // -Z
+        if let adjacent = positions[node.position + GridPoint3(0, 0, -1)] { adjacentNodes.append(adjacent) }
+        // Add connections
+        node.addConnections(to: adjacentNodes, bidirectional: true)
     }
     
     override func add(_ nodes: [GKGraphNode]) {
