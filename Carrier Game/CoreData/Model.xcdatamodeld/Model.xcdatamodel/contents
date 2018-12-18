@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18B75" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18C54" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CrewmanInstance" representedClassName=".CrewmanInstance" syncable="YES">
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="position" attributeType="Transformable" valueTransformerName="CDPoint3Transformer" customClassName="." syncable="YES"/>
@@ -33,6 +33,7 @@
     </entity>
     <entity name="ModuleBlueprint" representedClassName=".ModuleBlueprint" syncable="YES">
         <attribute name="attributes" attributeType="Transformable" customClassName="." syncable="YES"/>
+        <attribute name="entrances" attributeType="Transformable" valueTransformerName="ModuleEntranceSetTransformer" syncable="YES"/>
         <attribute name="identifier" attributeType="String" syncable="YES"/>
         <attribute name="mass" attributeType="Transformable" customClassName="." syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
@@ -85,7 +86,7 @@
         <element name="DeckBlueprint" positionX="-45" positionY="36" width="128" height="105"/>
         <element name="DeckInstance" positionX="-18" positionY="54" width="128" height="90"/>
         <element name="DeckPlacementBlueprint" positionX="-45" positionY="54" width="128" height="90"/>
-        <element name="ModuleBlueprint" positionX="-63" positionY="-18" width="128" height="180"/>
+        <element name="ModuleBlueprint" positionX="-63" positionY="-18" width="128" height="195"/>
         <element name="ModuleInstance" positionX="-45" positionY="45" width="128" height="90"/>
         <element name="ModuleJobBlueprint" positionX="-27" positionY="81" width="128" height="90"/>
         <element name="ModuleJobInstance" positionX="-36" positionY="72" width="128" height="90"/>

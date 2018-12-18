@@ -72,6 +72,9 @@ enum DataSeeder {
         cafeModule.xyOpenCoords = Set(CDPoint2.map(from: CGRect(x: 1, y: 1, width: 3, height: 3)))
         cafeModule.xyOpenCoords.insert(CDPoint2(x: 0, y: 2))
         cafeModule.xyOpenCoords.insert(CDPoint2(x: 4, y: 2))
+        // TODO: NEW
+        cafeModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 2), zAccess: false))
+        cafeModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 4, y: 2), zAccess: false))
         // Vertical open coords
         cafeModule.zOpenCoords.insert(CDPoint2(x: 0, y: 2))
         // Jobs
@@ -99,6 +102,8 @@ enum DataSeeder {
         engineModule.xyOpenCoords = Set(CDPoint2.map(from: CGRect(x: 1, y: 1, width: 3, height: 3)))
         // Cooridor
         engineModule.xyOpenCoords.insert(CDPoint2(x: 4, y: 2))
+        // TODO: NEW
+        engineModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 4, y: 2), zAccess: false))
         // Jobs
         // - Engineer
         let engineJob = ModuleJobBlueprint.insertNew(into: context)
@@ -118,9 +123,14 @@ enum DataSeeder {
         quartersModule.xyOpenCoords = Set(CDPoint2.map(from: CGRect(x: 1, y: 1, width: 3, height: 3)))
         for point in CDPoint2.map(from: CGRect(x: 0, y: 2, width: 5, height: 1)) {
             quartersModule.xyOpenCoords.insert(point)
+            
+            // TODO: NEW. ALSO SHOULD NOT BE ADDING ENTIRE LINE
+            quartersModule.entrances.insert(ModuleEntrance(coordinate: point, zAccess: false))
         }
         // Vertical open coords
         quartersModule.zOpenCoords.insert(CDPoint2(x: 0, y: 2))
+        // TODO: NEW
+        quartersModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 2), zAccess: true))
         // Needs
         // - Sleep
         let sleepNeed = ModuleNeedBlueprint.insertNew(into: context)
@@ -138,6 +148,8 @@ enum DataSeeder {
         weaponModule.xyOpenCoords = Set(CDPoint2.map(from: CGRect(x: 0, y: 1, width: 2, height: 1)))
         // Cooridor
         weaponModule.xyOpenCoords.insert(CDPoint2(x: 0, y: 1))
+        // TODO: NEW
+        weaponModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 1), zAccess: false))
         // Jobs
         // - Weapon
         let weaponJob = ModuleJobBlueprint.insertNew(into: context)

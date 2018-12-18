@@ -30,7 +30,7 @@ class ModuleEntity: GKEntity {
     
     func makeNode() -> SKNode {
         
-        print("&& MODULE ATTR: \(instance.blueprint.attributes)")
+        print("&& MODULE ATTR: \(instance.blueprint.attributes). ENTRANCES: \(instance.blueprint.entrances)")
         
         let textureNode = SKNode()
         let placement = instance.placement
