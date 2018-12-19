@@ -10,6 +10,9 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
+// TODO NEXT: Need to create new grid system. It implies a cooridor between modules. Allows modules to define their entrances because there will always be a path.
+// BUT: Requires that we then calculate what's an implied "cooridor" in the overall deck and apply those textures. Also means can't assume crewmen will always be in a module.
+
 typealias GridPoint = Int
 
 /// Represents a rect in game (similar to CGRect in 3D) but uses a slightly different coordinate system where a rect of size 1, 1 and origin 0, 0 only contains the origin coordinate. Each 1x1 grid section has origin at bottom left for purposes of determining whether floats are contained.
@@ -41,7 +44,7 @@ extension GridPoint {
     }
 }
 
-// Defined because conversion between other types and this int3 alias is done in a specific fashion. So rather than creating extension on generic int3 define our own type with this understood behavior
+// Defined because our grid points are specific and typealiasing int3 wasn't enough.
 struct GridPoint3: Hashable, Equatable {
     
     init(_ point: float3) {
@@ -219,4 +222,13 @@ extension float3 {
     init(_ point: GridPoint3) {
         self.init(x: Float(point.x), y: Float(point.y), z: Float(point.z))
     }
+}
+
+// TODO: Keep array of z-range that are just GridRects?
+struct IrregularRect {
+    
+    
+    
+    
+    
 }
