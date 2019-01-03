@@ -26,12 +26,13 @@ class ModuleBlueprint: NSManagedObject, IdentifiableEntity {
     
     // TODO: NEW
     @NSManaged var entrances: Set<ModuleEntrance>
+    @NSManaged var automaticWalls: Bool
     
     @NSManaged var fulfilledNeeds: Set<ModuleNeedBlueprint>
     @NSManaged var jobs: Set<ModuleJobBlueprint>
     
     override func awakeFromInsert() {
-        // Set empty attributes dict
+        // Set defaults
         attributes = [:]
     }
 }
@@ -64,4 +65,11 @@ class ModuleEntrance: NSObject, Codable {
     
     let coordinate: CDPoint2
     let zAccess: Bool
+}
+
+extension ModuleEntrance {
+    
+    override var debugDescription: String {
+        return String(describing: coordinate)
+    }
 }

@@ -225,10 +225,10 @@ extension float3 {
 }
 
 // TODO: Keep array of z-range that are just GridRects?
-struct IrregularRect {
-    
-    
-    
-    
-    
-}
+//struct IrregularRect {
+//
+//
+//
+//
+//
+//}
