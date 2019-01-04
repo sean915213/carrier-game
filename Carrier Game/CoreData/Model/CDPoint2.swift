@@ -30,6 +30,12 @@ class CDPoint2: NSObject, Codable {
     
     var x: CGFloat
     var y: CGFloat
+    
+    // TODO: MOVE
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? CDPoint2 else { return false }
+        return x == object.x && y == object.y
+    }
 }
 
 extension CDPoint2 {

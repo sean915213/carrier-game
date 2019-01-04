@@ -30,7 +30,7 @@ class ModuleEntity: GKEntity {
     
     func makeNode() -> SKNode {
         
-        print("&& MODULE ATTR: \(instance.blueprint.attributes). ENTRANCES: \(instance.blueprint.entrances)")
+        print("&& MODULE ATTR: \(instance.blueprint.attributes). ENTRANCES: \(instance.blueprint.entrances). WALLS?: \(instance.blueprint.automaticWalls)")
         
         let textureNode = SKNode()
         let placement = instance.placement
@@ -41,41 +41,44 @@ class ModuleEntity: GKEntity {
         return textureNode
     }
     
+    // TODO: TOO MUCH LOGIC. NEED SKSPRITENODE SUBCLASS TO DETERMINE COLOR, TEXTURE, ETC
     private func makeTextureNodes() -> [SKNode] {
-        let blueprint = instance.placement.blueprint
-        // Convert open coords to correctly typed sets
-        let zOpenVectors: Set<vector_int2> = Set(blueprint.zOpenCoords)
-        let xyOpenVectors: Set<vector_int2> = Set(blueprint.xyOpenCoords)
+        // Create rect in local space (not translated to deck)
+        let localRect = GridRect(origin: .zero, size: instance.rect.size)
+        // Block to check whether this is wall
+        let isWall = { (position: CGPoint) in
+            return GridPoint(position.x) == localRect.xRange.first || GridPoint(position.x) == localRect.xRange.last
+                || GridPoint(position.y) == localRect.yRange.first || GridPoint(position.y) == localRect.yRange.last
+        }
         // Add nodes for each coord in module
         var nodes = [SKNode]()
-        for x in 0..<Int32(blueprint.size.x) {
-            for y in 0..<Int32(blueprint.size.y) {
-                let v = vector_int2(x, y)
-                
-                // SIZE
-                let size = CGSize(width: 1, height: 1)
-                
-                // Create and add node
+        for x in localRect.xRange {
+            for y in localRect.yRange {
+                // A node is always made
                 let node: SKSpriteNode
-                
-                // Check if open
-                if zOpenVectors.contains(v) {
-                    node = SKSpriteNode(color: .yellow, size: size)
-                } else if xyOpenVectors.contains(v) {
-                    node = SKSpriteNode(color: .brown, size: size)
-                } else {
-                    //                    let image = UIImage(named: "Barrel")!
-                    //                    let texture = SKTexture(image: image)
-                    
-                    //                    let texture = SKTexture(imageNamed: "Barrel")
-                    
-                    //                    node = SKSpriteNode(texture: texture)
-                    
-                    node = SKSpriteNode(imageNamed: "Barrel")
-                    node.size = size
+                let size = CGSize(width: 1, height: 1)
+                let position = CGPoint(x: x, y: y)
+                // Assign position and add when finished
+                defer {
+                    node.position = position
+                    nodes.append(node)
                 }
-                node.position = CGPoint(x: CGFloat(x), y: CGFloat(y))
-                nodes.append(node)
+                // Check whether this is an entrance
+                if let entrance = instance.blueprint.entrances.first(where: { $0.coordinate == CDPoint2(x: CGFloat(x), y: CGFloat(y)) }) {
+                    if entrance.zAccess {
+                        node = SKSpriteNode(color: .yellow, size: size)
+                    } else {
+                        node = SKSpriteNode(color: .brown, size: size)
+                    }
+                } else {
+                    // Check whether automatic walls and this is one
+                    if instance.blueprint.automaticWalls && isWall(position) {
+                        node = SKSpriteNode(imageNamed: "Barrel")
+                        node.size = size
+                    } else {
+                        node = SKSpriteNode(color: .brown, size: size)
+                    }
+                }
             }
         }
         return nodes

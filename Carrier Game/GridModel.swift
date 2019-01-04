@@ -31,6 +31,30 @@ struct GridRect {
     var yRange: Range<GridPoint> { return origin.y..<(origin.y + size.y) }
     var zRange: Range<GridPoint> { return origin.z..<(origin.z + size.z) }
     
+    var allPoints: [GridPoint3] {
+        var points = [GridPoint3]()
+        for x in xRange {
+            for y in yRange {
+                for z in zRange {
+                    points.append(GridPoint3(x, y, z))
+                }
+            }
+        }
+        return points
+    }
+    
+    // TODO: STILL USED?
+    var borderPoints: [GridPoint3] {
+        var points = [GridPoint3]()
+        for point in allPoints {
+            guard point.x == xRange.first || point.x == xRange.last ||
+                point.y == yRange.first || point.y == yRange.last ||
+                point.z == zRange.first || point.z == zRange.last else { continue }
+            points.append(point)
+        }
+        return points
+    }
+    
     func contains(_ point: GridPoint3) -> Bool {
         return xRange.contains(point.x) && yRange.contains(point.y) && zRange.contains(point.z)
     }
@@ -46,6 +70,8 @@ extension GridPoint {
 
 // Defined because our grid points are specific and typealiasing int3 wasn't enough.
 struct GridPoint3: Hashable, Equatable {
+    
+    static let zero = GridPoint3(0, 0, 0)
     
     init(_ point: float3) {
         self.init(GridPoint(point.x), GridPoint(point.y), GridPoint(point.z))

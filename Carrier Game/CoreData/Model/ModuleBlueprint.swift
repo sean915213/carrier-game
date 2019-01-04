@@ -37,6 +37,26 @@ class ModuleBlueprint: NSManagedObject, IdentifiableEntity {
     }
 }
 
+extension ModuleBlueprint {
+    
+    // TODO: BETTER TYPE HERE? CDPOINT USES FLOAT SO DECIDED ON VECTOR_INT2
+    // TODO: STILL USED? COULD MAKE MORE USEFUL?
+    var wallCoords: [vector_int2] {
+        let xCoords = 0..<Int(size.x)
+        let yCoords = 0..<Int(size.y)
+        var coords = [vector_int2]()
+        for x in xCoords {
+            for y in yCoords {
+                guard x == xCoords.first || x == xCoords.last ||
+                    y == yCoords.first || y == yCoords.last else { continue }
+                coords.append(vector_int2(x: Int32(x), y: Int32(y)))
+            }
+        }
+        return coords
+    }
+    
+}
+
 typealias ModuleAttribute = String
 extension ModuleAttribute {
     static let crewSupported = "crew_supported"
