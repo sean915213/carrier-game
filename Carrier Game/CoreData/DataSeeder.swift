@@ -73,7 +73,7 @@ enum DataSeeder {
         cafeModule.xyOpenCoords.insert(CDPoint2(x: 0, y: 2))
         cafeModule.xyOpenCoords.insert(CDPoint2(x: 4, y: 2))
         // TODO: NEW
-        cafeModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 2), zAccess: false))
+        cafeModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 2), zAccess: true))
         cafeModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 4, y: 2), zAccess: false))
         // Vertical open coords
         cafeModule.zOpenCoords.insert(CDPoint2(x: 0, y: 2))

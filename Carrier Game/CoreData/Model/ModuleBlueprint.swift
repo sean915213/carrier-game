@@ -39,22 +39,29 @@ class ModuleBlueprint: NSManagedObject, IdentifiableEntity {
 
 extension ModuleBlueprint {
     
-    // TODO: BETTER TYPE HERE? CDPOINT USES FLOAT SO DECIDED ON VECTOR_INT2
-    // TODO: STILL USED? COULD MAKE MORE USEFUL?
-    var wallCoords: [vector_int2] {
+    var wallCoords: [GridPoint3] {
+        var coords = [GridPoint3]()
+        // If not automatic walls then none
+        guard automaticWalls else { return coords }
+        // Map entrances to a set of coords
+        let entranceCoords = Set(entrances.map({ GridPoint3($0.coordinate, 0) }))
+        // Return border coords that are not an entrance
         let xCoords = 0..<Int(size.x)
         let yCoords = 0..<Int(size.y)
-        var coords = [vector_int2]()
         for x in xCoords {
             for y in yCoords {
+                // Check whether border
                 guard x == xCoords.first || x == xCoords.last ||
                     y == yCoords.first || y == yCoords.last else { continue }
-                coords.append(vector_int2(x: Int32(x), y: Int32(y)))
+                // Check whether entrance
+                let point = GridPoint3(x, y, 0)
+                guard !entranceCoords.contains(point) else { continue }
+                // Should be wall
+                coords.append(point)
             }
         }
         return coords
     }
-    
 }
 
 typealias ModuleAttribute = String
@@ -90,6 +97,6 @@ class ModuleEntrance: NSObject, Codable {
 extension ModuleEntrance {
     
     override var debugDescription: String {
-        return String(describing: coordinate)
+        return String(describing: coordinate) + ", z: \(zAccess)"
     }
 }

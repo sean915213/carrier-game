@@ -45,11 +45,8 @@ class ModuleEntity: GKEntity {
     private func makeTextureNodes() -> [SKNode] {
         // Create rect in local space (not translated to deck)
         let localRect = GridRect(origin: .zero, size: instance.rect.size)
-        // Block to check whether this is wall
-        let isWall = { (position: CGPoint) in
-            return GridPoint(position.x) == localRect.xRange.first || GridPoint(position.x) == localRect.xRange.last
-                || GridPoint(position.y) == localRect.yRange.first || GridPoint(position.y) == localRect.yRange.last
-        }
+        // Get module's wall points from blueprint
+        let borderPoints = Set(instance.blueprint.wallCoords)
         // Add nodes for each coord in module
         var nodes = [SKNode]()
         for x in localRect.xRange {
@@ -63,6 +60,12 @@ class ModuleEntity: GKEntity {
                     node.position = position
                     nodes.append(node)
                 }
+                // Check whether this is a wall
+                guard !borderPoints.contains(GridPoint3(position, 0)) else {
+                    node = SKSpriteNode(imageNamed: "Barrel")
+                    node.size = size
+                    continue
+                }
                 // Check whether this is an entrance
                 if let entrance = instance.blueprint.entrances.first(where: { $0.coordinate == CDPoint2(x: CGFloat(x), y: CGFloat(y)) }) {
                     if entrance.zAccess {
@@ -71,13 +74,7 @@ class ModuleEntity: GKEntity {
                         node = SKSpriteNode(color: .brown, size: size)
                     }
                 } else {
-                    // Check whether automatic walls and this is one
-                    if instance.blueprint.automaticWalls && isWall(position) {
-                        node = SKSpriteNode(imageNamed: "Barrel")
-                        node.size = size
-                    } else {
-                        node = SKSpriteNode(color: .brown, size: size)
-                    }
+                    node = SKSpriteNode(color: .brown, size: size)
                 }
             }
         }
