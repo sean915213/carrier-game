@@ -50,20 +50,14 @@ class DeckEntity: GKEntity {
     
     func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
         let deckPosition = GridPoint(instance.blueprint.position)
-        // Gather & translate coordinates to deck coordinates
-        var coords = Set<GridPoint3>()
+        // Make graph and add nodes
+        let graph = GKGridGraph3D([])
         for entity in moduleEntities {
             let wallCoords = Set(entity.instance.blueprint.wallCoords.map({ GridPoint3(entity.instance.placement.origin, deckPosition) + $0 }))
             for coord in entity.instance.rect.allPoints {
                 guard !wallCoords.contains(coord) else { continue }
-                coords.insert(coord)
+                graph.connectToAdjacentNodes(GKGridGraphNode3D(point: coord))
             }
-        }
-        // Make graph and add nodes
-        let graph = GKGridGraph3D([])
-        for coord in coords {
-            let node = GKGridGraphNode3D(point: coord)
-            graph.connectToAdjacentNodes(node)
         }
         return graph
     }
