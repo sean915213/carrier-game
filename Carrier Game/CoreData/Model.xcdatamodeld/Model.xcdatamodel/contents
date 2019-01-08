@@ -22,8 +22,8 @@
         <relationship name="ship" maxCount="1" deletionRule="Nullify" destinationEntity="ShipBlueprint" syncable="YES"/>
     </entity>
     <entity name="DeckInstance" representedClassName=".DeckInstance" syncable="YES">
-        <relationship name="blueprint" maxCount="1" deletionRule="Nullify" destinationEntity="DeckPlacementBlueprint" syncable="YES"/>
         <relationship name="modules" toMany="YES" deletionRule="Cascade" destinationEntity="ModuleInstance" inverseName="deck" inverseEntity="ModuleInstance" syncable="YES"/>
+        <relationship name="placement" maxCount="1" deletionRule="Nullify" destinationEntity="DeckPlacementBlueprint" syncable="YES"/>
         <relationship name="ship" maxCount="1" deletionRule="Nullify" destinationEntity="ShipInstance" inverseName="decks" inverseEntity="ShipInstance" syncable="YES"/>
     </entity>
     <entity name="DeckPlacementBlueprint" representedClassName=".DeckPlacementBlueprint" syncable="YES">

@@ -47,11 +47,11 @@ class CrewmanEntity: GKEntity, StatsProvider {
     }
     
     var graphNode: GKGridGraphNode3D {
-        return ship.graph.node(atPoint: GridPoint3(rootNode.position, Int(currentDeck.instance.blueprint.position)))!
+        return ship.graph.node(atPoint: GridPoint3(rootNode.position, Int(currentDeck.instance.placement.position)))!
     }
     
     var currentDeck: DeckEntity {
-        return ship.deckEntities.first(where: { $0.instance.blueprint.position == Int16(instance.position.z) })!
+        return ship.deckEntities.first(where: { $0.instance.placement.position == Int16(instance.position.z) })!
     }
     
     var currentModule: ModuleEntity {
@@ -242,7 +242,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
         let xCoord = Int.random(in: rect.xRange)
         let yCoord = Int.random(in: rect.yRange)
         // Check for open node here
-        guard let node = ship.graph.node(atPoint: GridPoint3(xCoord, yCoord, Int(currentDeck.instance.blueprint.position))) else {
+        guard let node = ship.graph.node(atPoint: GridPoint3(xCoord, yCoord, Int(currentDeck.instance.placement.position))) else {
             return
         }
         // Find path

@@ -23,7 +23,7 @@ extension ShipInstance {
     
     var orderedDecks: [DeckInstance] {
         return decks.sorted { (deck1, deck2) -> Bool in
-            return deck1.blueprint.position < deck2.blueprint.position
+            return deck1.placement.position < deck2.placement.position
         }
     }
     

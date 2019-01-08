@@ -13,7 +13,7 @@ import GameKit
 
 class DeckInstance: NSManagedObject {
     
-    @NSManaged var blueprint: DeckPlacementBlueprint
+    @NSManaged var placement: DeckPlacementBlueprint
     @NSManaged var modules: Set<ModuleInstance>
     @NSManaged var ship: ShipInstance
 }
@@ -23,7 +23,7 @@ extension DeckInstance {
     class func insertNew(into context: NSManagedObjectContext, using placement: DeckPlacementBlueprint) -> DeckInstance {
         // Make instance
         let deck = DeckInstance.insertNew(into: context)
-        deck.blueprint = placement
+        deck.placement = placement
         // Make modules
         for placement in placement.blueprint.modules {
             let instance = ModuleInstance.insertNew(into: context, using: placement)

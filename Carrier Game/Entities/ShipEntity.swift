@@ -72,7 +72,7 @@ class ShipEntity: GKEntity {
         // Main graph
         let shipGraph = GKGridGraph3D<GKGridGraphNode3D>([])
         // Order deck entities by position
-        let orderedDecks = deckEntities.sorted(by: \.instance.blueprint.position)
+        let orderedDecks = deckEntities.sorted(by: \.instance.placement.position)
         // Loop
         for deck in orderedDecks {
             // Make graph

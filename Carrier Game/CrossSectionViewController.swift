@@ -64,7 +64,7 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
     
     private var currentDeck: (entity: DeckEntity, node: SKNode)? {
         didSet {
-            deckButton.setTitle("Next Deck: \(nextDeck().instance.blueprint.position)", for: [])
+            deckButton.setTitle("Next Deck: \(nextDeck().instance.placement.position)", for: [])
         }
     }
     
@@ -97,7 +97,7 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
     }
     
     private func displayDeck(entity: DeckEntity) {
-        logger.logInfo("Displaying deck: \(entity.instance.blueprint.position).")
+        logger.logInfo("Displaying deck: \(entity.instance.placement.position).")
         // If another deck's node is currently displayed then remove
         currentDeck?.node.removeFromParent()
         // Add new deck's texture node
@@ -106,7 +106,7 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         // Update all crewman's movement component
         for crewman in shipEntity.crewmanEntities {
             let component = crewman.component(ofType: MovementComponent2D.self)!
-            component.visibleVertical = Int(entity.instance.blueprint.position)
+            component.visibleVertical = Int(entity.instance.placement.position)
         }
         // Assign new deck info
         currentDeck = (entity: entity, node: newNode)
@@ -164,7 +164,7 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         if shipEntity.deckEntities.last == deck {
             return shipEntity.deckEntities.first!
         } else {
-            return shipEntity.deckEntities[Int(deck.instance.blueprint.position + 1)]
+            return shipEntity.deckEntities[Int(deck.instance.placement.position + 1)]
         }
     }
     

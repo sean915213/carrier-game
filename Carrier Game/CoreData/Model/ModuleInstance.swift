@@ -24,7 +24,7 @@ extension ModuleInstance {
     }
     
     var deckOrigin: GridPoint3 {
-        return GridPoint3(placement.origin, Int(deck.blueprint.position))
+        return GridPoint3(placement.origin, Int(deck.placement.position))
     }
     
     var rect: GridRect {
@@ -55,7 +55,7 @@ extension ModuleInstance {
     // TODO: STILL USED AFTER NEW BLUEPRINT SYSTEM?
     var xyEntranceCoords: [GridPoint3] {
         // Translate all open coords by origin
-        let openCoords = blueprint.xyOpenCoords.map { GridPoint3($0 + placement.origin, Int(deck.blueprint.position)) }
+        let openCoords = blueprint.xyOpenCoords.map { GridPoint3($0 + placement.origin, Int(deck.placement.position)) }
         // Filter those that open at barriers
         return openCoords.filter { coord in
             if coord.x == rect.xRange.first || coord.x == rect.xRange.last { return true }
@@ -67,7 +67,7 @@ extension ModuleInstance {
     // TODO: STILL USED AFTER NEW BLUEPRINT SYSTEM?
     var zEntranceCoords: [GridPoint3] {
         // All z open coords are entrances to another deck so just map
-        return blueprint.zOpenCoords.map { GridPoint3($0 + placement.origin, Int(deck.blueprint.position)) }
+        return blueprint.zOpenCoords.map { GridPoint3($0 + placement.origin, Int(deck.placement.position)) }
     }
     
     // TODO: STILL USED AFTER NEW BLUEPRINT SYSTEM?

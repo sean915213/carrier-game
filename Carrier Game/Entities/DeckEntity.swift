@@ -11,11 +11,8 @@ import GameplayKit
 import SGYSwiftUtility
 
 // TODO: NEXT.
-// IN CHANGE TO ASSUME ALL OPEN COORDS IN MODULE EXCEPT IF AUTOMATICWALL IS TRUE.
-// TEXTURES COMPLETE. NEED TO INTEGRATE THIS INTO CREATION OF GRID GRAPHS. SHOULD BE COMPLETED THEN.
-// THENNN: ADD COORIDORS WITH FASTER MOVEMENT SPEED?
-// ANNND: AUTOMATICALLY SEAL ENTRANCES IF FACING OUTSIDE SHIP?
-// ANND2: BETTER SYSTEM FOR CREATING SPRITE NODES BASED ON A TYPE??
+// AUTOMATICALLY SEAL ENTRANCES IF FACING OUTSIDE SHIP?
+// ANND: BETTER SYSTEM FOR CREATING SPRITE NODES BASED ON A TYPE??
 
 class DeckEntity: GKEntity {
 
@@ -49,15 +46,10 @@ class DeckEntity: GKEntity {
     }
     
     func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
-        let deckPosition = GridPoint(instance.blueprint.position)
-        // Make graph and add nodes
+        // Make graph and connect individual module graphs
         let graph = GKGridGraph3D([])
         for entity in moduleEntities {
-            let wallCoords = Set(entity.instance.blueprint.wallCoords.map({ GridPoint3(entity.instance.placement.origin, deckPosition) + $0 }))
-            for coord in entity.instance.rect.allPoints {
-                guard !wallCoords.contains(coord) else { continue }
-                graph.connectToAdjacentNodes(GKGridGraphNode3D(point: coord))
-            }
+            graph.addGraph(entity.makeGraph(), connectAdjacentNodes: true)
         }
         return graph
     }
