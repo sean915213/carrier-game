@@ -64,19 +64,9 @@ enum DataSeeder {
         cafeModule.name = "Cafeteria"
         cafeModule.size = CDPoint2(x: 5, y: 5)
         cafeModule.mass = Measurement(value: 1, unit: UnitMass.kilograms)
-        
-        // TODO: DEBUGGIG
-        cafeModule.attributes = [ModuleAttribute.engineThrust: 56.7, ModuleAttribute.crewSupported: 56]
-        
-        // Open area & cooridor
-        cafeModule.xyOpenCoords = Set(CDPoint2.map(from: CGRect(x: 1, y: 1, width: 3, height: 3)))
-        cafeModule.xyOpenCoords.insert(CDPoint2(x: 0, y: 2))
-        cafeModule.xyOpenCoords.insert(CDPoint2(x: 4, y: 2))
-        // TODO: NEW
+        // Entrances
         cafeModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 2), zAccess: true))
         cafeModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 4, y: 2), zAccess: false))
-        // Vertical open coords
-        cafeModule.zOpenCoords.insert(CDPoint2(x: 0, y: 2))
         // Jobs
         // - Cook
         let cookJob = ModuleJobBlueprint.insertNew(into: context)
@@ -98,11 +88,6 @@ enum DataSeeder {
         engineModule.mass = Measurement(value: 1, unit: UnitMass.kilograms)
         // Attributes
         engineModule.attributes = [ModuleAttribute.engineThrust: 100]
-        // Open area
-        engineModule.xyOpenCoords = Set(CDPoint2.map(from: CGRect(x: 1, y: 1, width: 3, height: 3)))
-        // Cooridor
-        engineModule.xyOpenCoords.insert(CDPoint2(x: 4, y: 2))
-        // TODO: NEW
         engineModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 4, y: 2), zAccess: false))
         // Jobs
         // - Engineer
@@ -119,17 +104,11 @@ enum DataSeeder {
         quartersModule.mass = Measurement(value: 1, unit: UnitMass.kilograms)
         // Attributes
         quartersModule.attributes = [ModuleAttribute.crewSupported: 4]
-        // Open area & cooridor
-        quartersModule.xyOpenCoords = Set(CDPoint2.map(from: CGRect(x: 1, y: 1, width: 3, height: 3)))
+        // Entrances
         for point in CDPoint2.map(from: CGRect(x: 0, y: 2, width: 5, height: 1)) {
-            quartersModule.xyOpenCoords.insert(point)
-            
-            // TODO: NEW. ALSO SHOULD NOT BE ADDING ENTIRE LINE
+            // TODO: SHOULD NOT BE ADDING ENTIRE LINE
             quartersModule.entrances.insert(ModuleEntrance(coordinate: point, zAccess: false))
         }
-        // Vertical open coords
-        quartersModule.zOpenCoords.insert(CDPoint2(x: 0, y: 2))
-        // TODO: NEW
         quartersModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 2), zAccess: true))
         // Needs
         // - Sleep
@@ -144,11 +123,7 @@ enum DataSeeder {
         weaponModule.name = "Laser"
         weaponModule.size = CDPoint2(x: 3, y: 3)
         weaponModule.mass = Measurement(value: 1, unit: UnitMass.kilograms)
-        // Open area
-        weaponModule.xyOpenCoords = Set(CDPoint2.map(from: CGRect(x: 0, y: 1, width: 2, height: 1)))
-        // Cooridor
-        weaponModule.xyOpenCoords.insert(CDPoint2(x: 0, y: 1))
-        // TODO: NEW
+        // Entrances
         weaponModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 1), zAccess: false))
         // Jobs
         // - Weapon

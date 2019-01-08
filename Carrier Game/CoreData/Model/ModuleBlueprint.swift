@@ -20,13 +20,8 @@ class ModuleBlueprint: NSManagedObject, IdentifiableEntity {
     
     @NSManaged var attributes: [String: Double]
     
-    // TODO: DEPRECATED.
-    @NSManaged var xyOpenCoords: Set<CDPoint2>
-    @NSManaged var zOpenCoords: Set<CDPoint2>
-    
-    // TODO: NEW
-    @NSManaged var entrances: Set<ModuleEntrance>
     @NSManaged var automaticWalls: Bool
+    @NSManaged var entrances: Set<ModuleEntrance>
     
     @NSManaged var fulfilledNeeds: Set<ModuleNeedBlueprint>
     @NSManaged var jobs: Set<ModuleJobBlueprint>
