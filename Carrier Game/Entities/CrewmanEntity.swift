@@ -264,7 +264,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
         // Collect distances to entrances
         var distanceInfo = [(module: ModuleEntity, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])]()
         for module in modules {
-            let entranceCoords = module.instance.blueprint.entrances.map { module.instance.deckOrigin + GridPoint3($0.coordinate, 0) }
+            let entranceCoords = module.instance.blueprint.entrances.map { module.instance.absolutePoint(fromRelative: $0.coordinate) }
             for entrance in entranceCoords {
                 // Get node
                 guard let node = ship.graph.node(atPoint: entrance) else {

@@ -23,13 +23,17 @@ extension ModuleInstance {
         return placement.blueprint
     }
     
-    var deckOrigin: GridPoint3 {
+    var absoluteOrigin: GridPoint3 {
         return GridPoint3(placement.origin, Int(deck.placement.position))
     }
     
     var rect: GridRect {
         let size = GridPoint3(placement.blueprint.size, 1)
-        return GridRect(origin: deckOrigin, size: size)
+        return GridRect(origin: absoluteOrigin, size: size)
+    }
+    
+    func absolutePoint(fromRelative point: CDPoint2) -> GridPoint3 {
+        return absoluteOrigin + GridPoint3(point, 0)
     }
 }
 
