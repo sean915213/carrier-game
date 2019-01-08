@@ -31,49 +31,6 @@ extension ModuleInstance {
         let size = GridPoint3(placement.blueprint.size, 1)
         return GridRect(origin: deckOrigin, size: size)
     }
-    
-//    // TODO: USED?
-//    var entrances: [ModuleEntrance] {
-//        return blueprint.entrances.map { entrance in
-//            let translatedPoint = placement.origin + entrance.coordinate
-//            return ModuleEntrance(coordinate: translatedPoint, zAccess: entrance.zAccess)
-//        }
-//    }
-//
-//    // TODO: USED?
-//    var wallCoords: Set<GridPoint3> {
-//        guard blueprint.automaticWalls else { return [] }
-//        var coords = Set(rect.borderPoints)
-//        // Remove entrances
-//        for entrance in entrances {
-//            let entranceCoord = GridPoint3(entrance.coordinate, GridPoint(deck.blueprint.position))
-//            coords.remove(entranceCoord)
-//        }
-//        return coords
-//    }
-    
-    // TODO: STILL USED AFTER NEW BLUEPRINT SYSTEM?
-    var xyEntranceCoords: [GridPoint3] {
-        // Translate all open coords by origin
-        let openCoords = blueprint.xyOpenCoords.map { GridPoint3($0 + placement.origin, Int(deck.placement.position)) }
-        // Filter those that open at barriers
-        return openCoords.filter { coord in
-            if coord.x == rect.xRange.first || coord.x == rect.xRange.last { return true }
-            if coord.y == rect.yRange.first || coord.y == rect.yRange.last { return true }
-            return false
-        }
-    }
-    
-    // TODO: STILL USED AFTER NEW BLUEPRINT SYSTEM?
-    var zEntranceCoords: [GridPoint3] {
-        // All z open coords are entrances to another deck so just map
-        return blueprint.zOpenCoords.map { GridPoint3($0 + placement.origin, Int(deck.placement.position)) }
-    }
-    
-    // TODO: STILL USED AFTER NEW BLUEPRINT SYSTEM?
-    var allEntranceCoords: Set<GridPoint3> {
-        return Set(xyEntranceCoords + zEntranceCoords)
-    }
 }
 
 extension ModuleInstance {
