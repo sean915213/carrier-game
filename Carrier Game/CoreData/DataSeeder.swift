@@ -53,6 +53,15 @@ enum DataSeeder {
     }
     
     private static func seedModuleBlueprints(using context: NSManagedObjectContext) {
+        // Cooridor
+        let cooridorModule = NSEntityDescription.insertNewObject(forEntityClass: ModuleBlueprint.self, into: context)
+        cooridorModule.identifier = "cooridor.1x1"
+        cooridorModule.name = "Cooridor (1x1)"
+        cooridorModule.size = CDPoint2(x: 1, y: 1)
+        cooridorModule.mass = Measurement(value: 0.5, unit: UnitMass.kilograms)
+        // Entrances
+        cooridorModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 0), zAccess: false))
+        
         // Bulkhead
         let bulkheadModule = NSEntityDescription.insertNewObject(forEntityClass: ModuleBlueprint.self, into: context)
         bulkheadModule.identifier = "bulkhead.1x1"
@@ -183,11 +192,16 @@ enum DataSeeder {
         cafe.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
         cafe.origin = CDPoint2(x: 5, y: 0)
         deck0.modules.insert(cafe)
-        // - Bulkhead
+        // - Bulkhead // TEST
         let bulkhead = ModulePlacement.insertNew(into: context)
         bulkhead.blueprint = try! ModuleBlueprint.entityWithIdentifier("bulkhead.1x1", using: context)!
         bulkhead.origin = CDPoint2(x: -1, y: 0)
         deck0.modules.insert(bulkhead)
+        // - Cooridor // TEST
+        let cooridor = ModulePlacement.insertNew(into: context)
+        cooridor.blueprint = try! ModuleBlueprint.entityWithIdentifier("cooridor.1x1", using: context)!
+        cooridor.origin = CDPoint2(x: -2, y: 0)
+        deck0.modules.insert(cooridor)
         
         // DECK 1
         // - Quarters
