@@ -11,11 +11,6 @@ import CoreData
 import SGYSwiftUtility
 import SpriteKit
 
-// TODO NEXT: Added 3D vectors to crewman and pathfinding now seems fucked up. Also, some modules not rendering? Need to look at:
-// - Seeding data- coords really correct?
-// - Even if not correct, why do modules disappear?
-// - Pathfinding doesn't seem to be working. But then was seeding correct?
-
 private let seededDefaultsKey = "didSeed"
 
 enum DataSeeder {
@@ -58,6 +53,13 @@ enum DataSeeder {
     }
     
     private static func seedModuleBlueprints(using context: NSManagedObjectContext) {
+        // Bulkhead
+        let bulkheadModule = NSEntityDescription.insertNewObject(forEntityClass: ModuleBlueprint.self, into: context)
+        bulkheadModule.identifier = "bulkhead.1x1"
+        bulkheadModule.name = "Bulkhead (1x1)"
+        bulkheadModule.size = CDPoint2(x: 1, y: 1)
+        bulkheadModule.mass = Measurement(value: 1, unit: UnitMass.kilograms)
+        
         // Cafe
         let cafeModule = NSEntityDescription.insertNewObject(forEntityClass: ModuleBlueprint.self, into: context)
         cafeModule.identifier = "cafe.small"
@@ -181,6 +183,11 @@ enum DataSeeder {
         cafe.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
         cafe.origin = CDPoint2(x: 5, y: 0)
         deck0.modules.insert(cafe)
+        // - Bulkhead
+        let bulkhead = ModulePlacement.insertNew(into: context)
+        bulkhead.blueprint = try! ModuleBlueprint.entityWithIdentifier("bulkhead.1x1", using: context)!
+        bulkhead.origin = CDPoint2(x: -1, y: 0)
+        deck0.modules.insert(bulkhead)
         
         // DECK 1
         // - Quarters

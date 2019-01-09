@@ -29,6 +29,7 @@ class ModuleBlueprint: NSManagedObject, IdentifiableEntity {
     override func awakeFromInsert() {
         // Set defaults
         attributes = [:]
+        entrances = Set<ModuleEntrance>()
     }
 }
 
