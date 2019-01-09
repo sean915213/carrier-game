@@ -72,8 +72,7 @@ struct GridPoint: RawRepresentable, Hashable {
     
     // ULTIMATE ROUNDER OF FLOATS
     init(_ point: CGFloat) {
-//        self.init(Int(round(point)))
-        self.init(Int(floor(point)))
+        self.init(Int(round(point)))
     }
     
     init(rawValue: Int) {
