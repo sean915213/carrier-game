@@ -10,18 +10,13 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO NEXT: Need to create new grid system. It implies a cooridor between modules. Allows modules to define their entrances because there will always be a path.
-// BUT: Requires that we then calculate what's an implied "cooridor" in the overall deck and apply those textures. Also means can't assume crewmen will always be in a module.
-
-typealias GridPoint = Int
-
 /// Represents a rect in game (similar to CGRect in 3D) but uses a slightly different coordinate system where a rect of size 1, 1 and origin 0, 0 only contains the origin coordinate. Each 1x1 grid section has origin at bottom left for purposes of determining whether floats are contained.
 struct GridRect {
     
     init(origin: GridPoint3, size: GridPoint3) {
         self.origin = origin
         // Do not allow negative sizes
-        self.size = GridPoint3(abs(size.x), abs(size.y), abs(size.z))
+        self.size = GridPoint3(abs(size.x.rawValue), abs(size.y.rawValue), abs(size.z.rawValue))
     }
     
     var origin: GridPoint3
@@ -61,10 +56,85 @@ struct GridRect {
 }
 
 // Defined because conversion between floating point types and an integer point on the grid is done in a specific way. So rather than creating extension on generic Int32 define our own type with this understood behavior
+struct GridPoint: RawRepresentable, Hashable {
+    
+    init(_ point: Float) {
+        self.init(CGFloat(round(point)))
+    }
+    
+    init(_ point: Int16) {
+        self.init(Int(point))
+    }
+    
+    init(_ point: Int) {
+        self.init(rawValue: point)
+    }
+    
+    // ULTIMATE ROUNDER OF FLOATS
+    init(_ point: CGFloat) {
+//        self.init(Int(round(point)))
+        self.init(Int(floor(point)))
+    }
+    
+    init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    
+    var rawValue: Int
+}
+
 extension GridPoint {
     
-    init(point: Float) {
-        self = Int(floor(point))
+    static func +(left: GridPoint, right: GridPoint) -> GridPoint {
+        return GridPoint(left.rawValue + right.rawValue)
+    }
+    
+    static func -(left: GridPoint, right: GridPoint) -> GridPoint {
+        return GridPoint(left.rawValue - right.rawValue)
+    }
+    
+    static func +=(left: inout GridPoint, right: GridPoint) {
+        left = left + right
+    }
+    
+    static func -=(left: inout GridPoint, right: GridPoint) {
+        left = left - right
+    }
+}
+
+extension GridPoint: Comparable {
+    
+    static func < (left: GridPoint, right: GridPoint) -> Bool {
+        return left.rawValue < right.rawValue
+    }
+}
+
+extension GridPoint: Strideable {
+
+    func advanced(by n: Int) -> GridPoint {
+        return GridPoint(rawValue: rawValue + n)
+    }
+    
+    func distance(to other: GridPoint) -> Int {
+        return (other - self).rawValue
+    }
+}
+
+extension CGFloat {
+    init(_ point: GridPoint) {
+        self = CGFloat(point.rawValue)
+    }
+}
+
+extension Int {
+    init(_ point: GridPoint) {
+        self = point.rawValue
+    }
+}
+
+extension CGPoint {
+    init(x: GridPoint, y: GridPoint) {
+        self = CGPoint(x: x.rawValue, y: y.rawValue)
     }
 }
 
@@ -81,12 +151,24 @@ struct GridPoint3: Hashable, Equatable {
         self.init(GridPoint(point.x), GridPoint(point.y), GridPoint(point.z))
     }
     
+    init(_ point: CDPoint2, _ z: Int) {
+        self.init(point, GridPoint(z))
+    }
+    
+    init(_ point: CGPoint, _ z: Int) {
+        self.init(point, GridPoint(z))
+    }
+    
     init(_ point: CDPoint2, _ z: GridPoint) {
         self.init(GridPoint(point.x), GridPoint(point.y), z)
     }
     
     init(_ point: CGPoint, _ z: GridPoint) {
         self.init(GridPoint(point.x), GridPoint(point.y), z)
+    }
+    
+    init(_ x: Int, _ y: Int, _ z: Int) {
+        self.init(GridPoint(x), GridPoint(y), GridPoint(z))
     }
     
     init(_ x: GridPoint, _ y: GridPoint, _ z: GridPoint) {
@@ -240,21 +322,6 @@ extension Sequence where Element: GKGridGraphNode3D {
 
 extension CDPoint3 {
     convenience init(_ point: GridPoint3) {
-        self.init(x: Float(point.x), y: Float(point.y), z: Float(point.z))
+        self.init(x: Float(point.x.rawValue), y: Float(point.y.rawValue), z: Float(point.z.rawValue))
     }
 }
-
-extension float3 {
-    init(_ point: GridPoint3) {
-        self.init(x: Float(point.x), y: Float(point.y), z: Float(point.z))
-    }
-}
-
-// TODO: Keep array of z-range that are just GridRects?
-//struct IrregularRect {
-//
-//
-//
-//
-//
-//}

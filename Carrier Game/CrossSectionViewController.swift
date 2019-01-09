@@ -106,7 +106,7 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         // Update all crewman's movement component
         for crewman in shipEntity.crewmanEntities {
             let component = crewman.component(ofType: MovementComponent2D.self)!
-            component.visibleVertical = Int(entity.instance.placement.position)
+            component.visibleVertical = GridPoint(entity.instance.placement.position)
         }
         // Assign new deck info
         currentDeck = (entity: entity, node: newNode)
@@ -185,6 +185,12 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         let point = scene.convertPoint(fromView: recognizer.location(in: view))
         // Get nodes
         let nodes = scene.nodes(at: point)
+        // TAP LOGIC
+        // Print point as grid
+        
+        let np = scene.convert(point, to: currentDeck!.node)
+        
+        logger.logInfo("Tapped grid point: \(GridPoint(point.x)), \(GridPoint(point.y)). NEW: \(np). POINT: \(point)")
         // Find associated crewman
         let crewmen = shipEntity.crewmanEntities.filter({ nodes.contains($0.rootNode) })
         for crewman in crewmen {

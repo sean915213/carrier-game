@@ -14,10 +14,10 @@ private let moveActionKey = "com.sdot.movementAction"
 
 class MovementComponent2D: GKComponent, MovementComponentProtocol {
     
-    var visibleVertical: GridPoint = 0 {
+    var visibleVertical = GridPoint(0) {
         didSet {
             guard let crewman = crewman else { return }
-            updateVisibility(at: crewman.instance.position.z)
+            updateVisibility(at: GridPoint(crewman.instance.position.z))
         }
     }
     
@@ -57,7 +57,7 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
                 // Assign on entity's instance
                 self.crewman?.instance.position = CDPoint3(newNode.position)
                 // Check whether visible now
-                self.updateVisibility(at: Float(node.position.z))
+                self.updateVisibility(at: node.position.z)
             }
             // Put into sequence so that update only happens once other actions are completed
             let sequenceAction = SKAction.sequence([moveAction, postAction])
@@ -87,10 +87,10 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
         self.callback?(.interrupted)
     }
     
-    private func updateVisibility(at vertical: Float) {
-        if movementNode.isHidden && visibleVertical == GridPoint(vertical) {
+    private func updateVisibility(at vertical: GridPoint) {
+        if movementNode.isHidden && visibleVertical == vertical {
             movementNode.isHidden = false
-        } else if !movementNode.isHidden && visibleVertical != GridPoint(vertical) {
+        } else if !movementNode.isHidden && visibleVertical != vertical {
             self.movementNode.isHidden = true
         }
     }

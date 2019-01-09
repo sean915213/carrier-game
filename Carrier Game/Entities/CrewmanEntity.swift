@@ -47,7 +47,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
     }
     
     var graphNode: GKGridGraphNode3D {
-        return ship.graph.node(atPoint: GridPoint3(rootNode.position, Int(currentDeck.instance.placement.position)))!
+        return ship.graph.node(atPoint: GridPoint3(rootNode.position, GridPoint(currentDeck.instance.placement.position)))!
     }
     
     var currentDeck: DeckEntity {
@@ -239,10 +239,14 @@ class CrewmanEntity: GKEntity, StatsProvider {
         if movementComponent.path != nil { return }
         // Find a random coordinate within this module
         let rect = currentModule.instance.rect
-        let xCoord = Int.random(in: rect.xRange)
-        let yCoord = Int.random(in: rect.yRange)
+        
+        // TODO: IS RANDOMELEMENT() WORKING? WAS USING INT.RANDOM
+        // TODO: ALSO- need to not force unwrap here. Something wrong with range type/model.
+        let xCoord = rect.xRange.randomElement()!
+        let yCoord = rect.yRange.randomElement()!
+        
         // Check for open node here
-        guard let node = ship.graph.node(atPoint: GridPoint3(xCoord, yCoord, Int(currentDeck.instance.placement.position))) else {
+        guard let node = ship.graph.node(atPoint: GridPoint3(xCoord, yCoord, GridPoint(currentDeck.instance.placement.position))) else {
             return
         }
         // Find path
