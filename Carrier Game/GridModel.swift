@@ -83,6 +83,10 @@ struct GridPoint: RawRepresentable, Hashable {
     var rawValue: Int
 }
 
+extension GridPoint: CustomDebugStringConvertible {
+    var debugDescription: String { return String(describing: rawValue) }
+}
+
 extension GridPoint {
     
     static func +(left: GridPoint, right: GridPoint) -> GridPoint {
