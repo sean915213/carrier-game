@@ -42,8 +42,7 @@ class ModuleEntity: GKEntity {
     }
     
     func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
-        let deckPosition = GridPoint(instance.deck.placement.position)
-        let wallCoords = Set(instance.blueprint.wallCoords.map({ GridPoint3(instance.placement.origin, deckPosition) + $0 }))
+        let wallCoords = Set(instance.absoluteWallCoords)
         // Make graph and add nodes
         let graph = GKGridGraph3D([])
         for coord in instance.rect.allPoints {

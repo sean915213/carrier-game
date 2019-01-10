@@ -35,6 +35,14 @@ extension DeckInstance {
     var moduleBlueprints: [ModuleBlueprint] {
         return modules.map { $0.blueprint }
     }
+    
+//    func findOpenCoords() -> [GridPoint3] {
+//        // Gather all module boundries
+//        var boundryCoords = [GridPoint3]()
+//        for module in modules {
+//
+//        }
+//    }
 }
 
 // TODO: MOVE

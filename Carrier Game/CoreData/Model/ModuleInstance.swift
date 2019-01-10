@@ -32,6 +32,10 @@ extension ModuleInstance {
         return GridRect(origin: absoluteOrigin, size: size)
     }
     
+    var absoluteWallCoords: [GridPoint3] {
+        return blueprint.wallCoords.map({ GridPoint3(placement.origin, Int(deck.placement.position)) + $0 })
+    }
+    
     func absolutePoint(fromRelative point: CDPoint2) -> GridPoint3 {
         return absoluteOrigin + GridPoint3(point, 0)
     }
