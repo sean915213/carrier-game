@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import SpriteKit
 import GameKit
+import SGYSwiftUtility
 
 class DeckInstance: NSManagedObject {
     
@@ -36,13 +37,35 @@ extension DeckInstance {
         return modules.map { $0.blueprint }
     }
     
-//    func findOpenCoords() -> [GridPoint3] {
-//        // Gather all module boundries
-//        var boundryCoords = [GridPoint3]()
-//        for module in modules {
-//
-//        }
-//    }
+    func findOpenCoords() -> [GridPoint3] {
+        // Map all coords
+        let allCoords = Set(modules.flatMap({ $0.rect.allPoints }))
+        // Find open coords
+        var openCoords = [GridPoint3]()
+        for module in modules {
+            for entrance in module.blueprint.entrances {
+                let coord = module.absolutePoint(fromRelative: entrance.coordinate)
+                // Check for surrounding
+                guard allCoords.contains(coord + GridPoint3(-1, 0, 0)) else {
+                    openCoords.append(coord)
+                    continue
+                }
+                guard allCoords.contains(coord + GridPoint3(1, 0, 0)) else {
+                    openCoords.append(coord)
+                    continue
+                }
+                guard allCoords.contains(coord + GridPoint3(0, 1, 0)) else {
+                    openCoords.append(coord)
+                    continue
+                }
+                guard allCoords.contains(coord + GridPoint3(0, -1, 0)) else {
+                    openCoords.append(coord)
+                    continue
+                }
+            }
+        }
+        return openCoords
+    }
 }
 
 // TODO: MOVE
