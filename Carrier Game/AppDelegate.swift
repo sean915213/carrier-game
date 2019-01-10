@@ -24,16 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CDPoint3.registerTransformers()
         ModuleEntrance.registerTransformers()
         
-//        let rect1 = GridRect(origin: .zero, size: .zero)
-//        let rect2 = GridRect(origin: .zero, size: GridPoint3(1, 2, 2))
-//        let rect3 = GridRect(origin: .zero, size: GridPoint3(5, 2, 3))
-//
-//        print("&& RECT1: \(rect1.borderPoints)")
-//        print("&& RECT2: \(rect2.borderPoints)")
-//        print("&& RECT3: \(rect3.borderPoints)")
-//        return true;
-        
-        
         // Initial logic block
         let setupBlock = {
             // Load data models
