@@ -8,6 +8,7 @@
 
 import Foundation
 import GameplayKit
+import Accelerate
 
 // Defined because our grid points are specific and typealiasing int3 wasn't enough.
 struct GridPoint3: Hashable, Equatable {
@@ -76,27 +77,43 @@ extension GridPoint3 {
     
     enum RotationAxis { case z }
     
-    // TODO: Should probably just be using real matrix operations rather than requiring an axis enum?
-    func rotated(by angle: Float, around axis: RotationAxis, origin: GridPoint3 = .zero) -> GridPoint3 {
-        switch axis {
-        case .z:
-            var point = self
-            // Translate to origin
-            point -= origin
-            // Get rotations
-            let s = sin(angle)
-            let c = cos(angle)
-            // Assign translated coords
-            let xCoord = Float(point.x) * c - Float(point.y) * s
-            let yCoord = Float(point.x) * s + Float(point.y) * c
-            // Assign new coords
-            point.x = GridPoint(xCoord)
-            point.y = GridPoint(yCoord)
-            // Return result translated back from origin
-            return origin + point
+    enum RotationMagnitude: Float {
+        case quarter, half, threeQuarter
+        
+        var radians: Float {
+            switch self {
+            case .quarter: return Float.pi / 2.0
+            case .half: return Float.pi
+            case .threeQuarter: return Float.pi + Float.pi / 2.0
+            }
         }
     }
     
-    
+    // NOTE: Rotation logic largely adopted from:
+    // https://developer.apple.com/documentation/accelerate/simd/working_with_matrices
+    func rotated(by magnitude: RotationMagnitude, around axis: RotationAxis, origin: GridPoint3 = .zero) -> GridPoint3 {
+        let angle = magnitude.radians
+        // Translate point
+        let point = self - origin
+        // Create vector and rotation matrix
+        let vector: simd_float3
+        let rotation: simd_float3x3
+        switch axis {
+        case .z:
+            // vector with only x and y real coords
+            vector = simd_float3([Float(point.x), Float(point.y), 1])
+            // Matrix for rotating x/y about the z-axis
+            let rows = [
+                simd_float3( cos(angle), sin(angle), 0),
+                simd_float3(-sin(angle), cos(angle), 0),
+                simd_float3( 0,          0,          1)
+            ]
+            rotation = float3x3(rows: rows)
+        }
+        // Get rotated vector
+        let rotatedVector = vector * rotation
+        // Return as GridPoint3
+        return GridPoint3(GridPoint(rotatedVector.x), GridPoint(rotatedVector.y), point.z)
+    }
 }
 

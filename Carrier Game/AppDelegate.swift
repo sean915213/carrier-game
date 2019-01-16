@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // TODO: FETCHING TEST SHIP
                 let fetch = ShipInstance.makeFetchRequest()
-                fetch.predicate = NSPredicate(format: "name = %@", "Test Ship")
+                fetch.predicate = NSPredicate(format: "name = %@", "Test Ship 2")
                 let ship: ShipInstance = try! NSPersistentContainer.model.viewContext.fetch(fetch)!
                 
                 // Display controller

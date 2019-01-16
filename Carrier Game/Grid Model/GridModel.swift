@@ -53,6 +53,37 @@ struct GridRect {
     func contains(_ point: GridPoint3) -> Bool {
         return xRange.contains(point.x) && yRange.contains(point.y) && zRange.contains(point.z)
     }
+    
+    func rotated(by magnitude: GridPoint3.RotationMagnitude, around axis: GridPoint3.RotationAxis) -> GridRect {
+        var rect = self
+        // Since rect cannot be negative (which rotation could result in) it's easier to do this manually than finding an algorithm that will always translate properly.
+        switch axis {
+        case .z:
+            // Change origin
+            switch magnitude {
+            case .quarter:
+                // y-origin is reduced by x length
+                rect.origin.y -= size.x
+            case .half:
+                // y-origin is reduced by y length
+                rect.origin.y -= size.y
+                // x-origin is reduced by x length
+                rect.origin.x -= size.x
+            case .threeQuarter:
+                // x-origin is reduced by y length
+                rect.origin.x -= size.y
+            }
+            // Modify size
+            switch magnitude {
+            case .quarter, .threeQuarter:
+                rect.size.x = size.y
+                rect.size.y = size.x
+            case .half:
+                break
+            }
+        }
+        return rect
+    }
 }
 
 class GKGridGraphNode3D: GKGraphNode {
