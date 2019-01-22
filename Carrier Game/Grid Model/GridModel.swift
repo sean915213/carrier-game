@@ -19,9 +19,18 @@ struct GridRect {
     // TODO: Cannot make lazy due to struct limitations. But could be expensive to constantly use for contains, etc. Should be class instead? Need to benchmark at some point.
     // TODO: ORR- Can just store a constant that gets initialized lazily? Seems to be a weird workaround to struct mechanics.
     // NOTE: Must turn stride into array as typical methods (at least `contains`) do not work properly on negative strides
-    var xRange: [GridPoint] { return Array(stride(from: origin.x, to: origin.x + size.x, by: size.x.rawValue.signum())) }
-    var yRange: [GridPoint] { return Array(stride(from: origin.y, to: origin.y + size.y, by: size.y.rawValue.signum())) }
-    var zRange: [GridPoint] { return Array(stride(from: origin.z, to: origin.z + size.z, by: size.z.rawValue.signum())) }
+    var xRange: [GridPoint] {
+        guard size.x != GridPoint(0) else { return [] }
+        return Array(stride(from: origin.x, to: origin.x + size.x, by: size.x.rawValue.signum()))
+    }
+    var yRange: [GridPoint] {
+        guard size.y != GridPoint(0) else { return [] }
+        return Array(stride(from: origin.y, to: origin.y + size.y, by: size.y.rawValue.signum()))
+    }
+    var zRange: [GridPoint] {
+        guard size.z != GridPoint(0) else { return [] }
+        return Array(stride(from: origin.z, to: origin.z + size.z, by: size.z.rawValue.signum()))
+    }
     
     var allPoints: [GridPoint3] {
         var points = [GridPoint3]()
@@ -35,7 +44,7 @@ struct GridRect {
         return points
     }
     
-    // TODO: STILL USED?
+    // TODO: STILL USED? Not using because only useful in determining walls in a module, so far. And a simple "contains" contains every point since module rects are only 1 z-range length (so all coords are a border due to no top or bottom 'deck')
     var borderPoints: [GridPoint3] {
         var points = [GridPoint3]()
         for point in allPoints {
