@@ -48,7 +48,7 @@
         <relationship name="placement" maxCount="1" deletionRule="Nullify" destinationEntity="ModulePlacement" syncable="YES"/>
     </entity>
     <entity name="ModuleJobBlueprint" representedClassName=".ModuleJobBlueprint" syncable="YES">
-        <attribute name="action" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="action" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="requiredCrewmen" attributeType="Integer 64" minValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="module" maxCount="1" deletionRule="Nullify" destinationEntity="ModuleBlueprint" inverseName="jobs" inverseEntity="ModuleBlueprint" syncable="YES"/>
     </entity>

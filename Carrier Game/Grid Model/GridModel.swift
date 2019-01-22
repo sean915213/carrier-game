@@ -16,6 +16,8 @@ struct GridRect {
     var origin: GridPoint3
     var size: GridPoint3
     
+    // TODO: Cannot make lazy due to struct limitations. But could be expensive to constantly use for contains, etc. Should be class instead? Need to benchmark at some point.
+    // TODO: ORR- Can just store a constant that gets initialized lazily? Seems to be a weird workaround to struct mechanics.
     // NOTE: Must turn stride into array as typical methods (at least `contains`) do not work properly on negative strides
     var xRange: [GridPoint] { return Array(stride(from: origin.x, to: origin.x + size.x, by: size.x.rawValue.signum())) }
     var yRange: [GridPoint] { return Array(stride(from: origin.y, to: origin.y + size.y, by: size.y.rawValue.signum())) }
