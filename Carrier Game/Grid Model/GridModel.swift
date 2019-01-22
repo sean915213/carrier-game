@@ -16,15 +16,26 @@ struct GridRect {
     init(origin: GridPoint3, size: GridPoint3) {
         self.origin = origin
         // Do not allow negative sizes
-        self.size = GridPoint3(abs(size.x.rawValue), abs(size.y.rawValue), abs(size.z.rawValue))
+//        self.size = GridPoint3(abs(size.x.rawValue), abs(size.y.rawValue), abs(size.z.rawValue))
+        
+        self.size = GridPoint3(size.x, size.y, size.z)
     }
     
     var origin: GridPoint3
     var size: GridPoint3
     
-    var xRange: Range<GridPoint> { return origin.x..<(origin.x + size.x) }
-    var yRange: Range<GridPoint> { return origin.y..<(origin.y + size.y) }
-    var zRange: Range<GridPoint> { return origin.z..<(origin.z + size.z) }
+    var xRange: [GridPoint] {
+        // NOTE: Must turn stride into array as typical methods (at least `contains`) do not work properly on negative strides
+        return Array(stride(from: origin.x, to: origin.x + size.x, by: size.x.rawValue.signum()))
+    }
+    var yRange: [GridPoint] {
+        // NOTE: Must turn stride into array as typical methods (at least `contains`) do not work properly on negative strides
+        return Array(stride(from: origin.y, to: origin.y + size.y, by: size.y.rawValue.signum()))
+    }
+    var zRange: [GridPoint] {
+        // NOTE: Must turn stride into array as typical methods (at least `contains`) do not work properly on negative strides
+        return Array(stride(from: origin.z, to: origin.z + size.z, by: size.z.rawValue.signum()))
+    }
     
     var allPoints: [GridPoint3] {
         var points = [GridPoint3]()

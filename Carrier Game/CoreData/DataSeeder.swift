@@ -165,126 +165,11 @@ enum DataSeeder {
     private static func seedShipBlueprints(using context: NSManagedObjectContext) {
         seedTestBlueprint1(using: context)
         seedTestBlueprint2(using: context)
-        
-//        // Make ship
-//        let ship = ShipBlueprint.insertNew(into: context)
-//        ship.identifier = "ship.test"
-//        ship.name = "Test Ship"
-//
-//        // Add decks
-//        // 0 - MAIN DECK
-//        let deck0 = DeckBlueprint.insertNew(into: context)
-//        deck0.identifier = "deck.basic"
-//        deck0.name = "Basic Deck"
-//        deck0.ship = ship
-//        // Place on ship
-//        let deckPlacement0 = DeckPlacementBlueprint.insertNew(into: context)
-//        deckPlacement0.position = 0
-//        deckPlacement0.blueprint = deck0
-//        // Insert placement
-//        ship.decks.insert(deckPlacement0)
-//
-//        // 1 - CREW DECK
-//        let deck1 = DeckBlueprint.insertNew(into: context)
-//        deck1.identifier = "deck.basic"
-//        deck1.name = "Basic Deck"
-//        deck1.ship = ship
-//        // Place on ship
-//        let deckPlacement1 = DeckPlacementBlueprint.insertNew(into: context)
-//        deckPlacement1.position = 1
-//        deckPlacement1.blueprint = deck1
-//        // Insert placement
-//        ship.decks.insert(deckPlacement1)
-//
-//        // Add modules
-//        // DECK 0
-//        // - Engine
-//        let engine = ModulePlacement.insertNew(into: context)
-//        engine.blueprint = try! ModuleBlueprint.entityWithIdentifier("engine.small", using: context)!
-//        engine.origin = CDPoint2(x: 0, y: 0)
-//        deck0.modules.insert(engine)
-//        // - Weapon
-//        let weapon = ModulePlacement.insertNew(into: context)
-//        weapon.blueprint = try! ModuleBlueprint.entityWithIdentifier("weapon.laser.small", using: context)!
-//        weapon.origin = CDPoint2(x: 10, y: 1)
-//        deck0.modules.insert(weapon)
-//        // - Cafe
-//        let cafe = ModulePlacement.insertNew(into: context)
-//        cafe.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
-//        cafe.origin = CDPoint2(x: 5, y: 0)
-//        deck0.modules.insert(cafe)
-//        // - Bulkhead // TEST
-//        let bulkhead = ModulePlacement.insertNew(into: context)
-//        bulkhead.blueprint = try! ModuleBlueprint.entityWithIdentifier("bulkhead.1x1", using: context)!
-//        bulkhead.origin = CDPoint2(x: -1, y: 0)
-//        deck0.modules.insert(bulkhead)
-//        // - Cooridor // TEST
-//        let cooridor = ModulePlacement.insertNew(into: context)
-//        cooridor.blueprint = try! ModuleBlueprint.entityWithIdentifier("cooridor.1x1", using: context)!
-//        cooridor.origin = CDPoint2(x: -2, y: 0)
-//        deck0.modules.insert(cooridor)
-//
-//        // DECK 1
-//        // - Quarters
-//        let quarters = ModulePlacement.insertNew(into: context)
-//        quarters.blueprint = try! ModuleBlueprint.entityWithIdentifier("quarters.small", using: context)!
-//        quarters.origin = CDPoint2(x: 5, y: 0)
-//        deck1.modules.insert(quarters)
     }
     
     private static func seedTestShips(using context: NSManagedObjectContext) {
         seedTestShip1(using: context)
         seedTestShip2(using: context)
-        
-//        // Insert ship
-//        let blueprint = try! ShipBlueprint.entityWithIdentifier("ship.test", using: context)!
-//        let ship = ShipInstance.insertNew(into: context, using: blueprint)
-//        ship.name = "Test Ship"
-//        // - Get list of jobs
-//        let allJobs = ship.allModules.flatMap({ $0.jobs })
-//
-//        // Add crewmen to only deck
-//        let crew1 = CrewmanInstance.insertNew(into: context)
-//        crew1.name = "Crew 1"
-//        crew1.position = CDPoint3(x: 6, y: 1, z: 0)
-//        crew1.shift = .second
-//        ship.crewmen.insert(crew1)
-//        // Job (Weapon)
-//        crew1.job = allJobs.first(where: { $0.blueprint.action == .weapon })!
-//        // Needs
-//        // - Sleep
-//        let sleepNeed1 = CrewmanNeed.insertNew(into: context)
-//        sleepNeed1.action = .sleep
-//        sleepNeed1.priority = .normal
-//        sleepNeed1.decayFactor = ActionFactor.overShift / 2 // Should decay over 2 shifts shift
-//        crew1.needs.insert(sleepNeed1)
-//        // - Food
-//        let foodNeed1 = CrewmanNeed.insertNew(into: context)
-//        foodNeed1.action = .food
-//        foodNeed1.priority = .normal
-//        foodNeed1.decayFactor = ActionFactor.overShift // Should decay over a single shift
-//        crew1.needs.insert(foodNeed1)
-//
-//        let crew2 = CrewmanInstance.insertNew(into: context)
-//        crew2.name = "Crew 2"
-//        crew2.position = CDPoint3(x: 2, y: 2, z: 0)
-//        crew2.shift = .second
-//        ship.crewmen.insert(crew2)
-//        // Job (Engineer)
-//        crew2.job = allJobs.first(where: { $0.blueprint.action == .engineer })!
-//        // Needs
-//        // - Sleep
-//        let sleepNeed2 = CrewmanNeed.insertNew(into: context)
-//        sleepNeed2.action = .sleep
-//        sleepNeed2.priority = .normal
-//        sleepNeed2.decayFactor = ActionFactor.overShift // Should decay over a single shift
-//        crew2.needs.insert(sleepNeed2)
-//        // - Food
-//        let foodNeed2 = CrewmanNeed.insertNew(into: context)
-//        foodNeed2.action = .food
-//        foodNeed2.priority = .normal
-//        foodNeed2.decayFactor = ActionFactor.overShift / 2 // Should decay over 2 shifts
-//        crew2.needs.insert(foodNeed2)
     }
 }
 
@@ -294,7 +179,7 @@ extension DataSeeder {
         // Make ship
         let ship = ShipBlueprint.insertNew(into: context)
         ship.identifier = "ship.test"
-        ship.name = "Test Ship"
+        ship.name = "Test Ship 1"
         
         // Add decks
         // 0 - MAIN DECK
@@ -377,42 +262,11 @@ extension DataSeeder {
         ship.decks.insert(deckPlacement0)
         
         // Add modules
-//        // DECK 0
-//        // - Engine
-//        let engine = ModulePlacement.insertNew(into: context)
-//        engine.blueprint = try! ModuleBlueprint.entityWithIdentifier("engine.small", using: context)!
-//        engine.origin = CDPoint2(x: 0, y: 0)
-//        deck0.modules.insert(engine)
-//        // - Weapon
-//        let weapon = ModulePlacement.insertNew(into: context)
-//        weapon.blueprint = try! ModuleBlueprint.entityWithIdentifier("weapon.laser.small", using: context)!
-//        weapon.origin = CDPoint2(x: 10, y: 1)
-//        deck0.modules.insert(weapon)
         // - Cafe
         let cafe = ModulePlacement.insertNew(into: context)
         cafe.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
         cafe.origin = CDPoint2(x: 0, y: 0)
         deck0.modules.insert(cafe)
-        
-        
-        
-//        // - Bulkhead // TEST
-//        let bulkhead = ModulePlacement.insertNew(into: context)
-//        bulkhead.blueprint = try! ModuleBlueprint.entityWithIdentifier("bulkhead.1x1", using: context)!
-//        bulkhead.origin = CDPoint2(x: -1, y: 0)
-//        deck0.modules.insert(bulkhead)
-//        // - Cooridor // TEST
-//        let cooridor = ModulePlacement.insertNew(into: context)
-//        cooridor.blueprint = try! ModuleBlueprint.entityWithIdentifier("cooridor.1x1", using: context)!
-//        cooridor.origin = CDPoint2(x: -2, y: 0)
-//        deck0.modules.insert(cooridor)
-//
-//        // DECK 1
-//        // - Quarters
-//        let quarters = ModulePlacement.insertNew(into: context)
-//        quarters.blueprint = try! ModuleBlueprint.entityWithIdentifier("quarters.small", using: context)!
-//        quarters.origin = CDPoint2(x: 5, y: 0)
-//        deck1.modules.insert(quarters)
     }
     
     
@@ -424,7 +278,7 @@ extension DataSeeder {
         // Insert ship
         let blueprint = try! ShipBlueprint.entityWithIdentifier("ship.test", using: context)!
         let ship = ShipInstance.insertNew(into: context, using: blueprint)
-        ship.name = "Test Ship"
+        ship.name = "Test Ship 1"
         // - Get list of jobs
         let allJobs = ship.allModules.flatMap({ $0.jobs })
         

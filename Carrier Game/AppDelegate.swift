@@ -24,6 +24,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CDPoint3.registerTransformers()
         ModuleEntrance.registerTransformers()
         
+        // TODO: DEBUGGING
+        
+//        let str = stride(from: 0, to: -4, by: -1)
+//        let arr = Array(str)
+//        print("&& CONTAINS: \(str.contains(-3)). ZERO: \(str.contains(0))")
+//
+//        print("&& ARR: \(arr)")
+//        print("&& ARR CONTAINS: \(arr.contains(-3)). ZERO: \(arr.contains(0))")
+        
+        
+//        let negRect = GridRect(origin: GridPoint3(0, 0, 0), size: GridPoint3(-4, 4, 1))
+//
+//        print("&& YRANGE CONTAINS: \(negRect.yRange.contains(GridPoint(3))). XSTRIDE: \(negRect.xRange.contains(GridPoint(-3)))")
+//        print("&& EQ: \(GridPoint(1) == GridPoint(1)). EQ2: \(GridPoint(-3) == GridPoint(-3))")
+//        for p in negRect.yRange { print("&& Y: \(p)") }
+//        for p in negRect.xRange { print("&& X: \(p)") }
+//
+//
+//        return true;
+        
         // Initial logic block
         let setupBlock = {
             // Load data models
