@@ -13,29 +13,13 @@ import SGYSwiftUtility
 /// Represents a rect in game (similar to CGRect in 3D) but uses a slightly different coordinate system where a rect of size 1, 1 and origin 0, 0 only contains the origin coordinate. Each 1x1 grid section has origin at bottom left for purposes of determining whether floats are contained.
 struct GridRect {
     
-    init(origin: GridPoint3, size: GridPoint3) {
-        self.origin = origin
-        // Do not allow negative sizes
-//        self.size = GridPoint3(abs(size.x.rawValue), abs(size.y.rawValue), abs(size.z.rawValue))
-        
-        self.size = GridPoint3(size.x, size.y, size.z)
-    }
-    
     var origin: GridPoint3
     var size: GridPoint3
     
-    var xRange: [GridPoint] {
-        // NOTE: Must turn stride into array as typical methods (at least `contains`) do not work properly on negative strides
-        return Array(stride(from: origin.x, to: origin.x + size.x, by: size.x.rawValue.signum()))
-    }
-    var yRange: [GridPoint] {
-        // NOTE: Must turn stride into array as typical methods (at least `contains`) do not work properly on negative strides
-        return Array(stride(from: origin.y, to: origin.y + size.y, by: size.y.rawValue.signum()))
-    }
-    var zRange: [GridPoint] {
-        // NOTE: Must turn stride into array as typical methods (at least `contains`) do not work properly on negative strides
-        return Array(stride(from: origin.z, to: origin.z + size.z, by: size.z.rawValue.signum()))
-    }
+    // NOTE: Must turn stride into array as typical methods (at least `contains`) do not work properly on negative strides
+    var xRange: [GridPoint] { return Array(stride(from: origin.x, to: origin.x + size.x, by: size.x.rawValue.signum())) }
+    var yRange: [GridPoint] { return Array(stride(from: origin.y, to: origin.y + size.y, by: size.y.rawValue.signum())) }
+    var zRange: [GridPoint] { return Array(stride(from: origin.z, to: origin.z + size.z, by: size.z.rawValue.signum())) }
     
     var allPoints: [GridPoint3] {
         var points = [GridPoint3]()
@@ -66,34 +50,16 @@ struct GridRect {
     }
     
     func rotated(by magnitude: GridRotation, around axis: GridAxis) -> GridRect {
-        var rect = self
-        // Since rect cannot be negative (which rotation could result in) it's easier to do this manually than finding an algorithm that will always translate properly.
-        switch axis {
-        case .z:
-            // Change origin
-            switch magnitude {
-            case .quarter:
-                // y-origin is reduced by x length
-                rect.origin.y -= size.x
-            case .half:
-                // y-origin is reduced by y length
-                rect.origin.y -= size.y
-                // x-origin is reduced by x length
-                rect.origin.x -= size.x
-            case .threeQuarter:
-                // x-origin is reduced by y length
-                rect.origin.x -= size.y
-            }
-            // Modify size
-            switch magnitude {
-            case .quarter, .threeQuarter:
-                rect.size.x = size.y
-                rect.size.y = size.x
-            case .half:
-                break
-            }
-        }
-        return rect
+        // Get vector pointing to other corner
+        let cornerVector = GridPoint3(size.x - origin.x, size.y - origin.y, size.z - origin.z)
+        // Rotate
+        let rotatedVector = cornerVector.rotated(by: magnitude, around: axis)
+        // Assign new size based on coords
+        var rotatedRect = self
+        rotatedRect.size.x = rotatedVector.x
+        rotatedRect.size.y = rotatedVector.y
+        rotatedRect.size.z = rotatedVector.z
+        return rotatedRect
     }
 }
 
