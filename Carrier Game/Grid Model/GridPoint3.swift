@@ -14,11 +14,12 @@ enum GridAxis {
     case z
 }
 
-enum GridRotation: Float {
-    case quarter, half, threeQuarter
+@objc enum GridRotation: Int16 {
+    case none, quarter, half, threeQuarter
     
     var radians: Float {
         switch self {
+        case .none: return 0
         case .quarter: return Float.pi / 2.0
         case .half: return Float.pi
         case .threeQuarter: return Float.pi + Float.pi / 2.0
