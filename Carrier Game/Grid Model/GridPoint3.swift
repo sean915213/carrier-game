@@ -10,6 +10,22 @@ import Foundation
 import GameplayKit
 import Accelerate
 
+enum GridAxis {
+    case z
+}
+
+enum GridRotation: Float {
+    case quarter, half, threeQuarter
+    
+    var radians: Float {
+        switch self {
+        case .quarter: return Float.pi / 2.0
+        case .half: return Float.pi
+        case .threeQuarter: return Float.pi + Float.pi / 2.0
+        }
+    }
+}
+
 // Defined because our grid points are specific and typealiasing int3 wasn't enough.
 struct GridPoint3: Hashable, Equatable {
     
@@ -75,23 +91,9 @@ extension GridPoint3 {
 
 extension GridPoint3 {
     
-    enum RotationAxis { case z }
-    
-    enum RotationMagnitude: Float {
-        case quarter, half, threeQuarter
-        
-        var radians: Float {
-            switch self {
-            case .quarter: return Float.pi / 2.0
-            case .half: return Float.pi
-            case .threeQuarter: return Float.pi + Float.pi / 2.0
-            }
-        }
-    }
-    
     // NOTE: Rotation logic largely adopted from:
     // https://developer.apple.com/documentation/accelerate/simd/working_with_matrices
-    func rotated(by magnitude: RotationMagnitude, around axis: RotationAxis, origin: GridPoint3 = .zero) -> GridPoint3 {
+    func rotated(by magnitude: GridRotation, around axis: GridAxis, origin: GridPoint3 = .zero) -> GridPoint3 {
         let angle = magnitude.radians
         // Translate point
         let point = self - origin

@@ -54,7 +54,7 @@ struct GridRect {
         return xRange.contains(point.x) && yRange.contains(point.y) && zRange.contains(point.z)
     }
     
-    func rotated(by magnitude: GridPoint3.RotationMagnitude, around axis: GridPoint3.RotationAxis) -> GridRect {
+    func rotated(by magnitude: GridRotation, around axis: GridAxis) -> GridRect {
         var rect = self
         // Since rect cannot be negative (which rotation could result in) it's easier to do this manually than finding an algorithm that will always translate properly.
         switch axis {
