@@ -10,6 +10,8 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
+// TODO: ALMOST CERTAINLY MAKE GRIDRECT A CLASS DUE TO TONS OF USES OF RANGES
+
 /// Represents a rect in game (similar to CGRect in 3D) but uses a slightly different coordinate system where a rect of size 1, 1 and origin 0, 0 only contains the origin coordinate. Each 1x1 grid section has origin at bottom left for purposes of determining whether floats are contained.
 struct GridRect {
     

@@ -266,11 +266,9 @@ extension DataSeeder {
         let cafe = ModulePlacement.insertNew(into: context)
         cafe.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
         cafe.origin = CDPoint2(x: 0, y: 0)
-        cafe.rotation = .quarter
+        cafe.rotation = .threeQuarter
         deck0.modules.insert(cafe)
     }
-    
-    
 }
 
 extension DataSeeder {

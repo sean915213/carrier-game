@@ -27,6 +27,15 @@ extension ModuleInstance {
         return GridPoint3(placement.origin, Int(deck.placement.position))
     }
     
+    var absoluteEntrances: [ModuleEntrance] {
+        let rotated: [ModuleEntrance] = blueprint.entrances.map { entrance in
+            let rotatedCoord = GridPoint3(placement.origin + entrance.coordinate, 0).rotated(by: placement.rotation, around: .z)
+            return ModuleEntrance(coordinate: CDPoint2(x: CGFloat(rotatedCoord.x), y: CGFloat(rotatedCoord.y)), zAccess: entrance.zAccess)
+        }
+        print("&& ORIG ENTRANCES: \(blueprint.entrances). ROTATED: \(rotated)")
+        return rotated
+    }
+    
     var rect: GridRect {
         let size = GridPoint3(placement.blueprint.size, 1)
         return GridRect(origin: absoluteOrigin, size: size).rotated(by: placement.rotation, around: .z)

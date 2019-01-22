@@ -24,13 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CDPoint3.registerTransformers()
         ModuleEntrance.registerTransformers()
         
-//        // TODO: DEBUGGING
-//        let r = GridRect(origin: .zero, size: GridPoint3(0, 0, 0))
-//        let r0 = GridRect(origin: .zero, size: GridPoint3(0, 0, 0))
-//        print("&& DONE")
-//
-//        return true;
-        
         // Initial logic block
         let setupBlock = {
             // Load data models

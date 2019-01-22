@@ -49,28 +49,21 @@ class ModuleEntity: GKEntity {
             guard !wallCoords.contains(coord) else { continue }
             graph.connectToAdjacentNodes(GKGridGraphNode3D(point: coord))
         }
-        
-        
-//        for entity in moduleEntities {
-//            let wallCoords = Set(entity.instance.blueprint.wallCoords.map({ GridPoint3(entity.instance.placement.origin, deckPosition) + $0 }))
-//            for coord in entity.instance.rect.allPoints {
-//                guard !wallCoords.contains(coord) else { continue }
-//                graph.connectToAdjacentNodes(GKGridGraphNode3D(point: coord))
-//            }
-//        }
         return graph
     }
     
-    // TODO: TOO MUCH LOGIC. NEED SKSPRITENODE SUBCLASS TO DETERMINE COLOR, TEXTURE, ETC
     private func makeTextureNodes() -> [SKNode] {
-        // Create rect in local space (not translated to deck)
-        let localRect = GridRect(origin: .zero, size: instance.rect.size)
-        // Get module's wall points from blueprint
-        let borderPoints = Set(instance.blueprint.wallCoords)
+        let absoluteRect = instance.rect
+        // Get points on x-y border
+        let borderArray = instance.rect.allPoints.filter { point -> Bool in
+            return point.x == instance.rect.xRange.first || point.x == instance.rect.xRange.last ||
+                    point.y == instance.rect.yRange.first || point.y == instance.rect.yRange.last
+        }
+        let borderPoints = Set(borderArray)
         // Add nodes for each coord in module
         var nodes = [SKNode]()
-        for x in localRect.xRange {
-            for y in localRect.yRange {
+        for x in absoluteRect.xRange {
+            for y in absoluteRect.yRange {
                 // A node is always made
                 let node: SKSpriteNode
                 let size = CGSize(width: 1, height: 1)
@@ -80,22 +73,23 @@ class ModuleEntity: GKEntity {
                     node.position = position
                     nodes.append(node)
                 }
+                // Check whether this is an entrance
+                if let entrance = instance.absoluteEntrances.first(where: { $0.coordinate == CDPoint2(x: CGFloat(x), y: CGFloat(y)) }) {
+                    if entrance.zAccess {
+                        node = SKSpriteNode(color: .yellow, size: size)
+                    } else {
+                        node = SKSpriteNode(color: .brown, size: size)
+                    }
+                    continue
+                }
                 // Check whether this is a wall
                 guard !borderPoints.contains(GridPoint3(position, 0)) else {
                     node = SKSpriteNode(imageNamed: "Barrel")
                     node.size = size
                     continue
                 }
-                // Check whether this is an entrance
-                if let entrance = instance.blueprint.entrances.first(where: { $0.coordinate == CDPoint2(x: CGFloat(x), y: CGFloat(y)) }) {
-                    if entrance.zAccess {
-                        node = SKSpriteNode(color: .yellow, size: size)
-                    } else {
-                        node = SKSpriteNode(color: .brown, size: size)
-                    }
-                } else {
-                    node = SKSpriteNode(color: .brown, size: size)
-                }
+                // Otherwise simply open, no-entrance texture
+                node = SKSpriteNode(color: .brown, size: size)
             }
         }
         return nodes
