@@ -10,7 +10,7 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO: ALMOST CERTAINLY MAKE GRIDRECT A CLASS DUE TO TONS OF USES OF RANGES
+// TODO: ALMOST CERTAINLY MAKE GRIDRECT A CLASS DUE TO TONS OF USES OF RANGES??
 
 /// Represents a rect in game (similar to CGRect in 3D) but uses a slightly different coordinate system where a rect of size 1, 1 and origin 0, 0 only contains the origin coordinate. Each 1x1 grid section has origin at bottom left for purposes of determining whether floats are contained.
 struct GridRect {
@@ -42,18 +42,6 @@ struct GridRect {
                     points.append(GridPoint3(x, y, z))
                 }
             }
-        }
-        return points
-    }
-    
-    // TODO: STILL USED? Not using because only useful in determining walls in a module, so far. And a simple "contains" contains every point since module rects are only 1 z-range length (so all coords are a border due to no top or bottom 'deck')
-    var borderPoints: [GridPoint3] {
-        var points = [GridPoint3]()
-        for point in allPoints {
-            guard point.x == xRange.first || point.x == xRange.last ||
-                point.y == yRange.first || point.y == yRange.last ||
-                point.z == zRange.first || point.z == zRange.last else { continue }
-            points.append(point)
         }
         return points
     }

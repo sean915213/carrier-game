@@ -32,7 +32,6 @@ extension ModuleInstance {
             let rotatedCoord = GridPoint3(placement.origin + entrance.coordinate, 0).rotated(by: placement.rotation, around: .z)
             return ModuleEntrance(coordinate: CDPoint2(x: CGFloat(rotatedCoord.x), y: CGFloat(rotatedCoord.y)), zAccess: entrance.zAccess)
         }
-        print("&& ORIG ENTRANCES: \(blueprint.entrances). ROTATED: \(rotated)")
         return rotated
     }
     
