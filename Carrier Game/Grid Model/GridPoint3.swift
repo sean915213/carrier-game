@@ -14,7 +14,7 @@ enum GridAxis {
     case z
 }
 
-@objc enum GridRotation: Int16 {
+@objc enum GridRotation: Int16, CustomDebugStringConvertible {
     case none, quarter, half, threeQuarter
     
     var radians: Float {
@@ -23,6 +23,15 @@ enum GridAxis {
         case .quarter: return Float.pi / 2.0
         case .half: return Float.pi
         case .threeQuarter: return Float.pi + Float.pi / 2.0
+        }
+    }
+    
+    var debugDescription: String {
+        switch self {
+        case .none: return "none"
+        case .quarter: return "quarter"
+        case .half: return "half"
+        case .threeQuarter: return "three quarter"
         }
     }
 }

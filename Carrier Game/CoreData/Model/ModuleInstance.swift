@@ -29,7 +29,7 @@ extension ModuleInstance {
     
     var rect: GridRect {
         let size = GridPoint3(placement.blueprint.size, 1)
-        return GridRect(origin: absoluteOrigin, size: size)
+        return GridRect(origin: absoluteOrigin, size: size).rotated(by: placement.rotation, around: .z)
     }
     
     var absoluteWallCoords: [GridPoint3] {
