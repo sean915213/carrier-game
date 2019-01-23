@@ -38,6 +38,9 @@ extension DeckInstance {
     }
     
     func findOpenCoords() -> [GridPoint3] {
+        
+        // ROTATION FIX: Utilize new methods?
+        
         // Map all coords
         let allCoords = Set(modules.flatMap({ $0.rect.allPoints }))
         // Find open coords

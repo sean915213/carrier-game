@@ -133,6 +133,9 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
             // Raise z on crewman node
             crewman.rootNode.zPosition = 100
         }
+        
+        // TODO: DEBUGGING. Forcing computation of graph
+        let graph = shipEntity.graph
     }
     
     private func setupButtonStack() {

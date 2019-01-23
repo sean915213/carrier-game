@@ -38,9 +38,6 @@ class DeckEntity: GKEntity {
     // MARK: - Methods
     
     func makeNode() -> SKNode {
-        
-        print("&& OPEN ENTRANCES: \(instance.findOpenCoords())")
-        
         let textureNode = SKNode()
         for module in moduleEntities {
             textureNode.addChild(module.makeNode())

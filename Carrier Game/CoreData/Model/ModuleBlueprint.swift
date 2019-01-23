@@ -35,12 +35,12 @@ class ModuleBlueprint: NSManagedObject, IdentifiableEntity {
 
 extension ModuleBlueprint {
     
-    var wallCoords: [GridPoint3] {
-        var coords = [GridPoint3]()
+    var wallCoords: [CDPoint2] {
+        var coords = [CDPoint2]()
         // If not automatic walls then none
         guard automaticWalls else { return coords }
         // Map entrances to a set of coords
-        let entranceCoords = Set(entrances.map({ GridPoint3($0.coordinate, 0) }))
+        let entranceCoords = Set(entrances.map({ $0.coordinate }))
         // Return border coords that are not an entrance
         let xCoords = 0..<Int(size.x)
         let yCoords = 0..<Int(size.y)
@@ -50,12 +50,15 @@ extension ModuleBlueprint {
                 guard x == xCoords.first || x == xCoords.last ||
                     y == yCoords.first || y == yCoords.last else { continue }
                 // Check whether entrance
-                let point = GridPoint3(x, y, 0)
+                let point = CDPoint2(x: CGFloat(x), y: CGFloat(y))
                 guard !entranceCoords.contains(point) else { continue }
                 // Should be wall
                 coords.append(point)
             }
         }
+        
+        print("&& MODULE WALL COORDS: \(coords)")
+        
         return coords
     }
 }

@@ -268,6 +268,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
         // Collect distances to entrances
         var distanceInfo = [(module: ModuleEntity, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])]()
         for module in modules {
+            // ROTATION FIX: Utilize new methods
             let entranceCoords = module.instance.blueprint.entrances.map { module.instance.absolutePoint(fromRelative: $0.coordinate) }
             for entrance in entranceCoords {
                 // Get node

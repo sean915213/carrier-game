@@ -53,6 +53,10 @@ struct GridPoint3: Hashable, Equatable {
         self.init(point, GridPoint(z))
     }
     
+    init(_ point: CDPoint2, _ z: Int16) {
+        self.init(point, GridPoint(z))
+    }
+    
     init(_ point: CGPoint, _ z: Int) {
         self.init(point, GridPoint(z))
     }
@@ -125,7 +129,7 @@ extension GridPoint3 {
         // Get rotated vector
         let rotatedVector = vector * rotation
         // Return as GridPoint3
-        return GridPoint3(GridPoint(rotatedVector.x), GridPoint(rotatedVector.y), point.z)
+        return GridPoint3(GridPoint(rotatedVector.x), GridPoint(rotatedVector.y), GridPoint(rotatedVector.z))
     }
 }
 

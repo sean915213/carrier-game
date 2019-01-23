@@ -196,7 +196,7 @@ extension DataSeeder {
         
         // 1 - CREW DECK
         let deck1 = DeckBlueprint.insertNew(into: context)
-        deck1.identifier = "deck.basic"
+        deck1.identifier = "deck.basic2"
         deck1.name = "Basic Deck"
         deck1.ship = ship
         // Place on ship
@@ -263,11 +263,31 @@ extension DataSeeder {
         
         // Add modules
         // - Cafe
-        let cafe = ModulePlacement.insertNew(into: context)
-        cafe.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
-        cafe.origin = CDPoint2(x: 0, y: 0)
-        cafe.rotation = .threeQuarter
-        deck0.modules.insert(cafe)
+        let cafe0 = ModulePlacement.insertNew(into: context)
+        cafe0.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
+        cafe0.origin = CDPoint2(x: 0, y: 0)
+        cafe0.rotation = .quarter
+        deck0.modules.insert(cafe0)
+        
+        // 1 - BELOW DECK
+        let deck1 = DeckBlueprint.insertNew(into: context)
+        deck1.identifier = "deck.basic2"
+        deck1.name = "Basic Deck"
+        deck1.ship = ship
+        // Place on ship
+        let deckPlacement1 = DeckPlacementBlueprint.insertNew(into: context)
+        deckPlacement1.position = 1
+        deckPlacement1.blueprint = deck1
+        // Insert placement
+        ship.decks.insert(deckPlacement1)
+        
+        // Add modules
+        // - Cafe
+        let cafe1 = ModulePlacement.insertNew(into: context)
+        cafe1.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
+        cafe1.origin = CDPoint2(x: 0, y: 0)
+        cafe1.rotation = .quarter
+        deck1.modules.insert(cafe1)
     }
 }
 

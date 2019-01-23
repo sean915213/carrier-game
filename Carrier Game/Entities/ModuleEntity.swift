@@ -34,7 +34,9 @@ class ModuleEntity: GKEntity {
         
         let textureNode = SKNode()
         let placement = instance.placement
+        
         textureNode.position = CGPoint(x: CGFloat(placement.origin.x), y: CGFloat(placement.origin.y))
+        
         for node in makeTextureNodes() {
             textureNode.addChild(node)
         }
@@ -43,6 +45,11 @@ class ModuleEntity: GKEntity {
     
     func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
         let wallCoords = Set(instance.absoluteWallCoords)
+        
+        for coord in wallCoords {
+            print("&& WALL COORD: \(coord)")
+        }
+        
         // Make graph and add nodes
         let graph = GKGridGraph3D([])
         for coord in instance.rect.allPoints {
@@ -54,12 +61,19 @@ class ModuleEntity: GKEntity {
     
     private func makeTextureNodes() -> [SKNode] {
         let absoluteRect = instance.rect
-        // Get points on x-y border
-        let borderArray = instance.rect.allPoints.filter { point -> Bool in
-            return point.x == instance.rect.xRange.first || point.x == instance.rect.xRange.last ||
-                    point.y == instance.rect.yRange.first || point.y == instance.rect.yRange.last
-        }
-        let borderPoints = Set(borderArray)
+        
+//        // Get points on x-y border
+//        let borderArray = instance.rect.allPoints.filter { point -> Bool in
+//            return point.x == instance.rect.xRange.first || point.x == instance.rect.xRange.last ||
+//                    point.y == instance.rect.yRange.first || point.y == instance.rect.yRange.last
+//        }
+//        let borderPoints = Set(borderArray)
+        
+        let borderPoints = instance.absoluteWallCoords
+        
+        print("&& BORDER POINTS (WORKING): \(borderPoints)")
+        print("&& WALL COORDS (NOT WORKIG): \(instance.absoluteWallCoords)")
+        
         // Add nodes for each coord in module
         var nodes = [SKNode]()
         for x in absoluteRect.xRange {
@@ -83,13 +97,13 @@ class ModuleEntity: GKEntity {
                     continue
                 }
                 // Check whether this is a wall
-                guard !borderPoints.contains(GridPoint3(position, 0)) else {
+                guard !borderPoints.contains(GridPoint3(position, absoluteRect.origin.z)) else {
                     node = SKSpriteNode(imageNamed: "Barrel")
                     node.size = size
                     continue
                 }
                 // Otherwise simply open, no-entrance texture
-                node = SKSpriteNode(color: .brown, size: size)
+                node = SKSpriteNode(color: .red, size: size)
             }
         }
         return nodes

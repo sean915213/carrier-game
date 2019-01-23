@@ -11,6 +11,8 @@ import UIKit
 // Defined because conversion between floating point types and an integer point on the grid is done in a specific way. So rather than creating extension on generic Int32 define our own type with this understood behavior
 struct GridPoint: RawRepresentable, Hashable {
     
+    static let zero = GridPoint(0)
+    
     init(_ point: Float) {
         self.init(CGFloat(round(point)))
     }

@@ -10,6 +10,10 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
+// TODO: POSITIONING ALL FUCKED UP AFTER ROTATIONS.
+// NEXT: Wall sprite placement is fucked up after rotation implementation.
+// THEN: First solution is to make sure all non-instance classes are producing GridPoint3. This fucks up intuitive math operations since they must assign arbitrariy z-position.
+
 class ShipEntity: GKEntity {
 
     // MARK: - Initialization
@@ -79,14 +83,17 @@ class ShipEntity: GKEntity {
             let deckGraph = deck.makeGraph()
             // Add to main graph without connections
             shipGraph.addGraph(deckGraph, connectAdjacentNodes: false)
+            
             // If this is first deck then there cannot be z connections so skip
             guard deck != orderedDecks.first else { continue }
+            
             // Get all module entrances with z-access
             var zCoords = [GridPoint3]()
             for module in deck.moduleEntities {
-                for entrance in module.instance.blueprint.entrances {
+                for entrance in module.instance.absoluteEntrances {
                     guard entrance.zAccess else { continue }
-                    zCoords.append(module.instance.absolutePoint(fromRelative: entrance.coordinate))
+                    let entranceCoord = GridPoint3(entrance.coordinate, deck.instance.placement.position)
+                    zCoords.append(entranceCoord)
                 }
             }
             // Loop and make connections
