@@ -116,8 +116,8 @@ extension GridPoint3 {
         let rotation: simd_float3x3
         switch axis {
         case .z:
-            // vector with only x and y real coords
-            vector = simd_float3([Float(point.x), Float(point.y), 1])
+            // vector representing point
+            vector = simd_float3([Float(point.x), Float(point.y), Float(point.z)])
             // Matrix for rotating x/y about the z-axis
             let rows = [
                 simd_float3( cos(angle), sin(angle), 0),
