@@ -81,6 +81,9 @@ class ShipEntity: GKEntity {
         for deck in orderedDecks {
             // Make graph
             let deckGraph = deck.makeGraph()
+            
+            print("&& DECK GRAPH NODES: \(deckGraph.nodes)")
+            
             // Add to main graph without connections
             shipGraph.addGraph(deckGraph, connectAdjacentNodes: false)
             
@@ -99,7 +102,9 @@ class ShipEntity: GKEntity {
             // Loop and make connections
             for coord in zCoords {
                 guard let node = deckGraph.node(atPoint: coord) else {
-                    fatalError("No graph node already mapped for open z coord.")
+                    print("&& SKIPPING Z-CHECK TEMPORARILY. BAD COORD: \(coord)")
+                    continue
+//                    fatalError("No graph node already mapped for open z coord.")
                 }
                 // Find an existing node at the below floor or skip
                 guard let openZBelowNode = shipGraph.node(atPoint: coord - GridPoint3(0, 0, 1)) else {

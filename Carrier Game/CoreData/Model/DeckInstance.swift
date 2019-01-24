@@ -42,7 +42,7 @@ extension DeckInstance {
         // ROTATION FIX: Utilize new methods?
         
         // Map all coords
-        let allCoords = Set(modules.flatMap({ $0.rect.allPoints }))
+        let allCoords = Set(modules.flatMap({ $0.absoluteRect.allPoints }))
         // Find open coords
         var openCoords = [GridPoint3]()
         for module in modules {

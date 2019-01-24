@@ -57,7 +57,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
     var currentModule: ModuleEntity {
         // Find module crewman is in
         return currentDeck.moduleEntities.first(where: { module -> Bool in
-            return module.instance.rect.contains(GridPoint3(instance.position))
+            return module.instance.absoluteRect.contains(GridPoint3(instance.position))
         })!
     }
     
@@ -238,7 +238,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
         // If active movement (which should be a previous meander) then skip
         if movementComponent.path != nil { return }
         // Find a random coordinate within this module
-        let rect = currentModule.instance.rect
+        let rect = currentModule.instance.absoluteRect
         
         // TODO: IS RANDOMELEMENT() WORKING? WAS USING INT.RANDOM
         // TODO: ALSO- need to not force unwrap here. Something wrong with range type/model.

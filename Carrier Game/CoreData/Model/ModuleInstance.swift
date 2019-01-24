@@ -23,15 +23,8 @@ extension ModuleInstance {
         return placement.blueprint
     }
     
-    var rect: GridRect {
+    var absoluteRect: GridRect {
         let size = GridPoint3(placement.blueprint.size, 1)
-        
-        // TODO: DEBUGGING
-        let result = GridRect(origin: absoluteOrigin, size: size).rotated(by: placement.rotation, around: .z)
-        if result.size.z.rawValue == 0 {
-            print("&& WTF LOST SIZE")
-        }
-        
         return GridRect(origin: absoluteOrigin, size: size).rotated(by: placement.rotation, around: .z)
     }
     
@@ -56,7 +49,10 @@ extension ModuleInstance {
     }
     
     func absolutePoint(fromRelative point: GridPoint3) -> GridPoint3 {
-        return (absoluteOrigin + point).rotated(by: placement.rotation, around: .z)
+        // Be safe
+        assert(point.z == absoluteOrigin.z, "Point outside containing deck's bounds.")
+        // Rotations are linear so easiest thing to do is rotate *first*, then translate by x & y
+        return point.rotated(by: placement.rotation, around: .z, origin: .zero) + GridPoint3(placement.origin, 0)
     }
 }
 

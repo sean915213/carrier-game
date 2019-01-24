@@ -52,7 +52,7 @@ class ModuleEntity: GKEntity {
         
         // Make graph and add nodes
         let graph = GKGridGraph3D([])
-        for coord in instance.rect.allPoints {
+        for coord in instance.absoluteRect.allPoints {
             guard !wallCoords.contains(coord) else { continue }
             graph.connectToAdjacentNodes(GKGridGraphNode3D(point: coord))
         }
@@ -60,20 +60,9 @@ class ModuleEntity: GKEntity {
     }
     
     private func makeTextureNodes() -> [SKNode] {
-        let absoluteRect = instance.rect
-        
-//        // Get points on x-y border
-//        let borderArray = instance.rect.allPoints.filter { point -> Bool in
-//            return point.x == instance.rect.xRange.first || point.x == instance.rect.xRange.last ||
-//                    point.y == instance.rect.yRange.first || point.y == instance.rect.yRange.last
-//        }
-//        let borderPoints = Set(borderArray)
-        
+        let absoluteRect = instance.absoluteRect
+        // Get points on x-y border
         let borderPoints = instance.absoluteWallCoords
-        
-        print("&& BORDER POINTS (WORKING): \(borderPoints)")
-        print("&& WALL COORDS (NOT WORKIG): \(instance.absoluteWallCoords)")
-        
         // Add nodes for each coord in module
         var nodes = [SKNode]()
         for x in absoluteRect.xRange {
