@@ -51,6 +51,11 @@ class ModuleEntity: GKEntity {
             guard !wallCoords.contains(coord) else { continue }
             graph.connectToAdjacentNodes(GKGridGraphNode3D(point: coord))
         }
+        
+        if graph.nodes!.isEmpty {
+            print("&& EMPTY")
+        }
+        
         return graph
     }
     

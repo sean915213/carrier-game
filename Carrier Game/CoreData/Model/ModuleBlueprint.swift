@@ -52,14 +52,7 @@ extension ModuleBlueprint {
                     y == yCoords.first || y == yCoords.last else { continue }
                 // Check whether entrance
                 let point = CDPoint2(x: CGFloat(x), y: CGFloat(y))
-                
-                if point == CDPoint2(x: 0, y: 2) {
-                    print("&& FOUND")
-                }
-                
-                guard !entranceCoords.contains(point) else {
-                    continue
-                }
+                guard !entranceCoords.contains(point) else { continue }
                 // Should be wall
                 coords.append(point)
             }

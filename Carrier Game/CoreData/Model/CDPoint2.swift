@@ -30,7 +30,7 @@ class CDPoint2: NSObject, Codable {
     
     var x: CGFloat
     var y: CGFloat
-    
+
     // TODO: MOVE
     
     override var hash: Int {

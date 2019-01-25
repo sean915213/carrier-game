@@ -81,15 +81,10 @@ class ShipEntity: GKEntity {
         for deck in orderedDecks {
             // Make graph
             let deckGraph = deck.makeGraph()
-            
-            print("&& DECK GRAPH NODES: \(deckGraph.nodes)")
-            
             // Add to main graph without connections
             shipGraph.addGraph(deckGraph, connectAdjacentNodes: false)
-            
             // If this is first deck then there cannot be z connections so skip
             guard deck != orderedDecks.first else { continue }
-            
             // Get all module entrances with z-access
             var zCoords = [GridPoint3]()
             for module in deck.moduleEntities {
@@ -102,9 +97,7 @@ class ShipEntity: GKEntity {
             // Loop and make connections
             for coord in zCoords {
                 guard let node = deckGraph.node(atPoint: coord) else {
-                    print("&& SKIPPING Z-CHECK TEMPORARILY. BAD COORD: \(coord)")
-                    continue
-//                    fatalError("No graph node already mapped for open z coord.")
+                    fatalError("No existing node mapped for entrance coord with z-access.")
                 }
                 // Find an existing node at the below floor or skip
                 guard let openZBelowNode = shipGraph.node(atPoint: coord - GridPoint3(0, 0, 1)) else {

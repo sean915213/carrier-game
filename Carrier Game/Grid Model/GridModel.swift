@@ -51,16 +51,9 @@ struct GridRect {
     }
     
     func rotated(by magnitude: GridRotation, around axis: GridAxis) -> GridRect {
-        // Get vector pointing to other corner
-        let cornerVector = GridPoint3(size.x - origin.x, size.y - origin.y, size.z - origin.z)
-        // Rotate
-        let rotatedVector = cornerVector.rotated(by: magnitude, around: axis)
-        // Assign new size based on coords
-        var rotatedRect = self
-        rotatedRect.size.x = rotatedVector.x
-        rotatedRect.size.y = rotatedVector.y
-        rotatedRect.size.z = rotatedVector.z
-        return rotatedRect
+        // Rotate this size point (essentially a vector in local space pointing to the far-most corner of this rect)
+        let rotatedSize = size.rotated(by: magnitude, around: axis)
+        return GridRect(origin: origin, size: rotatedSize)
     }
 }
 
