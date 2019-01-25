@@ -45,11 +45,6 @@ class ModuleEntity: GKEntity {
     
     func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
         let wallCoords = Set(instance.absoluteWallCoords)
-        
-        for coord in wallCoords {
-            print("&& WALL COORD: \(coord)")
-        }
-        
         // Make graph and add nodes
         let graph = GKGridGraph3D([])
         for coord in instance.absoluteRect.allPoints {
@@ -76,6 +71,12 @@ class ModuleEntity: GKEntity {
                     node.position = position
                     nodes.append(node)
                 }
+                // Check whether this is a wall
+                guard !borderPoints.contains(GridPoint3(position, absoluteRect.origin.z)) else {
+                    node = SKSpriteNode(imageNamed: "Barrel")
+                    node.size = size
+                    continue
+                }
                 // Check whether this is an entrance
                 if let entrance = instance.absoluteEntrances.first(where: { $0.coordinate == CDPoint2(x: CGFloat(x), y: CGFloat(y)) }) {
                     if entrance.zAccess {
@@ -83,12 +84,6 @@ class ModuleEntity: GKEntity {
                     } else {
                         node = SKSpriteNode(color: .brown, size: size)
                     }
-                    continue
-                }
-                // Check whether this is a wall
-                guard !borderPoints.contains(GridPoint3(position, absoluteRect.origin.z)) else {
-                    node = SKSpriteNode(imageNamed: "Barrel")
-                    node.size = size
                     continue
                 }
                 // Otherwise simply open, no-entrance texture

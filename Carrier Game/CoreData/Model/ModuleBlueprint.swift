@@ -35,6 +35,7 @@ class ModuleBlueprint: NSManagedObject, IdentifiableEntity {
 
 extension ModuleBlueprint {
     
+    // TODO: Use necessary? Could most things instead use instance's absoluteRect?
     var wallCoords: [CDPoint2] {
         var coords = [CDPoint2]()
         // If not automatic walls then none
@@ -51,14 +52,18 @@ extension ModuleBlueprint {
                     y == yCoords.first || y == yCoords.last else { continue }
                 // Check whether entrance
                 let point = CDPoint2(x: CGFloat(x), y: CGFloat(y))
-                guard !entranceCoords.contains(point) else { continue }
+                
+                if point == CDPoint2(x: 0, y: 2) {
+                    print("&& FOUND")
+                }
+                
+                guard !entranceCoords.contains(point) else {
+                    continue
+                }
                 // Should be wall
                 coords.append(point)
             }
         }
-        
-        print("&& MODULE WALL COORDS: \(coords)")
-        
         return coords
     }
 }

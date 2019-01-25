@@ -32,6 +32,14 @@ class CDPoint2: NSObject, Codable {
     var y: CGFloat
     
     // TODO: MOVE
+    
+    override var hash: Int {
+        var hasher = Hasher()
+        hasher.combine(x)
+        hasher.combine(y)
+        return hasher.finalize()
+    }
+    
     override func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? CDPoint2 else { return false }
         return x == object.x && y == object.y

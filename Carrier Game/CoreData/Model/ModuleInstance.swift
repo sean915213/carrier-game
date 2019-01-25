@@ -51,7 +51,7 @@ extension ModuleInstance {
     func absolutePoint(fromRelative point: GridPoint3) -> GridPoint3 {
         // Be safe
         assert(point.z == absoluteOrigin.z, "Point outside containing deck's bounds.")
-        // Rotations are linear so easiest thing to do is rotate *first*, then translate by x & y
+        // Rotations are linear so easiest thing to do is rotate *first* around relative origin (zero), then translate by x & y
         return point.rotated(by: placement.rotation, around: .z, origin: .zero) + GridPoint3(placement.origin, 0)
     }
 }
