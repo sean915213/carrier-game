@@ -67,7 +67,6 @@ class ShipEntity: GKEntity {
         let newShift = CrewmanShift(date: instance.time)!
         if newShift != oldShift {
             logger.logInfo("New shift: \(newShift).")
-            print("&& SHIFT CHANGE DIFF: \(instance.time.timeIntervalSince(oldDate))")
         }
         super.update(deltaTime: seconds)
     }
