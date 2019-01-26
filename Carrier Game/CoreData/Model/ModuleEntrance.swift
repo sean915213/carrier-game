@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SGYSwiftUtility
 
 extension NSValueTransformerName {
     static let moduleEntranceTransformer = NSValueTransformerName("ModuleEntranceTransformer")
@@ -16,8 +17,8 @@ extension NSValueTransformerName {
 class ModuleEntrance: NSObject, Codable {
     
     static func registerTransformers() {
-        ValueTransformer.setValueTransformer(JSONTransformer<ModuleEntrance>(), forName: .moduleEntranceTransformer)
-        ValueTransformer.setValueTransformer(JSONTransformer<Set<ModuleEntrance>>(), forName: .moduleEntranceSetTransformer)
+        ValueTransformer.setValueTransformer(JSONValueTransformer<ModuleEntrance>(), forName: .moduleEntranceTransformer)
+        ValueTransformer.setValueTransformer(JSONValueTransformer<Set<ModuleEntrance>>(), forName: .moduleEntranceSetTransformer)
     }
     
     init(coordinate: CDPoint2, zAccess: Bool) {

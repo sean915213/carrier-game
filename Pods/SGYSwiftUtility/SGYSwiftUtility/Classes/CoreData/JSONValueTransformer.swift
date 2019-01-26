@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class JSONTransformer<T>: ValueTransformer where T: Codable {
+public class JSONValueTransformer<T>: ValueTransformer where T: Codable {
     
     override public class func transformedValueClass() -> AnyObject.Type {
         return NSData.self

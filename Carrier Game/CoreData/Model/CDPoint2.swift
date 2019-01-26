@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import GameKit
+import SGYSwiftUtility
 
 extension NSValueTransformerName {
     static let point2Transformer = NSValueTransformerName("CDPoint2Transformer")
@@ -20,8 +21,8 @@ class CDPoint2: NSObject, Codable {
     // MARK: - Initialization
     
     static func registerTransformers() {
-        ValueTransformer.setValueTransformer(JSONTransformer<CDPoint2>(), forName: .point2Transformer)
-        ValueTransformer.setValueTransformer(JSONTransformer<Set<CDPoint2>>(), forName: .point2SetTransformer)
+        ValueTransformer.setValueTransformer(JSONValueTransformer<CDPoint2>(), forName: .point2Transformer)
+        ValueTransformer.setValueTransformer(JSONValueTransformer<Set<CDPoint2>>(), forName: .point2SetTransformer)
     }
     
     init(x: CGFloat, y: CGFloat) {

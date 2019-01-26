@@ -23,7 +23,6 @@
 		743152CE219CE6AA00E3101F /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152CD219CE6AA00E3101F /* Action.swift */; };
 		743152D2219CE80E00E3101F /* ModuleNeedBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152D1219CE80E00E3101F /* ModuleNeedBlueprint.swift */; };
 		743152D4219CF43D00E3101F /* CDPoint2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152D3219CF43D00E3101F /* CDPoint2.swift */; };
-		74405C66218E247500BA3A69 /* JSONTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C65218E247500BA3A69 /* JSONTransformer.swift */; };
 		74405C72218E438200BA3A69 /* DeckInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C71218E438100BA3A69 /* DeckInstance.swift */; };
 		74405C74218E44E100BA3A69 /* ModuleInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C73218E44E100BA3A69 /* ModuleInstance.swift */; };
 		74405C76218E476800BA3A69 /* IdentifiableEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C75218E476800BA3A69 /* IdentifiableEntity.swift */; };
@@ -78,7 +77,6 @@
 		743152CD219CE6AA00E3101F /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		743152D1219CE80E00E3101F /* ModuleNeedBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleNeedBlueprint.swift; sourceTree = "<group>"; };
 		743152D3219CF43D00E3101F /* CDPoint2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPoint2.swift; sourceTree = "<group>"; };
-		74405C65218E247500BA3A69 /* JSONTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONTransformer.swift; sourceTree = "<group>"; };
 		74405C71218E438100BA3A69 /* DeckInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckInstance.swift; sourceTree = "<group>"; };
 		74405C73218E44E100BA3A69 /* ModuleInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleInstance.swift; sourceTree = "<group>"; };
 		74405C75218E476800BA3A69 /* IdentifiableEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableEntity.swift; sourceTree = "<group>"; };
@@ -177,14 +175,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		74612C5321FCE81800006E15 /* Transformers */ = {
-			isa = PBXGroup;
-			children = (
-				74405C65218E247500BA3A69 /* JSONTransformer.swift */,
-			);
-			path = Transformers;
-			sourceTree = "<group>";
-		};
 		748C49D721E6CBAE004019D4 /* Grid Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,7 +229,6 @@
 		74BA5CE02183CAA30039A2D5 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				74612C5321FCE81800006E15 /* Transformers */,
 				74BA5CEB2183D3CF0039A2D5 /* Model */,
 				74BA5CE62183CD0D0039A2D5 /* Model.xcdatamodeld */,
 				74BA5CE92183D1610039A2D5 /* DataSeeder.swift */,
@@ -424,7 +413,6 @@
 				74BDA04221926F950034DD20 /* CGRectExtensions.swift in Sources */,
 				74BA5CEA2183D1610039A2D5 /* DataSeeder.swift in Sources */,
 				7415562621BC9F9A009EA087 /* TimeIntervalExtension.swift in Sources */,
-				74405C66218E247500BA3A69 /* JSONTransformer.swift in Sources */,
 				74405C7C218E516D00BA3A69 /* ShipInstance.swift in Sources */,
 				74405C7A218E4F9B00BA3A69 /* ShipBlueprint.swift in Sources */,
 				74405C7E218E57C300BA3A69 /* ModulePlacement.swift in Sources */,
