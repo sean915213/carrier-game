@@ -21,21 +21,13 @@ class DeckInstance: NSManagedObject {
 
 extension DeckInstance {
     
-    class func insertNew(into context: NSManagedObjectContext, using placement: DeckPlacementBlueprint) -> DeckInstance {
-        // Make instance
-        let deck = DeckInstance.insertNew(into: context)
-        deck.placement = placement
-        // Make modules
-        for placement in placement.blueprint.modules {
-            let instance = ModuleInstance.insertNew(into: context, using: placement)
-            deck.modules.insert(instance)
-        }
-        return deck
-    }
+    // MARK: - Properties
     
     var moduleBlueprints: [ModuleBlueprint] {
         return modules.map { $0.blueprint }
     }
+    
+    // MARK: - Methods
     
     func findOpenCoords() -> [GridPoint3] {
         // Map all coords
@@ -65,5 +57,19 @@ extension DeckInstance {
             }
         }
         return openCoords
+    }
+}
+
+extension DeckInstance {
+    class func insertNew(into context: NSManagedObjectContext, using placement: DeckPlacementBlueprint) -> DeckInstance {
+        // Make instance
+        let deck = DeckInstance.insertNew(into: context)
+        deck.placement = placement
+        // Make modules
+        for placement in placement.blueprint.modules {
+            let instance = ModuleInstance.insertNew(into: context, using: placement)
+            deck.modules.insert(instance)
+        }
+        return deck
     }
 }

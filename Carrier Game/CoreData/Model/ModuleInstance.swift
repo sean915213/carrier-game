@@ -19,6 +19,8 @@ class ModuleInstance: NSManagedObject {
 
 extension ModuleInstance {
     
+    // MARK: - Properties
+    
     var blueprint: ModuleBlueprint {
         return placement.blueprint
     }
@@ -43,6 +45,8 @@ extension ModuleInstance {
     var absoluteWallCoords: [GridPoint3] {
         return blueprint.wallCoords.map({ absolutePoint(fromRelative: $0) })
     }
+    
+    // MARK: - Methods
     
     func absolutePoint(fromRelative point: CDPoint2) -> GridPoint3 {
         return absolutePoint(fromRelative: GridPoint3(point, deck.placement.position))
