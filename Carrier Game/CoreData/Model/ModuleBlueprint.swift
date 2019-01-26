@@ -59,9 +59,3 @@ extension ModuleBlueprint {
         return coords
     }
 }
-
-typealias ModuleAttribute = String
-extension ModuleAttribute {
-    static let crewSupported = "crew_supported"
-    static let engineThrust = "engine_thrust"
-}

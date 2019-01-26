@@ -32,6 +32,7 @@
 		74405C7E218E57C300BA3A69 /* ModulePlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C7D218E57C300BA3A69 /* ModulePlacement.swift */; };
 		74612C5121FCE79D00006E15 /* GridRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74612C5021FCE79D00006E15 /* GridRect.swift */; };
 		74612C5521FCE9FD00006E15 /* ModuleEntrance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74612C5421FCE9FD00006E15 /* ModuleEntrance.swift */; };
+		74612C5921FCF2D500006E15 /* ModuleAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74612C5821FCF2D500006E15 /* ModuleAttribute.swift */; };
 		7471650D21AE0D2500F5AA48 /* ShipEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650C21AE0D2500F5AA48 /* ShipEntity.swift */; };
 		7471650F21AE0E1400F5AA48 /* DeckEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650E21AE0E1400F5AA48 /* DeckEntity.swift */; };
 		747D271A2191210C00ECFA45 /* DeckPlacementBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747D27192191210C00ECFA45 /* DeckPlacementBlueprint.swift */; };
@@ -86,6 +87,7 @@
 		74405C7D218E57C300BA3A69 /* ModulePlacement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulePlacement.swift; sourceTree = "<group>"; };
 		74612C5021FCE79D00006E15 /* GridRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridRect.swift; sourceTree = "<group>"; };
 		74612C5421FCE9FD00006E15 /* ModuleEntrance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntrance.swift; sourceTree = "<group>"; };
+		74612C5821FCF2D500006E15 /* ModuleAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleAttribute.swift; sourceTree = "<group>"; };
 		7471650C21AE0D2500F5AA48 /* ShipEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipEntity.swift; sourceTree = "<group>"; };
 		7471650E21AE0E1400F5AA48 /* DeckEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckEntity.swift; sourceTree = "<group>"; };
 		747D27192191210C00ECFA45 /* DeckPlacementBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckPlacementBlueprint.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				740FD03521B5FCB400C34FF8 /* ModuleJobInstance.swift */,
 				74B97DD321B9FC23009973A3 /* CDPoint3.swift */,
 				74612C5421FCE9FD00006E15 /* ModuleEntrance.swift */,
+				74612C5821FCF2D500006E15 /* ModuleAttribute.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				7415562421BC818C009EA087 /* SceneController.swift in Sources */,
 				743152CE219CE6AA00E3101F /* Action.swift in Sources */,
 				74612C5521FCE9FD00006E15 /* ModuleEntrance.swift in Sources */,
+				74612C5921FCF2D500006E15 /* ModuleAttribute.swift in Sources */,
 				742C3643219A4D87007FA1B5 /* CrewmanEntity.swift in Sources */,
 				7415562021BC6CC3009EA087 /* GKGridGraph3D.swift in Sources */,
 				74BDA04221926F950034DD20 /* CGRectExtensions.swift in Sources */,

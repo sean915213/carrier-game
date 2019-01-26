@@ -70,15 +70,3 @@ extension DeckInstance {
         return openCoords
     }
 }
-
-// TODO: MOVE
-extension Array where Element == [ModuleAttribute: Double] {
-    
-    func combined() -> [ModuleAttribute: Double] {
-        var allAttributes = [ModuleAttribute: Double]()
-        for attributes in self {
-            allAttributes.merge(attributes, uniquingKeysWith: +)
-        }
-        return allAttributes
-    }
-}
