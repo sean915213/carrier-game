@@ -108,6 +108,8 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         }
         // Assign new deck info
         currentDeck = (entity: entity, node: newNode)
+        
+        print("&& DECK OPEN COORDS: \(currentDeck!.entity.instance.findOpenCoords())")
     }
     
     private func setupCamera() {
@@ -193,6 +195,9 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         
         
         logger.logInfo("Tapped grid point: \(GridPoint(point.x)), \(GridPoint(point.y)).")
+        let absPoint = GridPoint3(GridPoint(point.x), GridPoint(point.y), GridPoint(currentDeck!.entity.instance.placement.position))
+        let openPoints = currentDeck!.entity.instance.findOpenCoords()
+        print("&& OPEN COORD?: \(openPoints.contains(absPoint))")
         
 //        print("&& PT IN DECK: \(scene.convert(point, to: currentDeck!.node))")
         

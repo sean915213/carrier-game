@@ -38,16 +38,13 @@ extension DeckInstance {
     }
     
     func findOpenCoords() -> [GridPoint3] {
-        
-        // ROTATION FIX: Utilize new methods?
-        
         // Map all coords
         let allCoords = Set(modules.flatMap({ $0.absoluteRect.allPoints }))
         // Find open coords
         var openCoords = [GridPoint3]()
         for module in modules {
-            for entrance in module.blueprint.entrances {
-                let coord = module.absolutePoint(fromRelative: entrance.coordinate)
+            for entrance in module.absoluteEntrances {
+                let coord = GridPoint3(entrance.coordinate, placement.position)
                 // Check for surrounding
                 guard allCoords.contains(coord + GridPoint3(-1, 0, 0)) else {
                     openCoords.append(coord)
