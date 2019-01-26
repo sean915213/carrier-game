@@ -10,10 +10,6 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO: NEXT.
-// AUTOMATICALLY SEAL ENTRANCES IF FACING OUTSIDE SHIP?
-// ANND: BETTER SYSTEM FOR CREATING SPRITE NODES BASED ON A TYPE??
-
 class DeckEntity: GKEntity {
 
     // MARK: - Initialization
@@ -39,8 +35,11 @@ class DeckEntity: GKEntity {
     
     func makeNode() -> SKNode {
         let textureNode = SKNode()
+        textureNode.name = "Deck [\(instance.placement.position)]"
         for module in moduleEntities {
-            textureNode.addChild(module.makeNode())
+            let node = module.makeNode()
+            print("&& NODE POS: \(node.position)")
+            textureNode.addChild(node)
         }
         return textureNode
     }
