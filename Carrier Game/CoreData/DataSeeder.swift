@@ -377,6 +377,51 @@ extension DataSeeder {
         let blueprint = try! ShipBlueprint.entityWithIdentifier("ship.test2", using: context)!
         let ship = ShipInstance.insertNew(into: context, using: blueprint)
         ship.name = "Test Ship 2"
+        // - Get list of jobs
+        let allJobs = ship.allModules.flatMap({ $0.jobs })
+        
+        // CREWMEN
+        let crew1 = CrewmanInstance.insertNew(into: context)
+        crew1.name = "Crew 1"
+        crew1.position = CDPoint3(x: -2, y: 2, z: 0)
+        crew1.shift = .second
+        ship.crewmen.insert(crew1)
+        // Job (Weapon)
+        crew1.job = allJobs.first(where: { $0.blueprint.action == .weapon })!
+        // Needs
+        // - Sleep
+        let sleepNeed1 = CrewmanNeed.insertNew(into: context)
+        sleepNeed1.action = .sleep
+        sleepNeed1.priority = .normal
+        sleepNeed1.decayFactor = ActionFactor.overShift / 2 // Should decay over 2 shifts shift
+        crew1.needs.insert(sleepNeed1)
+        // - Food
+        let foodNeed1 = CrewmanNeed.insertNew(into: context)
+        foodNeed1.action = .food
+        foodNeed1.priority = .normal
+        foodNeed1.decayFactor = ActionFactor.overShift // Should decay over a single shift
+        crew1.needs.insert(foodNeed1)
+        
+        let crew2 = CrewmanInstance.insertNew(into: context)
+        crew2.name = "Crew 2"
+        crew2.position = CDPoint3(x: -2, y: 0, z: 0)
+        crew2.shift = .second
+        ship.crewmen.insert(crew2)
+        // Job (Engineer)
+        crew2.job = allJobs.first(where: { $0.blueprint.action == .cook })!
+        // Needs
+        // - Sleep
+        let sleepNeed2 = CrewmanNeed.insertNew(into: context)
+        sleepNeed2.action = .sleep
+        sleepNeed2.priority = .normal
+        sleepNeed2.decayFactor = ActionFactor.overShift // Should decay over a single shift
+        crew2.needs.insert(sleepNeed2)
+        // - Food
+        let foodNeed2 = CrewmanNeed.insertNew(into: context)
+        foodNeed2.action = .food
+        foodNeed2.priority = .normal
+        foodNeed2.decayFactor = ActionFactor.overShift / 2 // Should decay over 2 shifts
+        crew2.needs.insert(foodNeed2)
     }
 }
 
