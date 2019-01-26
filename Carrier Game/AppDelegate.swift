@@ -24,12 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CDPoint3.registerTransformers()
         ModuleEntrance.registerTransformers()
         
-        // TODO: DEBUGGING
-//        let origRect = GridRect.init(origin: .zero, size: GridPoint3(5, 5, 1))
-//        let rotRect = origRect.rotated(by: .quarter, around: .z)
-//        print("&& ORIG: \(origRect). ROTATED: \(rotRect)")
-//        return true;
-        
         // Initial logic block
         let setupBlock = {
             // Load data models
@@ -39,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // TODO: FETCHING TEST SHIP
                 let fetch = ShipInstance.makeFetchRequest()
-                fetch.predicate = NSPredicate(format: "name = %@", "Test Ship 2")
+                fetch.predicate = NSPredicate(format: "name = %@", "Test Ship 1")
                 let ship: ShipInstance = try! NSPersistentContainer.model.viewContext.fetch(fetch)!
                 
                 // Display controller

@@ -84,7 +84,7 @@ class ModuleEntity: GKEntity {
                     continue
                 }
                 // Otherwise simply open, no-entrance texture
-                node = SKSpriteNode(color: .red, size: size)
+                node = SKSpriteNode(color: .white, size: size)
             }
         }
         return nodes
