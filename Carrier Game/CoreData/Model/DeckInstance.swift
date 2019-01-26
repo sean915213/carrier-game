@@ -36,22 +36,21 @@ extension DeckInstance {
         var openCoords = [GridPoint3]()
         for module in modules {
             for entrance in module.absoluteEntrances {
-                let coord = GridPoint3(entrance.coordinate, placement.position)
                 // Check for surrounding
-                guard allCoords.contains(coord + GridPoint3(-1, 0, 0)) else {
-                    openCoords.append(coord)
+                guard allCoords.contains(entrance.coordinate + GridPoint3(-1, 0, 0)) else {
+                    openCoords.append(entrance.coordinate)
                     continue
                 }
-                guard allCoords.contains(coord + GridPoint3(1, 0, 0)) else {
-                    openCoords.append(coord)
+                guard allCoords.contains(entrance.coordinate + GridPoint3(1, 0, 0)) else {
+                    openCoords.append(entrance.coordinate)
                     continue
                 }
-                guard allCoords.contains(coord + GridPoint3(0, 1, 0)) else {
-                    openCoords.append(coord)
+                guard allCoords.contains(entrance.coordinate + GridPoint3(0, 1, 0)) else {
+                    openCoords.append(entrance.coordinate)
                     continue
                 }
-                guard allCoords.contains(coord + GridPoint3(0, -1, 0)) else {
-                    openCoords.append(coord)
+                guard allCoords.contains(entrance.coordinate + GridPoint3(0, -1, 0)) else {
+                    openCoords.append(entrance.coordinate)
                     continue
                 }
             }

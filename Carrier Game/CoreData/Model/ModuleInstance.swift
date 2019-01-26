@@ -34,12 +34,11 @@ extension ModuleInstance {
         return GridPoint3(placement.origin, Int(deck.placement.position))
     }
     
-    var absoluteEntrances: [ModuleEntrance] {
-        let rotated: [ModuleEntrance] = blueprint.entrances.map { entrance in
-            let translatedEntrance = absolutePoint(fromRelative: entrance.coordinate)
-            return ModuleEntrance(coordinate: CDPoint2(x: CGFloat(translatedEntrance.x), y: CGFloat(translatedEntrance.y)), zAccess: entrance.zAccess)
+    var absoluteEntrances: [ModuleEntrance3D] {
+        return blueprint.entrances.map { entrance in
+            let translatedCoord = absolutePoint(fromRelative: entrance.coordinate)
+            return ModuleEntrance3D(coordinate: translatedCoord, zAccess: entrance.zAccess)
         }
-        return rotated
     }
     
     var absoluteWallCoords: [GridPoint3] {

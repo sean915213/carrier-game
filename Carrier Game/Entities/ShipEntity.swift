@@ -85,8 +85,7 @@ class ShipEntity: GKEntity {
             for module in deck.moduleEntities {
                 for entrance in module.instance.absoluteEntrances {
                     guard entrance.zAccess else { continue }
-                    let entranceCoord = GridPoint3(entrance.coordinate, deck.instance.placement.position)
-                    zCoords.append(entranceCoord)
+                    zCoords.append(entrance.coordinate)
                 }
             }
             // Loop and make connections

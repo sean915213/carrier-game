@@ -266,7 +266,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
         // Collect distances to entrances
         var distanceInfo = [(module: ModuleEntity, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])]()
         for module in modules {
-            let entranceCoords = module.instance.absoluteEntrances.map { GridPoint3($0.coordinate, module.instance.deck.placement.position) }
+            let entranceCoords = module.instance.absoluteEntrances.map { $0.coordinate }
             for entrance in entranceCoords {
                 // Get node
                 guard let node = ship.graph.node(atPoint: entrance) else {
