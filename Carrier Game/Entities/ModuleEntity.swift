@@ -53,6 +53,7 @@ class ModuleEntity: GKEntity {
     }
     
     private func makeTextureNodes() -> [SKNode] {
+        // NOTE: Texture nodes are placed according to *relative* position since they are attached to one main node that is placed at the placement's origin and rotated as needed.
         let borderPoints = Set(instance.blueprint.wallCoords)
         var nodes = [SKNode]()
         for x in GridPoint.zero..<GridPoint(instance.blueprint.size.x) {
