@@ -130,12 +130,12 @@ class CrewmanEntity: GKEntity, StatsProvider {
                 // TODO: Implement logic for finding new job
                 fatalError("Crewman without pre-assigned job not implemented.")
             }
+            logger.logInfo("Beginning work [\(job.blueprint.action)].)")
             // If current module contains this job then set working and be done
             guard !currentModule.instance.jobs.contains(job) else {
                 status = .busy(.work, ship.instance.time)
                 return
             }
-            logger.logInfo("Beginning work [\(job.blueprint.action)].)")
             // Get module entity with job
             let moduleEntity = ship.moduleEntities.first(where: { $0.instance.jobs.contains(job) })!
             // Get path to job module
@@ -147,8 +147,10 @@ class CrewmanEntity: GKEntity, StatsProvider {
             // Move to module and set status when completed
             movementComponent.setPath(nodes: jobInfo.path) { result in
                 // NOTE: Do not set idle if interrupted- this means we had something better to do and will result in this state change overriding the state set for the new 'mission'
-                // Set back to idle
-                if result != .interrupted { self.status = .idle }
+                if result != .interrupted {
+                    // Return to idle
+                    self.status = .idle
+                }
             }
         } else {
             // - NEEDS

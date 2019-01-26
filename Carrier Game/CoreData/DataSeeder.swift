@@ -404,7 +404,7 @@ extension DataSeeder {
         
         let crew2 = CrewmanInstance.insertNew(into: context)
         crew2.name = "Crew 2"
-        crew2.position = CDPoint3(x: -2, y: 0, z: 0)
+        crew2.position = CDPoint3(x: -3, y: 3, z: 0)
         crew2.shift = .second
         ship.crewmen.insert(crew2)
         // Job (Engineer)
