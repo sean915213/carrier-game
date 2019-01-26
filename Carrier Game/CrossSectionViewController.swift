@@ -102,6 +102,9 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         currentDeck?.node.removeFromParent()
         // Add new deck's texture node
         let newNode = entity.makeNode()
+        
+        print("&& ADDING DECK NODE AT: \(newNode.position)")
+        
         scene.addChild(newNode)
         // Update all crewman's movement component
         for crewman in shipEntity.crewmanEntities {
@@ -191,9 +194,26 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         // TAP LOGIC
         // Print point as grid
         
-        let np = scene.convert(point, to: currentDeck!.node)
+//        let np = scene.convert(point, to: currentDeck!.node)
+//        let np = currentDeck!.node.convert(point, from: scene)
+//        let np = scene.convert(point, to: currentDeck!.node)
         
-        logger.logInfo("Tapped grid point: \(GridPoint(point.x)), \(GridPoint(point.y)). NEW: \(np). POINT: \(point)")
+        
+        
+        logger.logInfo("Tapped grid point: \(GridPoint(point.x)), \(GridPoint(point.y)).")
+        
+//        print("&& PT IN DECK: \(scene.convert(point, to: currentDeck!.node))")
+        
+//        for node in nodes {
+//            print("&& TAPPED: \(node)")
+//        }
+        
+        
+        
+//        for node in nodes {
+//            print("&& TAPPED NODE [\(node.position)]: \(node). CONV: \(node.convert(point, from: scene))")
+//        }
+        
         // Find associated crewman
         let crewmen = shipEntity.crewmanEntities.filter({ nodes.contains($0.rootNode) })
         for crewman in crewmen {

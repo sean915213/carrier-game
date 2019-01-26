@@ -96,6 +96,12 @@ extension Int {
     }
 }
 
+extension CDPoint2 {
+    convenience init(x: GridPoint, y: GridPoint) {
+        self.init(x: CGFloat(x.rawValue), y: CGFloat(y.rawValue))
+    }
+}
+
 extension CGPoint {
     init(x: GridPoint, y: GridPoint) {
         self = CGPoint(x: x.rawValue, y: y.rawValue)
