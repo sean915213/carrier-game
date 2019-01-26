@@ -9,8 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-// TODO NEXT: makeTextureNodes() is wrong. Using absolute positioning, but node hierarchy dictates a relative position. So texture placement is probably off?? Would explain issues with click translation to relative deck coords?
-
 class ModuleEntity: GKEntity {
     
     // MARK: - Initialization
@@ -31,20 +29,15 @@ class ModuleEntity: GKEntity {
     // MARK: - Methods
     
     func makeNode() -> SKNode {
-        
-//        print("&& MODULE ATTR: \(instance.blueprint.attributes). ENTRANCES: \(instance.blueprint.entrances). WALLS?: \(instance.blueprint.automaticWalls). ROTATION: \(instance.placement.rotation)")
-        
         let textureNode = SKNode()
         textureNode.name = "Module: \(String(describing: self))"
         let placement = instance.placement
-        
         textureNode.position = CGPoint(x: CGFloat(placement.origin.x), y: CGFloat(placement.origin.y))
-        
-        print("&& MODULE TEXTURE NODE POSITION: \(textureNode.position)")
-        
         for node in makeTextureNodes() {
             textureNode.addChild(node)
         }
+        // Rotate
+        textureNode.zRotation = CGFloat(placement.rotation.radians)
         return textureNode
     }
     
@@ -69,9 +62,6 @@ class ModuleEntity: GKEntity {
                 let node: SKSpriteNode
                 let size = CGSize(width: 1, height: 1)
                 let position = CGPoint(x: x, y: y)
-                
-                print("&& NODE POS: \(position)")
-                
                 // Assign position and add when finished
                 defer {
                     node.name = "Texture"
