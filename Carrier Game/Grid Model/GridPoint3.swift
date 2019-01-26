@@ -133,3 +133,9 @@ extension GridPoint3 {
     }
 }
 
+extension CDPoint3 {
+    convenience init(_ point: GridPoint3) {
+        self.init(x: Float(point.x.rawValue), y: Float(point.y.rawValue), z: Float(point.z.rawValue))
+    }
+}
+

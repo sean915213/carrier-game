@@ -10,10 +10,6 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO: POSITIONING ALL FUCKED UP AFTER ROTATIONS.
-// NEXT: Wall sprite placement is fucked up after rotation implementation.
-// THEN: First solution is to make sure all non-instance classes are producing GridPoint3. This fucks up intuitive math operations since they must assign arbitrariy z-position.
-
 class ShipEntity: GKEntity {
 
     // MARK: - Initialization

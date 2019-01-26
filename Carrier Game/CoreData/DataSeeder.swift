@@ -30,7 +30,7 @@ enum DataSeeder {
     }
     
     static func removeAllData(completed: @escaping (Error?) -> Void) {
-        NSPersistentContainer.model.deleteAllStores { error in
+        NSPersistentContainer.model.destroyAllStores { error in
             if error == nil {
                 // Reset defaults
                 UserDefaults.standard.set(false, forKey: seededDefaultsKey)
@@ -426,18 +426,9 @@ extension DataSeeder {
 }
 
 // TODO: MOVE TO UTILITY
-extension NamedManagedObject {
-    
-    static func insertNew(into context: NSManagedObjectContext) -> Self {
-        return NSEntityDescription.insertNewObject(forEntityClass: Self.self, into: context)
-    }
-}
-
-// TODO: WHY DOESN'T THIS WORK?
-
-//extension Set {
-//
-//    func insert<T>(contentsOf contents: T) where T: Sequence, T.Element == Element {
-//        for item in contents { self.insert(item) }
+//extension NamedManagedObject {
+//    
+//    static func insertNew(into context: NSManagedObjectContext) -> Self {
+//        return NSEntityDescription.insertNewObject(forEntityClass: Self.self, into: context)
 //    }
 //}

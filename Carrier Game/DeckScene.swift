@@ -9,13 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-//protocol DeckSceneDelegate: SKSceneDelegate {
-//
-//    func deckScene(_: DeckScene, got)
-//
-//
-//}
-
 class DeckScene: SKScene {
     
     // MARK: - Initialization

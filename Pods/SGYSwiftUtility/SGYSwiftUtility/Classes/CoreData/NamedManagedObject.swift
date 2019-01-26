@@ -18,7 +18,19 @@ extension NSManagedObject: NamedManagedObject {
 
 extension NamedManagedObject {
     // NOTE: fetchRequest() has an ambigious use issue so need to rename to use more easily. Also, cannot just add this to NSManagedObject because the type specific fetchRequest() class method is *generated*, and not part of the NSManagedObject class definition
+    
+    /// Constructs an `NSFetchRequest` using this type.
+    ///
+    /// - Returns: An instance of `NSFetchRequest<Self>`
     public static func makeFetchRequest() -> NSFetchRequest<Self> {
         return NSFetchRequest<Self>(entityName: Self.entityName)
+    }
+    
+    /// Inserts a new object of this type into the provided context.
+    ///
+    /// - Parameter context: The `NSManagedObjectContext` to insert the new instance into.
+    /// - Returns: A newly inserted instance of `Self`.
+    public static func insertNew(into context: NSManagedObjectContext) -> Self {
+        return NSEntityDescription.insertNewObject(forEntityClass: Self.self, into: context)
     }
 }

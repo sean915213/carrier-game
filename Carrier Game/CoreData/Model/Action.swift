@@ -8,8 +8,6 @@
 
 import Foundation
 
-// TODO: NOT ADDED TO COREDATA MODEL
-
 @objc enum Action: Int16, CustomDebugStringConvertible {
     case sleep, weapon, engineer, cook, food
     

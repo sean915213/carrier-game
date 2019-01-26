@@ -11,6 +11,8 @@ import SpriteKit
 import SGYSwiftUtility
 import CoreData
 
+// TODO: NOT USED? But looks useful.
+
 class SceneController {
     
     // MARK: - Initialization

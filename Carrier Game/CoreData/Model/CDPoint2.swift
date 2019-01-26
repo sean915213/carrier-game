@@ -17,6 +17,8 @@ extension NSValueTransformerName {
 
 class CDPoint2: NSObject, Codable {
     
+    // MARK: - Initialization
+    
     static func registerTransformers() {
         ValueTransformer.setValueTransformer(JSONTransformer<CDPoint2>(), forName: .point2Transformer)
         ValueTransformer.setValueTransformer(JSONTransformer<Set<CDPoint2>>(), forName: .point2SetTransformer)
@@ -28,11 +30,13 @@ class CDPoint2: NSObject, Codable {
         super.init()
     }
     
+    // MARK: - Properties
+    
     var x: CGFloat
     var y: CGFloat
-
-    // TODO: MOVE
     
+    // MARK: - Methods
+
     override var hash: Int {
         var hasher = Hasher()
         hasher.combine(x)

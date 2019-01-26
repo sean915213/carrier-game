@@ -241,12 +241,8 @@ class CrewmanEntity: GKEntity, StatsProvider {
         if movementComponent.path != nil { return }
         // Find a random coordinate within this module
         let rect = currentModule.instance.absoluteRect
-        
-        // TODO: IS RANDOMELEMENT() WORKING? WAS USING INT.RANDOM
-        // TODO: ALSO- need to not force unwrap here. Something wrong with range type/model.
         let xCoord = rect.xRange.randomElement()!
         let yCoord = rect.yRange.randomElement()!
-        
         // Check for open node here
         guard let node = ship.graph.node(atPoint: GridPoint3(xCoord, yCoord, GridPoint(currentDeck.instance.placement.position))) else {
             return
@@ -275,8 +271,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
             for entrance in entranceCoords {
                 // Get node
                 guard let node = ship.graph.node(atPoint: entrance) else {
-                    // TODO: Better logging
-                    logger.logError("Unable to find node for entrance. Module: \(module.instance.blueprint.name). Entrance: \(entrance)")
+                    logger.logError("Unable to find node for entrance. Module: \(module.instance.blueprint.name). Entrance: \(entrance).")
                     continue
                 }
                 // Get path
