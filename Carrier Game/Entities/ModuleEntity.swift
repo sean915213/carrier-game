@@ -31,13 +31,11 @@ class ModuleEntity: GKEntity {
     func makeNode() -> SKNode {
         let textureNode = SKNode()
         textureNode.name = "Module: \(String(describing: self))"
-        let placement = instance.placement
-        textureNode.position = CGPoint(x: CGFloat(placement.origin.x), y: CGFloat(placement.origin.y))
-        for node in makeTextureNodes() {
-            textureNode.addChild(node)
-        }
+        textureNode.position = CGPoint(instance.placement.origin)
+        // Add child node for each grid point in module
+        for node in makeTextureNodes() { textureNode.addChild(node) }
         // Rotate
-        textureNode.zRotation = CGFloat(placement.rotation.radians)
+        textureNode.zRotation = CGFloat(instance.placement.rotation.radians)
         return textureNode
     }
     
