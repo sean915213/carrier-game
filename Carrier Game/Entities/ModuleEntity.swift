@@ -36,6 +36,17 @@ class ModuleEntity: GKEntity {
         for node in makeTextureNodes() { textureNode.addChild(node) }
         // Rotate
         textureNode.zRotation = CGFloat(instance.placement.rotation.radians)
+        
+        // TODO: TESTING
+//        if instance.blueprint.identifier == "weapon.laser.small" {
+//            let colorNode = SKSpriteNode(color: UIColor.green.withAlphaComponent(0.4), size: CGSize(width: instance.blueprint.size.x, height: instance.blueprint.size.y))
+//            colorNode.anchorPoint = .zero
+//            colorNode.position = CGPoint(x: -0.5, y: -0.5)
+//            textureNode.addChild(colorNode)
+//            print("&& MODIFIED NODE. BP SIZE: \(instance.blueprint.size). NODE AT: \(colorNode.position)")
+//        }
+        
+        
         return textureNode
     }
     

@@ -46,8 +46,12 @@ class CrewmanEntity: GKEntity, StatsProvider {
         return component(ofType: GKSKNodeComponent.self)!.node
     }
     
+    var gridPosition: GridPoint3 {
+        return GridPoint3(rootNode.position, GridPoint(instance.position.z))
+    }
+    
     var graphNode: GKGridGraphNode3D {
-        return ship.graph.node(atPoint: GridPoint3(rootNode.position, GridPoint(currentDeck.instance.placement.position)))!
+        return ship.graph.node(atPoint: gridPosition)!
     }
     
     var currentDeck: DeckEntity {
@@ -57,7 +61,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
     var currentModule: ModuleEntity {
         // Find module crewman is in
         return currentDeck.moduleEntities.first(where: { module -> Bool in
-            return module.instance.absoluteRect.contains(GridPoint3(instance.position))
+            return module.instance.absoluteRect.contains(gridPosition)
         })!
     }
     
