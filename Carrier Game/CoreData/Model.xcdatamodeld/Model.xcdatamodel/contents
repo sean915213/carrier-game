@@ -27,7 +27,7 @@
         <relationship name="ship" maxCount="1" deletionRule="Nullify" destinationEntity="ShipInstance" inverseName="decks" inverseEntity="ShipInstance" syncable="YES"/>
     </entity>
     <entity name="DeckPlacementBlueprint" representedClassName=".DeckPlacementBlueprint" syncable="YES">
-        <attribute name="position" attributeType="Integer 16" minValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="position" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="blueprint" maxCount="1" deletionRule="Nullify" destinationEntity="DeckBlueprint" syncable="YES"/>
         <relationship name="ship" maxCount="1" deletionRule="Nullify" destinationEntity="ShipBlueprint" inverseName="decks" inverseEntity="ShipBlueprint" syncable="YES"/>
     </entity>

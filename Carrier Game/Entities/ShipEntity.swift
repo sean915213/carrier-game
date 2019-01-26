@@ -110,3 +110,10 @@ class ShipEntity: GKEntity {
         return shipGraph
     }
 }
+
+extension ShipEntity {
+    
+    func deck(at position: Int) -> DeckEntity? {
+        return deckEntities.first { $0.instance.placement.position == position }
+    }
+}

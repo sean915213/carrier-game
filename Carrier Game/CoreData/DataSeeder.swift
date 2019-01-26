@@ -60,7 +60,7 @@ enum DataSeeder {
         bridgeModule.size = CDPoint2(x: 5, y: 5)
         bridgeModule.mass = Measurement(value: 3, unit: UnitMass.kilograms)
         // Entrances
-        bridgeModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 1), zAccess: false))
+        bridgeModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 2, y: 0), zAccess: false))
         
         // Lift
         let liftModule = NSEntityDescription.insertNewObject(forEntityClass: ModuleBlueprint.self, into: context)
@@ -262,32 +262,59 @@ extension DataSeeder {
         ship.decks.insert(deckPlacement0)
         
         // Add modules
-        // - Cafe
-        let cafe0 = ModulePlacement.insertNew(into: context)
-        cafe0.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
-        cafe0.origin = CDPoint2(x: 2, y: 0)
-        cafe0.rotation = .quarter
-        deck0.modules.insert(cafe0)
+        // - Bridge
+        let bridge = ModulePlacement.insertNew(into: context)
+        bridge.blueprint = try! ModuleBlueprint.entityWithIdentifier("bridge.small", using: context)!
+        bridge.origin = CDPoint2(x: 0, y: 0)
+        bridge.rotation = .quarter
+        deck0.modules.insert(bridge)
+        // - Cooridors
+        for point in [CDPoint2(x: 1, y: 2), CDPoint2(x: 2, y: 2), CDPoint2(x: 3, y: 2), CDPoint2(x: 4, y: 2), CDPoint2(x: 4, y: 3)] {
+            let module = ModulePlacement.insertNew(into: context)
+            module.blueprint = try! ModuleBlueprint.entityWithIdentifier("cooridor.1x1", using: context)!
+            module.origin = point
+            deck0.modules.insert(module)
+        }
+        // - Laser
+        let laser = ModulePlacement.insertNew(into: context)
+        laser.blueprint = try! ModuleBlueprint.entityWithIdentifier("weapon.laser.small", using: context)!
+        laser.origin = CDPoint2(x: 3, y: 1)
+        laser.rotation = .threeQuarter
+        deck0.modules.insert(laser)
+        // - Lift
+        let lift = ModulePlacement.insertNew(into: context)
+        lift.blueprint = try! ModuleBlueprint.entityWithIdentifier("lift", using: context)!
+        lift.origin = CDPoint2(x: 4, y: 4)
+        deck0.modules.insert(lift)
         
         // 1 - BELOW DECK
         let deck1 = DeckBlueprint.insertNew(into: context)
         deck1.identifier = "deck.basic2"
-        deck1.name = "Basic Deck"
+        deck1.name = "Below Deck"
         deck1.ship = ship
         // Place on ship
         let deckPlacement1 = DeckPlacementBlueprint.insertNew(into: context)
-        deckPlacement1.position = 1
+        deckPlacement1.position = -1
         deckPlacement1.blueprint = deck1
         // Insert placement
         ship.decks.insert(deckPlacement1)
-        
+
         // Add modules
+        // - Lift
+        let lift1 = ModulePlacement.insertNew(into: context)
+        lift1.blueprint = try! ModuleBlueprint.entityWithIdentifier("lift", using: context)!
+        lift1.origin = CDPoint2(x: 4, y: 4)
+        deck1.modules.insert(lift1)
         // - Cafe
-        let cafe1 = ModulePlacement.insertNew(into: context)
-        cafe1.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
-        cafe1.origin = CDPoint2(x: 2, y: 0)
-        cafe1.rotation = .half
-        deck1.modules.insert(cafe1)
+        let cafe = ModulePlacement.insertNew(into: context)
+        cafe.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
+        cafe.origin = CDPoint2(x: -1, y: 2)
+        deck1.modules.insert(cafe)
+        // - Quarters
+        let quarters = ModulePlacement.insertNew(into: context)
+        quarters.blueprint = try! ModuleBlueprint.entityWithIdentifier("quarters.small", using: context)!
+        quarters.origin = CDPoint2(x: 5, y: 2)
+        deck1.modules.insert(quarters)
     }
 }
 
@@ -351,8 +378,6 @@ extension DataSeeder {
         let ship = ShipInstance.insertNew(into: context, using: blueprint)
         ship.name = "Test Ship 2"
     }
-    
-    
 }
 
 // TODO: MOVE TO UTILITY

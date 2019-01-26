@@ -90,10 +90,8 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         setupRecognizers()
         // Setup button stack
         setupButtonStack()
-        
-        // View first deck
-        displayDeck(entity: shipEntity.deckEntities.first!)
-
+        // View origin deck
+        displayDeck(entity: shipEntity.deck(at: 0)!)
     }
     
     private func displayDeck(entity: DeckEntity) {
@@ -102,9 +100,6 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         currentDeck?.node.removeFromParent()
         // Add new deck's texture node
         let newNode = entity.makeNode()
-        
-        print("&& ADDING DECK NODE AT: \(newNode.position)")
-        
         scene.addChild(newNode)
         // Update all crewman's movement component
         for crewman in shipEntity.crewmanEntities {
@@ -136,9 +131,6 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
             // Raise z on crewman node
             crewman.rootNode.zPosition = 100
         }
-        
-        // TODO: DEBUGGING. Forcing computation of graph
-        let graph = shipEntity.graph
     }
     
     private func setupButtonStack() {
@@ -170,7 +162,7 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         if shipEntity.deckEntities.last == deck {
             return shipEntity.deckEntities.first!
         } else {
-            return shipEntity.deckEntities[Int(deck.instance.placement.position + 1)]
+            return shipEntity.deck(at: Int(deck.instance.placement.position + 1))!
         }
     }
     
