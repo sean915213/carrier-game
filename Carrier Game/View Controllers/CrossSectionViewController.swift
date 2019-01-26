@@ -108,8 +108,6 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         }
         // Assign new deck info
         currentDeck = (entity: entity, node: newNode)
-        
-        print("&& DECK OPEN COORDS: \(currentDeck!.entity.instance.findOpenCoords())")
     }
     
     private func setupCamera() {
@@ -183,35 +181,10 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
     @objc private func recognizedTap(_ recognizer: UITapGestureRecognizer) {
         // Convert tap to scene coord system
         let point = scene.convertPoint(fromView: recognizer.location(in: view))
-        // Get nodes
-        let nodes = scene.nodes(at: point)
         // TAP LOGIC
-        // Print point as grid
-        
-//        let np = scene.convert(point, to: currentDeck!.node)
-//        let np = currentDeck!.node.convert(point, from: scene)
-//        let np = scene.convert(point, to: currentDeck!.node)
-        
-        
-        
         logger.logInfo("Tapped grid point: \(GridPoint(point.x)), \(GridPoint(point.y)).")
-        let absPoint = GridPoint3(GridPoint(point.x), GridPoint(point.y), GridPoint(currentDeck!.entity.instance.placement.position))
-        let openPoints = currentDeck!.entity.instance.findOpenCoords()
-        print("&& OPEN COORD?: \(openPoints.contains(absPoint))")
-        
-//        print("&& PT IN DECK: \(scene.convert(point, to: currentDeck!.node))")
-        
-//        for node in nodes {
-//            print("&& TAPPED: \(node)")
-//        }
-        
-        
-        
-//        for node in nodes {
-//            print("&& TAPPED NODE [\(node.position)]: \(node). CONV: \(node.convert(point, from: scene))")
-//        }
-        
         // Find associated crewman
+        let nodes = scene.nodes(at: point)
         let crewmen = shipEntity.crewmanEntities.filter({ nodes.contains($0.rootNode) })
         for crewman in crewmen {
             // Add or remove from stat report on scene
