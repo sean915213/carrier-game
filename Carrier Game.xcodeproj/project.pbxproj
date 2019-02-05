@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74048369220919B8002B67BD /* Deck2DViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74048368220919B8002B67BD /* Deck2DViewController.swift */; };
 		740FD03621B5FCB400C34FF8 /* ModuleJobInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740FD03521B5FCB400C34FF8 /* ModuleJobInstance.swift */; };
 		7415561E21BB3CBC009EA087 /* MovementComponentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415561D21BB3CBC009EA087 /* MovementComponentProtocol.swift */; };
 		7415562021BC6CC3009EA087 /* GKGridGraph3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415561F21BC6CC3009EA087 /* GKGridGraph3D.swift */; };
@@ -63,6 +64,7 @@
 
 /* Begin PBXFileReference section */
 		5E91DE9759731EDC5892EA1A /* Pods-Carrier Game.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrier Game.release.xcconfig"; path = "Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game.release.xcconfig"; sourceTree = "<group>"; };
+		74048368220919B8002B67BD /* Deck2DViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck2DViewController.swift; sourceTree = "<group>"; };
 		740FD03521B5FCB400C34FF8 /* ModuleJobInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleJobInstance.swift; sourceTree = "<group>"; };
 		7415561D21BB3CBC009EA087 /* MovementComponentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponentProtocol.swift; sourceTree = "<group>"; };
 		7415561F21BC6CC3009EA087 /* GKGridGraph3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GKGridGraph3D.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				749CB1582177F8C400949734 /* CrossSectionViewController.swift */,
 				749CB1502177E8F200949734 /* BuildViewController.swift */,
 				74BA5CF521867F190039A2D5 /* ModuleListViewController */,
+				74048368220919B8002B67BD /* Deck2DViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				74405C74218E44E100BA3A69 /* ModuleInstance.swift in Sources */,
 				740FD03621B5FCB400C34FF8 /* ModuleJobInstance.swift in Sources */,
 				74BA5CE52183CB640039A2D5 /* NSPersistentContainerExtension.swift in Sources */,
+				74048369220919B8002B67BD /* Deck2DViewController.swift in Sources */,
 				74B97DD421B9FC23009973A3 /* CDPoint3.swift in Sources */,
 				749CB1512177E8F200949734 /* BuildViewController.swift in Sources */,
 				747D271A2191210C00ECFA45 /* DeckPlacementBlueprint.swift in Sources */,
