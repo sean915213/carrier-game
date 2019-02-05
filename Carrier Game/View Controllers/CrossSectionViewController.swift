@@ -35,17 +35,23 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         return view as! SKView
     }
     
+    private var scene: DeckScene {
+        return sceneController.scene as! DeckScene
+    }
+    
     private lazy var shipEntity: ShipEntity = {
         return ShipEntity(ship: ship)
     }()
     
-    private lazy var scene: DeckScene = {
+    private lazy var sceneController: SceneController = {
+        // Create scene
         let scene = DeckScene(size: CGSize(width: 50, height: 50))
         scene.scaleMode = .aspectFit
         // Add camera
         scene.addChild(camera)
         scene.camera = camera
-        return scene
+        // Make controller
+        return SceneController(scene: scene, context: NSPersistentContainer.model.viewContext)
     }()
     
     private lazy var camera: SKCameraNode = {
@@ -59,8 +65,6 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         button.addTarget(self, action: #selector(toggleDeck), for: .touchUpInside)
         return button
     }()
-    
-    private var sceneController: SceneController?
     
     private var currentDeck: (entity: DeckEntity, node: SKNode)? {
         didSet {
@@ -78,10 +82,8 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Assign scene controller
-        sceneController = SceneController(scene: scene)
         // Present scene
-        skView.presentScene(scene)
+        skView.presentScene(sceneController.scene)
         // Setup camera
         setupCamera()
         // Setup ship
@@ -92,6 +94,10 @@ class CrossSectionViewController: UIViewController, ModuleListViewControllerDele
         setupButtonStack()
         // View origin deck
         displayDeck(entity: shipEntity.deck(at: 0)!)
+        
+        // TODO: TESTING EDIT
+        sceneController.autoManagePause = false
+        scene.isPaused = true
     }
     
     private func displayDeck(entity: DeckEntity) {
