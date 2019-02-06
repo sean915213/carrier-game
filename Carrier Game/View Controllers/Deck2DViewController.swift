@@ -39,6 +39,10 @@ class Deck2DViewController: UIViewController {
         return sceneController.scene as! DeckScene
     }
     
+    var cameraScale: CGFloat = 1.0 {
+        didSet { camera.setScale(cameraScale) }
+    }
+    
     private(set) lazy var shipEntity: ShipEntity = {
         return ShipEntity(ship: ship)
     }()
@@ -55,8 +59,9 @@ class Deck2DViewController: UIViewController {
     }()
     
     private(set) lazy var camera: SKCameraNode = {
-        let camera = SKCameraNode()
-        return camera
+        let node = SKCameraNode()
+        node.setScale(cameraScale)
+        return node
     }()
     
     private(set) lazy var optionsStack: UIStackView = {
@@ -104,6 +109,10 @@ class Deck2DViewController: UIViewController {
         displayDeck(entity: shipEntity.deck(at: 0)!)
     }
     
+    func applyCameraPan(position: CGPoint, totalDelta: CGPoint) {
+        camera.position = position
+    }
+    
     private func displayDeck(entity: DeckEntity) {
         logger.logInfo("Displaying deck: \(entity.instance.placement.position).")
         // If another deck's node is currently displayed then remove
@@ -122,9 +131,8 @@ class Deck2DViewController: UIViewController {
     
     private func setupCamera() {
         // TODO: ALL TEMPORARY
-        camera.xScale = 0.3
-        camera.yScale = 0.3
-        camera.position = CGPoint(x: 5, y: 0)
+        camera.position = CGPoint(x: 0, y: 0)
+        cameraScale = 0.3
     }
     
     private func setupShip() {
@@ -156,6 +164,7 @@ class Deck2DViewController: UIViewController {
     private func setupRecognizers() {
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(recognizedTap(_:))))
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(recognizedPan(_:))))
+        view.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(recognizedPinch(_:))))
     }
     
     private func nextDeck() -> DeckEntity {
@@ -171,6 +180,17 @@ class Deck2DViewController: UIViewController {
     
     @objc private func toggleDeck() {
         displayDeck(entity: nextDeck())
+    }
+    
+    @objc private func recognizedPinch(_ recognizer: UIPinchGestureRecognizer) {
+        switch recognizer.state {
+        case .began, .changed:
+            // Invert scale since we're changing the camera and not the scene being viewed
+            cameraScale *= 1.0 / recognizer.scale
+            recognizer.scale = 1.0
+        default:
+            break
+        }
     }
     
     @objc private func recognizedTap(_ recognizer: UITapGestureRecognizer) {
@@ -197,6 +217,7 @@ class Deck2DViewController: UIViewController {
             return
         }
         let translation = recognizer.translation(in: view)
+
         // Get delta by subtracting new value from current translation (still in view coord system)
         let delta = translation - lastTranslation
         // Translate camera position to view coords
@@ -204,8 +225,11 @@ class Deck2DViewController: UIViewController {
         // Add delta and then translate back to scene coords
         cameraPos -= delta
         let newCameraPos = scene.convertPoint(fromView: cameraPos)
+        
+        print("&& NEW CAMERA POS: \(newCameraPos). CONVERTED TRANSLATION: \(scene.convertPoint(fromView: delta))")
+        
         // Assign new position
-        camera.position = newCameraPos
+        applyCameraPan(position: newCameraPos, totalDelta: scene.convertPoint(fromView: translation))
         // Assign last translation
         lastTranslation = translation
     }

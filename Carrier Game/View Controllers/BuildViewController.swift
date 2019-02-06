@@ -9,6 +9,8 @@
 import UIKit
 import SceneKit
 
+// TODO: Seems like an old proof of concept
+
 class BuildViewController: UIViewController {
     
     // MARK: - Initialization
