@@ -12,6 +12,8 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
+// TODO: NEXT- Can now add modules and then add an overlay GKSKNodeComponent (or something) to show they're being added. But, how to create an instance without a set position from the selected ModulePrint in our delegate?
+
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate {
     
     // MARK: - Initialization
@@ -19,12 +21,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     // MARK: - Properties
     
     private var editingNode: SKNode?
-    
-//    override var cameraScale: CGFloat {
-//        didSet {
-//            editingNode?.setScale(1.0 / cameraScale)
-//        }
-//    }
     
     private var panningEditNode = false
     // TODO: Somehow allow this class and base class to share this variable? Funnel panning through common overridable method?
