@@ -16,7 +16,6 @@
 		742C3640219A4CAC007FA1B5 /* DeckScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C363F219A4CAC007FA1B5 /* DeckScene.swift */; };
 		742C3643219A4D87007FA1B5 /* CrewmanEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */; };
 		742C3646219A4DE2007FA1B5 /* MovementComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */; };
-		742C3648219A4FB5007FA1B5 /* SpriteComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3647219A4FB5007FA1B5 /* SpriteComponent.swift */; };
 		742C364A219A6258007FA1B5 /* ModuleEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3649219A6258007FA1B5 /* ModuleEntity.swift */; };
 		743152C8219CE50100E3101F /* CrewmanInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152C7219CE50100E3101F /* CrewmanInstance.swift */; };
 		743152CA219CE58000E3101F /* CrewmanNeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152C9219CE58000E3101F /* CrewmanNeed.swift */; };
@@ -73,7 +72,6 @@
 		742C363F219A4CAC007FA1B5 /* DeckScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckScene.swift; sourceTree = "<group>"; };
 		742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanEntity.swift; sourceTree = "<group>"; };
 		742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponent2D.swift; sourceTree = "<group>"; };
-		742C3647219A4FB5007FA1B5 /* SpriteComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteComponent.swift; sourceTree = "<group>"; };
 		742C3649219A6258007FA1B5 /* ModuleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntity.swift; sourceTree = "<group>"; };
 		743152C7219CE50100E3101F /* CrewmanInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanInstance.swift; sourceTree = "<group>"; };
 		743152C9219CE58000E3101F /* CrewmanNeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanNeed.swift; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 			children = (
 				7415561C21BB3C5E009EA087 /* Protocols */,
 				742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */,
-				742C3647219A4FB5007FA1B5 /* SpriteComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -413,7 +410,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				742C3648219A4FB5007FA1B5 /* SpriteComponent.swift in Sources */,
 				7415562421BC818C009EA087 /* SceneController.swift in Sources */,
 				743152CE219CE6AA00E3101F /* Action.swift in Sources */,
 				74612C5521FCE9FD00006E15 /* ModuleEntrance.swift in Sources */,

@@ -26,29 +26,15 @@ class ModuleEntity: GKEntity {
     
     let instance: ModuleInstance
     
-    // MARK: - Methods
+    // TODO: Should be a node component that adheres to protocol since entity should not care whether it's in 2D or 3D environment?
+    private(set) lazy var mainNodeComponent: GKSKNodeComponent = {
+        // Add component and return
+        let component = GKSKNodeComponent(node: makeMainNode())
+        addComponent(component)
+        return component
+    }()
     
-    func makeNode() -> SKNode {
-        let textureNode = SKNode()
-        textureNode.name = "Module: \(String(describing: self))"
-        textureNode.position = CGPoint(instance.placement.origin)
-        // Add child node for each grid point in module
-        for node in makeTextureNodes() { textureNode.addChild(node) }
-        // Rotate
-        textureNode.zRotation = CGFloat(instance.placement.rotation.radians)
-        
-        // TODO: TESTING
-//        if instance.blueprint.identifier == "weapon.laser.small" {
-//            let colorNode = SKSpriteNode(color: UIColor.green.withAlphaComponent(0.4), size: CGSize(width: instance.blueprint.size.x, height: instance.blueprint.size.y))
-//            colorNode.anchorPoint = .zero
-//            colorNode.position = CGPoint(x: -0.5, y: -0.5)
-//            textureNode.addChild(colorNode)
-//            print("&& MODIFIED NODE. BP SIZE: \(instance.blueprint.size). NODE AT: \(colorNode.position)")
-//        }
-        
-        
-        return textureNode
-    }
+    // MARK: - Methods
     
     func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
         let wallCoords = Set(instance.absoluteWallCoords)
@@ -61,10 +47,14 @@ class ModuleEntity: GKEntity {
         return graph
     }
     
-    private func makeTextureNodes() -> [SKNode] {
+    private func makeMainNode() -> SKNode {
+        // Make main node
+        let mainNode = SKNode()
+        mainNode.name = "Module: \(String(describing: self))"
+        mainNode.position = CGPoint(instance.placement.origin)
+        mainNode.zRotation = CGFloat(instance.placement.rotation.radians)
         // NOTE: Texture nodes are placed according to *relative* position since they are attached to one main node that is placed at the placement's origin and rotated as needed.
         let borderPoints = Set(instance.blueprint.wallCoords)
-        var nodes = [SKNode]()
         for x in GridPoint.zero..<GridPoint(instance.blueprint.size.x) {
             for y in GridPoint.zero..<GridPoint(instance.blueprint.size.y) {
                 let point = CDPoint2(x: x, y: y)
@@ -76,7 +66,7 @@ class ModuleEntity: GKEntity {
                 defer {
                     node.name = "Texture"
                     node.position = position
-                    nodes.append(node)
+                    mainNode.addChild(node)
                 }
                 // Check whether this is a wall
                 guard !borderPoints.contains(point) else {
@@ -97,6 +87,6 @@ class ModuleEntity: GKEntity {
                 node = SKSpriteNode(color: .white, size: size)
             }
         }
-        return nodes
+        return mainNode
     }
 }
