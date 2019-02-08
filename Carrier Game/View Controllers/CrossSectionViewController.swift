@@ -20,11 +20,15 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     private var editingNode: SKNode?
     
-    override var cameraScale: CGFloat {
-        didSet {
-            editingNode?.setScale(1.0 / cameraScale)
-        }
-    }
+//    override var cameraScale: CGFloat {
+//        didSet {
+//            editingNode?.setScale(1.0 / cameraScale)
+//        }
+//    }
+    
+    private var panningEditNode = false
+    // TODO: Somehow allow this class and base class to share this variable? Funnel panning through common overridable method?
+    private var lastTranslation: CGPoint = .zero
     
     // MARK: - Methods
     
@@ -37,22 +41,10 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         
         // TODO: TESTING
         let testSprite = SKSpriteNode(color: .green, size: CGSize(width: 5, height: 5))
-        testSprite.setScale(1.0 / cameraScale)
+//        testSprite.setScale(1.0 / cameraScale)
         editingNode = testSprite
-        // Add to camera
-        camera.addChild(testSprite)
-    }
-    
-    override func applyCameraPan(position: CGPoint, totalDelta: CGPoint) {
-        super.applyCameraPan(position: position, totalDelta: totalDelta)
-        print("&& NEW CAMERA POS: \(camera.position)")
         
-//        let pos = CGPoint(x: round(position.x), y: round(position.y))
-//        print("&& PAN POS: \(pos)")
-//
-//
-//        // Override and only pan by integer
-//        camera.position = CGPoint(x: round(position.x), y: round(position.y))
+        scene.addChild(testSprite)
     }
     
     private func addModuleButton() {
@@ -68,6 +60,38 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         let listController = ModuleListViewController()
         listController.delegate = self
         present(listController, animated: true, completion: nil)
+    }
+    
+    // MARK: Actions
+    
+    override func recognizedPan(_ recognizer: UIPanGestureRecognizer) {
+        switch recognizer.state {
+        case .began:
+            // Determine if initial pan started on editing node
+            let scenePoint = scene.convertPoint(fromView: recognizer.location(in: view))
+            if let editingNode = editingNode, scene.nodes(at: scenePoint).contains(editingNode) {
+                // Toggle panning of edit node
+                panningEditNode = true
+            }
+        case .ended:
+            // Reset panning variables
+            lastTranslation = .zero
+            panningEditNode = false
+            return
+        default:
+            break
+        }
+        // If not panning or somehow no longer an edit node then perform super behavior
+        guard panningEditNode, let node = editingNode else {
+            super.recognizedPan(recognizer)
+            return
+        }
+        let translation = recognizer.translation(in: view)
+        // Get delta by subtracting old value from new translation
+        let delta = lastTranslation - translation
+        translateNode(node, byDelta: delta)
+        // Assign last translation
+        lastTranslation = translation
     }
     
     // MARK: ModuleListViewController Delegate

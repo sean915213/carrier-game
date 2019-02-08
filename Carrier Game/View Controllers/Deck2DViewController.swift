@@ -113,6 +113,16 @@ class Deck2DViewController: UIViewController {
         camera.position = position
     }
     
+    func translateNode(_ node: SKNode, byDelta delta: CGPoint) {
+        // Translate camera position to view coords
+        var nodePos = scene.convertPoint(toView: node.position)
+        // Add delta and then translate back to scene coords
+        nodePos -= delta
+        let newNodePos = scene.convertPoint(fromView: nodePos)
+        // Assign new position
+        node.position = newNodePos
+    }
+    
     private func displayDeck(entity: DeckEntity) {
         logger.logInfo("Displaying deck: \(entity.instance.placement.position).")
         // If another deck's node is currently displayed then remove
@@ -211,25 +221,15 @@ class Deck2DViewController: UIViewController {
         }
     }
     
-    @objc private func recognizedPan(_ recognizer: UIPanGestureRecognizer) {
+    @objc func recognizedPan(_ recognizer: UIPanGestureRecognizer) {
         guard recognizer.state != .ended else {
             lastTranslation = .zero
             return
         }
         let translation = recognizer.translation(in: view)
-
         // Get delta by subtracting new value from current translation (still in view coord system)
         let delta = translation - lastTranslation
-        // Translate camera position to view coords
-        var cameraPos = scene.convertPoint(toView: camera.position)
-        // Add delta and then translate back to scene coords
-        cameraPos -= delta
-        let newCameraPos = scene.convertPoint(fromView: cameraPos)
-        
-        print("&& NEW CAMERA POS: \(newCameraPos). CONVERTED TRANSLATION: \(scene.convertPoint(fromView: delta))")
-        
-        // Assign new position
-        applyCameraPan(position: newCameraPos, totalDelta: scene.convertPoint(fromView: translation))
+        translateNode(camera, byDelta: delta)
         // Assign last translation
         lastTranslation = translation
     }
