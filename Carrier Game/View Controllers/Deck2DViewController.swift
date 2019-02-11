@@ -114,7 +114,7 @@ class Deck2DViewController: UIViewController {
     }
     
     func translateNode(_ node: SKNode, byDelta delta: CGPoint) {
-        // Translate camera position to view coords
+        // Translate node position to view coords
         var nodePos = scene.convertPoint(toView: node.position)
         // Add delta and then translate back to scene coords
         nodePos -= delta

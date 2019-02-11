@@ -12,7 +12,7 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO: NEXT- Can now add modules and then add an overlay GKSKNodeComponent (or something) to show they're being added. But, how to create an instance without a set position from the selected ModulePrint in our delegate?
+// TODO: NEXT- Can now add modules and then add an overlay GKSKNodeComponent (or something) to show they're being added. But, how to create an instance without a set position from the selected ModuleBlueprint in our delegate?
 
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate {
     
