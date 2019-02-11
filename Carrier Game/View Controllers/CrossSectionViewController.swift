@@ -23,6 +23,12 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     private var editingNode: SKNode?
     
     private var panningEditNode = false
+    
+    // DEBUGGING
+    
+    
+    private var originalNodePos: CGPoint = .zero
+    
     // TODO: Somehow allow this class and base class to share this variable? Funnel panning through common overridable method?
     private var lastTranslation: CGPoint = .zero
     
@@ -68,6 +74,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             if let editingNode = editingNode, scene.nodes(at: scenePoint).contains(editingNode) {
                 // Toggle panning of edit node
                 panningEditNode = true
+                // DEBUGGING
+                originalNodePos = editingNode.position
             }
         case .ended:
             // Reset panning variables
@@ -85,9 +93,35 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         let translation = recognizer.translation(in: view)
         // Get delta by subtracting old value from new translation
         let delta = lastTranslation - translation
-        translateNode(node, byDelta: delta)
-        // Assign last translation
-        lastTranslation = translation
+        
+        // - DEBUG
+        
+        // Translate node position to view coords
+        var nodePos = scene.convertPoint(toView: originalNodePos)
+        // Add delta and then translate back to scene coords
+        nodePos += recognizer.translation(in: view)
+        let newNodePos = scene.convertPoint(fromView: nodePos)
+        
+        print("&& OTHER NODE POS: \(newNodePos)")
+        
+        if GridPoint3(node.position, 0) != GridPoint3(newNodePos, 0) {
+            // Assign new position
+            node.position = CGPoint(x: GridPoint(newNodePos.x), y: GridPoint(newNodePos.y))
+            
+            print("&& INCREMENTED TO: \(node.position)")
+        }
+        
+        
+        // - END DEBUG
+        
+        
+        
+//        translateNode(node, byDelta: delta)
+//
+//        print("&& WORKING TRANSLATE POS: \(node.position)")
+//
+//        // Assign last translation
+//        lastTranslation = translation
     }
     
     // MARK: ModuleListViewController Delegate
