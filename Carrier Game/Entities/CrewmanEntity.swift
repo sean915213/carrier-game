@@ -61,7 +61,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
     var currentModule: ModuleEntity {
         // Find module crewman is in
         return currentDeck.moduleEntities.first(where: { module -> Bool in
-            return module.instance.absoluteRect.contains(gridPosition)
+            return module.instance.placement.absoluteRect.contains(gridPosition)
         })!
     }
     
@@ -244,7 +244,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
         // If active movement (which should be a previous meander) then skip
         if movementComponent.path != nil { return }
         // Find a random coordinate within this module
-        let rect = currentModule.instance.absoluteRect
+        let rect = currentModule.instance.placement.absoluteRect
         let xCoord = rect.xRange.randomElement()!
         let yCoord = rect.yRange.randomElement()!
         // Check for open node here
@@ -270,7 +270,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
         // Collect distances to entrances
         var distanceInfo = [(module: ModuleEntity, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])]()
         for module in modules {
-            let entranceCoords = module.instance.absoluteEntrances.map { $0.coordinate }
+            let entranceCoords = module.instance.placement.absoluteEntrances.map { $0.coordinate }
             for entrance in entranceCoords {
                 // Get node
                 guard let node = ship.graph.node(atPoint: entrance) else {

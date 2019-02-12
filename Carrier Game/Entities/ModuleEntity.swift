@@ -37,10 +37,10 @@ class ModuleEntity: GKEntity {
     // MARK: - Methods
     
     func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
-        let wallCoords = Set(instance.absoluteWallCoords)
+        let wallCoords = Set(instance.placement.absoluteWallCoords)
         // Make graph and add nodes
         let graph = GKGridGraph3D([])
-        for coord in instance.absoluteRect.allPoints {
+        for coord in instance.placement.absoluteRect.allPoints {
             guard !wallCoords.contains(coord) else { continue }
             graph.connectToAdjacentNodes(GKGridGraphNode3D(point: coord))
         }

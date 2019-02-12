@@ -31,11 +31,11 @@ extension DeckInstance {
     
     func findOpenCoords() -> [GridPoint3] {
         // Map all coords
-        let allCoords = Set(modules.flatMap({ $0.absoluteRect.allPoints }))
+        let allCoords = Set(modules.flatMap({ $0.placement.absoluteRect.allPoints }))
         // Find open coords
         var openCoords = [GridPoint3]()
         for module in modules {
-            for entrance in module.absoluteEntrances {
+            for entrance in module.placement.absoluteEntrances {
                 // Check for surrounding
                 guard allCoords.contains(entrance.coordinate + GridPoint3(-1, 0, 0)) else {
                     openCoords.append(entrance.coordinate)

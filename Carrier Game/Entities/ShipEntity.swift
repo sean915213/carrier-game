@@ -83,7 +83,7 @@ class ShipEntity: GKEntity {
             // Get all module entrances with z-access
             var zCoords = [GridPoint3]()
             for module in deck.moduleEntities {
-                for entrance in module.instance.absoluteEntrances {
+                for entrance in module.instance.placement.absoluteEntrances {
                     guard entrance.zAccess else { continue }
                     zCoords.append(entrance.coordinate)
                 }
