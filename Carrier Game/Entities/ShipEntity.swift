@@ -71,7 +71,7 @@ class ShipEntity: GKEntity {
         // Main graph
         let shipGraph = GKGridGraph3D<GKGridGraphNode3D>([])
         // Order deck entities by position
-        let orderedDecks = deckEntities.sorted(by: \.instance.placement.position)
+        let orderedDecks = deckEntities.sorted(by: \.instance.blueprint.position)
         // Loop
         for deck in orderedDecks {
             // Make graph
@@ -109,6 +109,6 @@ class ShipEntity: GKEntity {
 extension ShipEntity {
     
     func deck(at position: Int) -> DeckEntity? {
-        return deckEntities.first { $0.instance.placement.position == position }
+        return deckEntities.first { $0.instance.blueprint.position == position }
     }
 }

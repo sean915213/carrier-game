@@ -55,7 +55,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
     }
     
     var currentDeck: DeckEntity {
-        return ship.deckEntities.first(where: { $0.instance.placement.position == Int16(instance.position.z) })!
+        return ship.deckEntities.first(where: { $0.instance.blueprint.position == Int16(instance.position.z) })!
     }
     
     var currentModule: ModuleEntity {
@@ -248,7 +248,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
         let xCoord = rect.xRange.randomElement()!
         let yCoord = rect.yRange.randomElement()!
         // Check for open node here
-        guard let node = ship.graph.node(atPoint: GridPoint3(xCoord, yCoord, GridPoint(currentDeck.instance.placement.position))) else {
+        guard let node = ship.graph.node(atPoint: GridPoint3(xCoord, yCoord, GridPoint(currentDeck.instance.blueprint.position))) else {
             return
         }
         // Find path

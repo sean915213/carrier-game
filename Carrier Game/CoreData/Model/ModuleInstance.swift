@@ -31,7 +31,7 @@ extension ModuleInstance {
     }
     
     var absoluteOrigin: GridPoint3 {
-        return GridPoint3(placement.origin, Int(deck.placement.position))
+        return GridPoint3(placement.origin, Int(deck.blueprint.position))
     }
     
     var absoluteEntrances: [ModuleEntrance3D] {
@@ -48,7 +48,7 @@ extension ModuleInstance {
     // MARK: - Methods
     
     func absolutePoint(fromRelative point: CDPoint2) -> GridPoint3 {
-        return absolutePoint(fromRelative: GridPoint3(point, deck.placement.position))
+        return absolutePoint(fromRelative: GridPoint3(point, deck.blueprint.position))
     }
     
     func absolutePoint(fromRelative point: GridPoint3) -> GridPoint3 {

@@ -14,12 +14,12 @@ class ShipBlueprint: NSManagedObject, IdentifiableEntity {
     @NSManaged var identifier: String
     @NSManaged var name: String
     
-    @NSManaged var decks: Set<DeckPlacementBlueprint>
+    @NSManaged var decks: Set<DeckBlueprint>
 }
 
 extension ShipBlueprint {
     
     var moduleAttributes: [ModuleAttribute: Double] {
-        return decks.map({ $0.blueprint }).compactMap({ $0.moduleAttributes }).combined()
+        return decks.compactMap({ $0.moduleAttributes }).combined()
     }
 }

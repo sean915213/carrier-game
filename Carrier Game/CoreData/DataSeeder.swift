@@ -183,28 +183,20 @@ extension DataSeeder {
         
         // Add decks
         // 0 - MAIN DECK
-        let deck0 = DeckBlueprint.insertNew(into: context)
+        let deck0 = DeckBlueprint.insertNew(into: context, on: ship, at: 0)
         deck0.identifier = "deck.basic"
         deck0.name = "Basic Deck"
         deck0.ship = ship
         // Place on ship
-        let deckPlacement0 = DeckPlacementBlueprint.insertNew(into: context)
-        deckPlacement0.position = 0
-        deckPlacement0.blueprint = deck0
-        // Insert placement
-        ship.decks.insert(deckPlacement0)
+        ship.decks.insert(deck0)
         
         // 1 - CREW DECK
-        let deck1 = DeckBlueprint.insertNew(into: context)
+        let deck1 = DeckBlueprint.insertNew(into: context, on: ship, at: 1)
         deck1.identifier = "deck.basic2"
         deck1.name = "Basic Deck"
         deck1.ship = ship
         // Place on ship
-        let deckPlacement1 = DeckPlacementBlueprint.insertNew(into: context)
-        deckPlacement1.position = 1
-        deckPlacement1.blueprint = deck1
-        // Insert placement
-        ship.decks.insert(deckPlacement1)
+        ship.decks.insert(deck1)
         
         // Add modules
         // DECK 0
@@ -250,16 +242,12 @@ extension DataSeeder {
         
         // Add decks
         // 0 - MAIN DECK
-        let deck0 = DeckBlueprint.insertNew(into: context)
+        let deck0 = DeckBlueprint.insertNew(into: context, on: ship, at: 0)
         deck0.identifier = "deck.basic"
         deck0.name = "Basic Deck"
         deck0.ship = ship
         // Place on ship
-        let deckPlacement0 = DeckPlacementBlueprint.insertNew(into: context)
-        deckPlacement0.position = 0
-        deckPlacement0.blueprint = deck0
-        // Insert placement
-        ship.decks.insert(deckPlacement0)
+        ship.decks.insert(deck0)
         
         // Add modules
         // - Bridge
@@ -288,16 +276,12 @@ extension DataSeeder {
         deck0.modules.insert(lift)
         
         // 1 - BELOW DECK
-        let deck1 = DeckBlueprint.insertNew(into: context)
+        let deck1 = DeckBlueprint.insertNew(into: context, on: ship, at: 1)
         deck1.identifier = "deck.basic2"
         deck1.name = "Below Deck"
         deck1.ship = ship
         // Place on ship
-        let deckPlacement1 = DeckPlacementBlueprint.insertNew(into: context)
-        deckPlacement1.position = -1
-        deckPlacement1.blueprint = deck1
-        // Insert placement
-        ship.decks.insert(deckPlacement1)
+        ship.decks.insert(deck1)
 
         // Add modules
         // - Lift

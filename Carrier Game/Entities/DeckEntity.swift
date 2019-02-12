@@ -35,7 +35,7 @@ class DeckEntity: GKEntity {
     
     func makeNode() -> SKNode {
         let textureNode = SKNode()
-        textureNode.name = "Deck [\(instance.placement.position)]"
+        textureNode.name = "Deck [\(instance.blueprint.position)]"
         for module in moduleEntities {
             textureNode.addChild(module.mainNodeComponent.node)
         }

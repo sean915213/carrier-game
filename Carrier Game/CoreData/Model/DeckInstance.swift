@@ -14,7 +14,7 @@ import SGYSwiftUtility
 
 class DeckInstance: NSManagedObject {
     
-    @NSManaged var placement: DeckPlacementBlueprint
+    @NSManaged var blueprint: DeckBlueprint
     @NSManaged var modules: Set<ModuleInstance>
     @NSManaged var ship: ShipInstance
 }
@@ -60,12 +60,12 @@ extension DeckInstance {
 }
 
 extension DeckInstance {
-    class func insertNew(into context: NSManagedObjectContext, using placement: DeckPlacementBlueprint) -> DeckInstance {
+    class func insertNew(into context: NSManagedObjectContext, using blueprint: DeckBlueprint) -> DeckInstance {
         // Make instance
         let deck = DeckInstance.insertNew(into: context)
-        deck.placement = placement
+        deck.blueprint = blueprint
         // Make modules
-        for placement in placement.blueprint.modules {
+        for placement in blueprint.modules {
             let instance = ModuleInstance.insertNew(into: context, using: placement)
             deck.modules.insert(instance)
         }

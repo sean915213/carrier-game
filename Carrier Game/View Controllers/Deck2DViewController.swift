@@ -82,7 +82,7 @@ class Deck2DViewController: UIViewController {
     
     var currentDeck: (entity: DeckEntity, node: SKNode)? {
         didSet {
-            deckButton.setTitle("Next Deck: \(nextDeck().instance.placement.position)", for: [])
+            deckButton.setTitle("Next Deck: \(nextDeck().instance.blueprint.position)", for: [])
         }
     }
     
@@ -126,7 +126,7 @@ class Deck2DViewController: UIViewController {
     }
     
     private func displayDeck(entity: DeckEntity) {
-        logger.logInfo("Displaying deck: \(entity.instance.placement.position).")
+        logger.logInfo("Displaying deck: \(entity.instance.blueprint.position).")
         // If another deck's node is currently displayed then remove
         currentDeck?.node.removeFromParent()
         // Add new deck's texture node
@@ -135,7 +135,7 @@ class Deck2DViewController: UIViewController {
         // Update all crewman's movement component
         for crewman in shipEntity.crewmanEntities {
             let component = crewman.component(ofType: MovementComponent2D.self)!
-            component.visibleVertical = GridPoint(entity.instance.placement.position)
+            component.visibleVertical = GridPoint(entity.instance.blueprint.position)
         }
         // Assign new deck info
         currentDeck = (entity: entity, node: newNode)
@@ -184,7 +184,7 @@ class Deck2DViewController: UIViewController {
         if shipEntity.deckEntities.last == deck {
             return shipEntity.deckEntities.first!
         } else {
-            return shipEntity.deck(at: Int(deck.instance.placement.position + 1))!
+            return shipEntity.deck(at: Int(deck.instance.blueprint.position + 1))!
         }
     }
     

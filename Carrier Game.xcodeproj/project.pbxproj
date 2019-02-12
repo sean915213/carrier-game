@@ -36,7 +36,6 @@
 		74612C5B21FCFB9C00006E15 /* ModuleEntrance3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74612C5A21FCFB9C00006E15 /* ModuleEntrance3D.swift */; };
 		7471650D21AE0D2500F5AA48 /* ShipEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650C21AE0D2500F5AA48 /* ShipEntity.swift */; };
 		7471650F21AE0E1400F5AA48 /* DeckEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650E21AE0E1400F5AA48 /* DeckEntity.swift */; };
-		747D271A2191210C00ECFA45 /* DeckPlacementBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747D27192191210C00ECFA45 /* DeckPlacementBlueprint.swift */; };
 		748C49D921E6CBCB004019D4 /* GridPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C49D821E6CBCB004019D4 /* GridPoint.swift */; };
 		748C49DB21E6CCE0004019D4 /* GridPoint3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C49DA21E6CCE0004019D4 /* GridPoint3.swift */; };
 		749CB13D2177E7F800949734 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB13C2177E7F800949734 /* AppDelegate.swift */; };
@@ -92,7 +91,6 @@
 		74612C5A21FCFB9C00006E15 /* ModuleEntrance3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntrance3D.swift; sourceTree = "<group>"; };
 		7471650C21AE0D2500F5AA48 /* ShipEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipEntity.swift; sourceTree = "<group>"; };
 		7471650E21AE0E1400F5AA48 /* DeckEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckEntity.swift; sourceTree = "<group>"; };
-		747D27192191210C00ECFA45 /* DeckPlacementBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckPlacementBlueprint.swift; sourceTree = "<group>"; };
 		748C49D821E6CBCB004019D4 /* GridPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint.swift; sourceTree = "<group>"; };
 		748C49DA21E6CCE0004019D4 /* GridPoint3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint3.swift; sourceTree = "<group>"; };
 		749CB1392177E7F800949734 /* Carrier Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Carrier Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -263,7 +261,6 @@
 				74405C79218E4F9B00BA3A69 /* ShipBlueprint.swift */,
 				74405C7B218E516D00BA3A69 /* ShipInstance.swift */,
 				74405C7D218E57C300BA3A69 /* ModulePlacement.swift */,
-				747D27192191210C00ECFA45 /* DeckPlacementBlueprint.swift */,
 				743152C7219CE50100E3101F /* CrewmanInstance.swift */,
 				743152C9219CE58000E3101F /* CrewmanNeed.swift */,
 				743152CB219CE67100E3101F /* ModuleJobBlueprint.swift */,
@@ -444,7 +441,6 @@
 				74048369220919B8002B67BD /* Deck2DViewController.swift in Sources */,
 				74B97DD421B9FC23009973A3 /* CDPoint3.swift in Sources */,
 				749CB1512177E8F200949734 /* BuildViewController.swift in Sources */,
-				747D271A2191210C00ECFA45 /* DeckPlacementBlueprint.swift in Sources */,
 				74612C5121FCE79D00006E15 /* GridRect.swift in Sources */,
 				74BA5CE82183CD0D0039A2D5 /* Model.xcdatamodeld in Sources */,
 				749CB1592177F8C400949734 /* CrossSectionViewController.swift in Sources */,
