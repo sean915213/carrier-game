@@ -14,8 +14,8 @@ class ShipEntity: GKEntity {
 
     // MARK: - Initialization
     
-    init(ship: ShipInstance) {
-        self.instance = ship
+    init(blueprint: ShipBlueprint) {
+        self.blueprint = blueprint
         super.init()
     }
     
@@ -25,27 +25,36 @@ class ShipEntity: GKEntity {
     
     // MARK: - Properties
     
-    let instance: ShipInstance
+    let blueprint: ShipBlueprint
+    
+    var instance: ShipInstance? {
+        didSet {
+            if let ship = instance {
+                let entities = ship.crewmen.map { CrewmanEntity(crewman: $0, ship: self) }
+                crewmanEntities.append(contentsOf: entities)
+            } else {
+                crewmanEntities.removeAll()
+            }
+        }
+    }
     
     private lazy var logger = Logger(source: type(of: self))
     
     // MARK: Entities
     
     private(set) lazy var deckEntities: [DeckEntity] = {
-        return instance.orderedDecks.map { DeckEntity(deck: $0) }
+        return blueprint.orderedDecks.map { DeckEntity(blueprint: $0) }
     }()
     
     private(set) lazy var moduleEntities: [ModuleEntity] = {
         return deckEntities.flatMap { $0.moduleEntities }
     }()
     
-    private(set) lazy var crewmanEntities: [CrewmanEntity] = {
-        return instance.crewmen.map { CrewmanEntity(crewman: $0, ship: self) }
-    }()
+    private(set) var crewmanEntities = [CrewmanEntity]()
     
-    private(set) lazy var allEntities: [GKEntity] = {
+    var allEntities: [GKEntity] {
         return (deckEntities as [GKEntity]) + (moduleEntities as [GKEntity]) + (crewmanEntities as [GKEntity])
-    }()
+    }
     
     private(set) lazy var graph: GKGridGraph3D<GKGridGraphNode3D> = {
         return makeGraph()
@@ -54,24 +63,25 @@ class ShipEntity: GKEntity {
     // MARK: - Methods
     
     override func update(deltaTime seconds: TimeInterval) {
+        defer { super.update(deltaTime: seconds) }
+        // Nothing to do if no instance assigned
+        guard let instance = instance else { return }
+        // Update
+        
         let oldShift = CrewmanShift(date: instance.time)!
-        let oldDate = instance.time
-        
         instance.time = instance.time.addingTimeInterval(seconds)
-        
         // Log new shift
         let newShift = CrewmanShift(date: instance.time)!
         if newShift != oldShift {
             logger.logInfo("New shift: \(newShift).")
         }
-        super.update(deltaTime: seconds)
     }
     
     private func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
         // Main graph
         let shipGraph = GKGridGraph3D<GKGridGraphNode3D>([])
         // Order deck entities by position
-        let orderedDecks = deckEntities.sorted(by: \.instance.blueprint.position)
+        let orderedDecks = deckEntities.sorted(by: \.blueprint.position)
         // Loop
         for deck in orderedDecks {
             // Make graph
@@ -83,7 +93,7 @@ class ShipEntity: GKEntity {
             // Get all module entrances with z-access
             var zCoords = [GridPoint3]()
             for module in deck.moduleEntities {
-                for entrance in module.instance.placement.absoluteEntrances {
+                for entrance in module.placement.absoluteEntrances {
                     guard entrance.zAccess else { continue }
                     zCoords.append(entrance.coordinate)
                 }
@@ -109,6 +119,6 @@ class ShipEntity: GKEntity {
 extension ShipEntity {
     
     func deck(at position: Int) -> DeckEntity? {
-        return deckEntities.first { $0.instance.blueprint.position == position }
+        return deckEntities.first { $0.blueprint.position == position }
     }
 }

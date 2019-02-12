@@ -21,12 +21,6 @@ class ShipInstance: NSManagedObject {
 
 extension ShipInstance {
     
-    var orderedDecks: [DeckInstance] {
-        return decks.sorted { (deck1, deck2) -> Bool in
-            return deck1.blueprint.position < deck2.blueprint.position
-        }
-    }
-    
     var allModules: [ModuleInstance] {
         return decks.flatMap { $0.modules }
     }

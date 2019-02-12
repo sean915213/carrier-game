@@ -14,8 +14,8 @@ class DeckEntity: GKEntity {
 
     // MARK: - Initialization
     
-    init(deck: DeckInstance) {
-        self.instance = deck
+    init(blueprint: DeckBlueprint) {
+        self.blueprint = blueprint
         super.init()
     }
     
@@ -25,17 +25,17 @@ class DeckEntity: GKEntity {
     
     // MARK: - Properties
     
-    let instance: DeckInstance
+    let blueprint: DeckBlueprint
     
     private(set) lazy var moduleEntities: [ModuleEntity] = {
-        return instance.modules.map { ModuleEntity(module: $0) }
+        return blueprint.modules.map { ModuleEntity(placement: $0) }
     }()
     
     // MARK: - Methods
     
     func makeNode() -> SKNode {
         let textureNode = SKNode()
-        textureNode.name = "Deck [\(instance.blueprint.position)]"
+        textureNode.name = "Deck [\(blueprint.position)]"
         for module in moduleEntities {
             textureNode.addChild(module.mainNodeComponent.node)
         }

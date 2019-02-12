@@ -19,6 +19,12 @@ class ShipBlueprint: NSManagedObject, IdentifiableEntity {
 
 extension ShipBlueprint {
     
+    var orderedDecks: [DeckBlueprint] {
+        return decks.sorted { (deck1, deck2) -> Bool in
+            return deck1.position < deck2.position
+        }
+    }
+    
     var moduleAttributes: [ModuleAttribute: Double] {
         return decks.compactMap({ $0.moduleAttributes }).combined()
     }

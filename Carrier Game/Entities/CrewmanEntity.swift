@@ -11,6 +11,10 @@ import GameplayKit
 import SpriteKit
 import SGYSwiftUtility
 
+
+// TODO: REAL TALK. Does this entity really *need* access to ship/deck entities? Or is access to the instance sufficient? If so, just force unwrap- should never be in a position where assigned to a ShipEntity without an instance?
+
+
 // Configurable. May be better way to do this.
 private let minimumNeedTime: TimeInterval = (TimeInterval.hour * Double(CrewmanShift.length)) / 2.0 // Currently 1/2 a shift
 
@@ -55,13 +59,13 @@ class CrewmanEntity: GKEntity, StatsProvider {
     }
     
     var currentDeck: DeckEntity {
-        return ship.deckEntities.first(where: { $0.instance.blueprint.position == Int16(instance.position.z) })!
+        return ship.deckEntities.first(where: { $0.blueprint.position == Int16(instance.position.z) })!
     }
     
     var currentModule: ModuleEntity {
         // Find module crewman is in
         return currentDeck.moduleEntities.first(where: { module -> Bool in
-            return module.instance.placement.absoluteRect.contains(gridPosition)
+            return module.placement.absoluteRect.contains(gridPosition)
         })!
     }
     
@@ -70,7 +74,8 @@ class CrewmanEntity: GKEntity, StatsProvider {
     }
     
     var isOnShift: Bool {
-        return CrewmanShift(date: ship.instance.time) == instance.shift
+        // Force unwrap because we should not exist unless on a ship instance (vs. blueprint)
+        return CrewmanShift(date: ship.instance!.time) == instance.shift
     }
     
     // MARK: - Methods
