@@ -64,6 +64,7 @@ class Deck2DViewController: UIViewController {
         return node
     }()
     
+    // TODO: MOVE TO USING BOTTOM TOOLBAR?
     private(set) lazy var optionsStack: UIStackView = {
         // Add stack
         let stack = UIStackView(translatesAutoresizingMask: false)

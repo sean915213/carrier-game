@@ -16,38 +16,60 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     private enum PanMode { case none, active(SKNode, CGPoint) }
     
+    private enum EditMode { case none, active(SKNode, ModuleBlueprint) }
+    
     // MARK: - Initialization
     
     // MARK: - Properties
     
     private var panMode: PanMode = .none
-    private var editingNode: SKNode?
+    
+    private var editMode: EditMode = .none {
+        didSet { configureToolbar() }
+    }
+    
+    private lazy var toolbar: UIToolbar = {
+        let toolbar = UIToolbar()
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        return toolbar
+    }()
     
     // MARK: - Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addModuleButton()
+        // Add toolbar
+        view.addSubview(toolbar)
+        NSLayoutConstraint.constraintsPinningView(toolbar, axis: .horizontal).activate()
+        toolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor).activate()
+        // Show initial toolbar config
+        configureToolbar()
+        
         // TODO: TEMPORARY. SEEMS ODD TO JUST "PAUSE" EVENTS WHILE EDITING.
         sceneController.autoManagePause = false
         scene.isPaused = true
-        
-        // TODO: TESTING
-        let testSprite = SKSpriteNode(color: .green, size: CGSize(width: 5, height: 5))
-//        testSprite.setScale(1.0 / cameraScale)
-        editingNode = testSprite
-        
-        scene.addChild(testSprite)
     }
     
-    private func addModuleButton() {
-        // - Module list
-        let moduleButton = UIButton()
-        moduleButton.setTitle("Add Module", for: [])
-        moduleButton.setTitleColor(.blue, for: [])
-        moduleButton.addTarget(self, action: #selector(showModuleList), for: .touchUpInside)
-        optionsStack.addArrangedSubview(moduleButton)
+    private func configureToolbar() {
+        var items = [UIBarButtonItem]()
+        // Configure based on edit mode
+        switch editMode {
+        case .none:
+            // Add module
+            items.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showModuleList)))
+        case .active:
+            // Rotate module
+            items.append(UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(rotateModule)))
+            // Spacer
+            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+            // End editing
+            items.append(UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(endEditingModule)))
+        }
+        // Add
+        toolbar.setItems(items, animated: true)
     }
+    
+    // MARK: Actions
     
     @objc private func showModuleList() {
         let listController = ModuleListViewController()
@@ -55,14 +77,21 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         present(listController, animated: true, completion: nil)
     }
     
-    // MARK: Actions
+    @objc private func rotateModule() {
+        print("&& TAPPED ROTATE")
+    }
+    
+    @objc private func endEditingModule() {
+        // TODO: RESET SOMETHING ELSE?
+        editMode = .none
+    }
     
     override func recognizedPan(_ recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
         case .began:
             // Determine if initial pan started on editing node
             let scenePoint = scene.convertPoint(fromView: recognizer.location(in: view))
-            if let editingNode = editingNode, scene.nodes(at: scenePoint).contains(editingNode) {
+            if case .active(let editingNode, _) = editMode, scene.nodes(at: scenePoint).contains(editingNode) {
                 // Activate panning. Assign editing node and editing node's *position in view* to enum
                 panMode = .active(editingNode, scene.convertPoint(toView: editingNode.position))
             }
@@ -90,6 +119,15 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     func moduleListViewController(_: ModuleListViewController, selectedModule module: ModuleBlueprint) {
         dismiss(animated: true, completion: nil)
+        
+        // TODO: TESTING
+        let testSprite = SKSpriteNode(color: .green, size: CGSize(width: 5, height: 5))
+        scene.addChild(testSprite)
+        
+        // Set mode to editing
+        editMode = .active(testSprite, module)
+        
+        
         print("&& SELECTED MODULE: \(module)")
     }
 }
