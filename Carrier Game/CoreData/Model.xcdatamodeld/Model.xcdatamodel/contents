@@ -16,7 +16,6 @@
         <relationship name="crewman" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CrewmanInstance" inverseName="needs" inverseEntity="CrewmanInstance" syncable="YES"/>
     </entity>
     <entity name="DeckBlueprint" representedClassName=".DeckBlueprint" syncable="YES">
-        <attribute name="identifier" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="position" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="modules" toMany="YES" deletionRule="Nullify" destinationEntity="ModulePlacement" inverseName="deck" inverseEntity="ModulePlacement" syncable="YES"/>

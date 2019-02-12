@@ -9,11 +9,9 @@
 import Foundation
 import CoreData
 
-class DeckBlueprint: NSManagedObject, IdentifiableEntity {
+class DeckBlueprint: NSManagedObject {
     
     @NSManaged var name: String
-    // TODO: REQUIRED ANYMORE?
-    @NSManaged var identifier: String
     @NSManaged var position: Int16
     
     @NSManaged var modules: Set<ModulePlacement>

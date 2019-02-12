@@ -184,7 +184,6 @@ extension DataSeeder {
         // Add decks
         // 0 - MAIN DECK
         let deck0 = DeckBlueprint.insertNew(into: context, on: ship, at: 0)
-        deck0.identifier = "deck.basic"
         deck0.name = "Basic Deck"
         deck0.ship = ship
         // Place on ship
@@ -192,7 +191,6 @@ extension DataSeeder {
         
         // 1 - CREW DECK
         let deck1 = DeckBlueprint.insertNew(into: context, on: ship, at: 1)
-        deck1.identifier = "deck.basic2"
         deck1.name = "Basic Deck"
         deck1.ship = ship
         // Place on ship
@@ -243,7 +241,6 @@ extension DataSeeder {
         // Add decks
         // 0 - MAIN DECK
         let deck0 = DeckBlueprint.insertNew(into: context, on: ship, at: 0)
-        deck0.identifier = "deck.basic"
         deck0.name = "Basic Deck"
         deck0.ship = ship
         // Place on ship
@@ -277,7 +274,6 @@ extension DataSeeder {
         
         // 1 - BELOW DECK
         let deck1 = DeckBlueprint.insertNew(into: context, on: ship, at: 1)
-        deck1.identifier = "deck.basic2"
         deck1.name = "Below Deck"
         deck1.ship = ship
         // Place on ship
