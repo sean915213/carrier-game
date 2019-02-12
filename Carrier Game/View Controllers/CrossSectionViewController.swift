@@ -46,8 +46,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         configureToolbar()
         
         // TODO: TEMPORARY. SEEMS ODD TO JUST "PAUSE" EVENTS WHILE EDITING.
-        sceneController.autoManagePause = false
-        scene.isPaused = true
+//        sceneController.autoManagePause = false
+//        scene.isPaused = true
     }
     
     private func configureToolbar() {
