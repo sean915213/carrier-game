@@ -25,8 +25,10 @@ class ModuleEntity: GKEntity {
     // MARK: - Properties
     
     let placement: ModulePlacement
-    
     var blueprint: ModuleBlueprint { return placement.blueprint }
+    
+    // TODO: THINGS TO DO WHEN THIS IS ASSIGNED?
+    var instance: ModuleInstance?
     
     // TODO: Should be a node component that adheres to protocol since entity should not care whether it's in 2D or 3D environment?
     private(set) lazy var mainNodeComponent: GKSKNodeComponent = {
@@ -38,16 +40,16 @@ class ModuleEntity: GKEntity {
     
     // MARK: - Methods
     
-    func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
-        let wallCoords = Set(placement.absoluteWallCoords)
-        // Make graph and add nodes
-        let graph = GKGridGraph3D([])
-        for coord in placement.absoluteRect.allPoints {
-            guard !wallCoords.contains(coord) else { continue }
-            graph.connectToAdjacentNodes(GKGridGraphNode3D(point: coord))
-        }
-        return graph
-    }
+//    func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
+//        let wallCoords = Set(placement.absoluteWallCoords)
+//        // Make graph and add nodes
+//        let graph = GKGridGraph3D([])
+//        for coord in placement.absoluteRect.allPoints {
+//            guard !wallCoords.contains(coord) else { continue }
+//            graph.connectToAdjacentNodes(GKGridGraphNode3D(point: coord))
+//        }
+//        return graph
+//    }
     
     private func makeMainNode() -> SKNode {
         // Make main node

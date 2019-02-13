@@ -23,6 +23,15 @@ extension DeckBlueprint {
     var moduleAttributes: [ModuleAttribute: Double] {
         return modules.compactMap({ $0.blueprint }).map({ $0.attributes }).combined()
     }
+    
+    func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
+        // Make graph and connect individual module graphs
+        let graph = GKGridGraph3D([])
+        for module in modules {
+            graph.addGraph(module.makeGraph(), connectAdjacentNodes: true)
+        }
+        return graph
+    }
 }
 
 extension DeckBlueprint {

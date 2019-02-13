@@ -41,13 +41,4 @@ class DeckEntity: GKEntity {
         }
         return textureNode
     }
-    
-    func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
-        // Make graph and connect individual module graphs
-        let graph = GKGridGraph3D([])
-        for entity in moduleEntities {
-            graph.addGraph(entity.makeGraph(), connectAdjacentNodes: true)
-        }
-        return graph
-    }
 }

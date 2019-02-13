@@ -44,6 +44,17 @@ extension ModulePlacement {
     }
 
     // MARK: - Methods
+    
+    func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
+        let wallCoords = Set(absoluteWallCoords)
+        // Make graph and add nodes
+        let graph = GKGridGraph3D([])
+        for coord in absoluteRect.allPoints {
+            guard !wallCoords.contains(coord) else { continue }
+            graph.connectToAdjacentNodes(GKGridGraphNode3D(point: coord))
+        }
+        return graph
+    }
 
     func absolutePoint(fromRelative point: CDPoint2) -> GridPoint3 {
         return absolutePoint(fromRelative: GridPoint3(point, deck.position))

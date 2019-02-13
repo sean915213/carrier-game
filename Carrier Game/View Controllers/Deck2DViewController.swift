@@ -44,7 +44,9 @@ class Deck2DViewController: UIViewController {
     }
     
     private(set) lazy var shipEntity: ShipEntity = {
-        return ShipEntity(ship: ship)
+        let entity = ShipEntity(blueprint: ship.blueprint)
+        entity.instance = ship
+        return entity
     }()
     
     private(set) lazy var sceneController: SceneController = {
@@ -82,7 +84,7 @@ class Deck2DViewController: UIViewController {
     
     var currentDeck: (entity: DeckEntity, node: SKNode)? {
         didSet {
-            deckButton.setTitle("Next Deck: \(nextDeck().instance.blueprint.position)", for: [])
+            deckButton.setTitle("Next Deck: \(nextDeck().blueprint.position)", for: [])
         }
     }
     
@@ -126,7 +128,7 @@ class Deck2DViewController: UIViewController {
     }
     
     private func displayDeck(entity: DeckEntity) {
-        logger.logInfo("Displaying deck: \(entity.instance.blueprint.position).")
+        logger.logInfo("Displaying deck: \(entity.blueprint.position).")
         // If another deck's node is currently displayed then remove
         currentDeck?.node.removeFromParent()
         // Add new deck's texture node
@@ -135,7 +137,7 @@ class Deck2DViewController: UIViewController {
         // Update all crewman's movement component
         for crewman in shipEntity.crewmanEntities {
             let component = crewman.component(ofType: MovementComponent2D.self)!
-            component.visibleVertical = GridPoint(entity.instance.blueprint.position)
+            component.visibleVertical = GridPoint(entity.blueprint.position)
         }
         // Assign new deck info
         currentDeck = (entity: entity, node: newNode)
@@ -184,7 +186,7 @@ class Deck2DViewController: UIViewController {
         if shipEntity.deckEntities.last == deck {
             return shipEntity.deckEntities.first!
         } else {
-            return shipEntity.deck(at: Int(deck.instance.blueprint.position + 1))!
+            return shipEntity.deck(at: Int(deck.blueprint.position + 1))!
         }
     }
     

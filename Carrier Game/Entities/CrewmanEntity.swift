@@ -94,7 +94,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
         // Maintain crewman needs based on what module we're in
         updateNeeds(deltaTime: seconds)
         // Update state
-        updateState(in: currentModule.instance, deltaTime: seconds)
+        updateState(deltaTime: seconds)
     }
     
     private func updateNeeds(deltaTime seconds: TimeInterval) {
@@ -117,7 +117,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
         }
     }
     
-    private func updateState(in module: ModuleInstance, deltaTime seconds: TimeInterval) {
+    private func updateState(deltaTime seconds: TimeInterval) {
         switch status {
         case .idle:
             processIdle()
