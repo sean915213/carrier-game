@@ -11,10 +11,6 @@ import GameplayKit
 import SpriteKit
 import SGYSwiftUtility
 
-
-// TODO: REAL TALK. Does this entity really *need* access to ship/deck entities? Or is access to the instance sufficient? If so, just force unwrap- should never be in a position where assigned to a ShipEntity without an instance?
-
-
 // Configurable. May be better way to do this.
 private let minimumNeedTime: TimeInterval = (TimeInterval.hour * Double(CrewmanShift.length)) / 2.0 // Currently 1/2 a shift
 
@@ -26,7 +22,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
     
     // MARK: - Initialization
     
-    init(crewman: CrewmanInstance, ship: ShipEntity) {
+    init(crewman: CrewmanInstance, ship: ShipInstance) {
         self.instance = crewman
         self.ship = ship
         super.init()
@@ -41,7 +37,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
     
     let instance: CrewmanInstance
     // TODO: DOES UNOWNED FIX WHAT WOULD BE A REF CYCLE HERE?
-    unowned let ship: ShipEntity
+    unowned let ship: ShipInstance
     private(set) var status: Status = .idle
     
     private lazy var logger = Logger(source: "Crewman (\(instance.name))")
@@ -55,16 +51,16 @@ class CrewmanEntity: GKEntity, StatsProvider {
     }
     
     var graphNode: GKGridGraphNode3D {
-        return ship.graph.node(atPoint: gridPosition)!
+        return ship.blueprint.graph.node(atPoint: gridPosition)!
     }
     
-    var currentDeck: DeckEntity {
-        return ship.deckEntities.first(where: { $0.blueprint.position == Int16(instance.position.z) })!
+    var currentDeck: DeckInstance {
+        return ship.decks.first(where: { $0.blueprint.position == Int16(instance.position.z) })!
     }
     
-    var currentModule: ModuleEntity {
+    var currentModule: ModuleInstance {
         // Find module crewman is in
-        return currentDeck.moduleEntities.first(where: { module -> Bool in
+        return currentDeck.modules.first(where: { module -> Bool in
             return module.placement.absoluteRect.contains(gridPosition)
         })!
     }
@@ -75,7 +71,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
     
     var isOnShift: Bool {
         // Force unwrap because we should not exist unless on a ship instance (vs. blueprint)
-        return CrewmanShift(date: ship.instance!.time) == instance.shift
+        return CrewmanShift(date: ship.time) == instance.shift
     }
     
     // MARK: - Methods
@@ -101,7 +97,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
         // Loop through needs
         for crewmanNeed in instance.needs {
             // Find all matching needs that current module fulfills
-            let fulfilledNeeds = currentModule.instance.blueprint.fulfilledNeeds.filter { $0.action == crewmanNeed.action }
+            let fulfilledNeeds = currentModule.blueprint.fulfilledNeeds.filter { $0.action == crewmanNeed.action }
             // If none fulfilled then decrement need by decay
             guard !fulfilledNeeds.isEmpty else {
                 crewmanNeed.value -= crewmanNeed.decayFactor * seconds
@@ -141,14 +137,14 @@ class CrewmanEntity: GKEntity, StatsProvider {
             }
             logger.logInfo("Beginning work [\(job.blueprint.action)].)")
             // If current module contains this job then set working and be done
-            guard !currentModule.instance.jobs.contains(job) else {
-                status = .busy(.work, ship.instance.time)
+            guard !currentModule.jobs.contains(job) else {
+                status = .busy(.work, ship.time)
                 return
             }
             // Get module entity with job
-            let moduleEntity = ship.moduleEntities.first(where: { $0.instance.jobs.contains(job) })!
+            let module = ship.allModules.first(where: { $0.jobs.contains(job) })!
             // Get path to job module
-            guard let jobInfo = findClosestEntrance(in: [moduleEntity]) else {
+            guard let jobInfo = findClosestEntrance(in: [module]) else {
                 fatalError("Could not get path module. Implement this.")
             }
             // Update status
@@ -167,19 +163,19 @@ class CrewmanEntity: GKEntity, StatsProvider {
             let lowestNeed = instance.needs.min(by: { (need1, need2) -> Bool in
                 return need1.value < need2.value
             })!
-            let satisfyingModules = ship.moduleEntities.filter { module -> Bool in
-                return module.instance.blueprint.fulfilledNeeds.contains(where: { $0.action == lowestNeed.action })
+            let satisfyingModules = ship.allModules.filter { module -> Bool in
+                return module.blueprint.fulfilledNeeds.contains(where: { $0.action == lowestNeed.action })
             }
             // If this contains our current module then set to busy
             guard !satisfyingModules.contains(currentModule) else {
-                status = .busy(.need(lowestNeed), ship.instance.time)
+                status = .busy(.need(lowestNeed), ship.time)
                 return
             }
             // Get closest path to a satisfying module
             guard let entranceInfo = findClosestEntrance(in: satisfyingModules) else {
                 fatalError("Could not get path module. Implement this.")
             }
-            logger.logInfo("Moving to need [current: \(lowestNeed.value)] in module: \(entranceInfo.module.instance.blueprint.identifier).)")
+            logger.logInfo("Moving to need [current: \(lowestNeed.value)] in module: \(entranceInfo.module.blueprint.identifier).)")
             // Set to moving
             status = .moving(.need(lowestNeed))
             // Move to module and set status when completed
@@ -220,7 +216,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
                 return
             }
             // Check whether minimum time spend exceeded
-            guard ship.instance.time.timeIntervalSince(startTime) >= minimumNeedTime else {
+            guard ship.time.timeIntervalSince(startTime) >= minimumNeedTime else {
                 return
             }
             // If current need is fulfilled then reset to idle
@@ -249,11 +245,11 @@ class CrewmanEntity: GKEntity, StatsProvider {
         // If active movement (which should be a previous meander) then skip
         if movementComponent.path != nil { return }
         // Find a random coordinate within this module
-        let rect = currentModule.instance.placement.absoluteRect
+        let rect = currentModule.placement.absoluteRect
         let xCoord = rect.xRange.randomElement()!
         let yCoord = rect.yRange.randomElement()!
         // Check for open node here
-        guard let node = ship.graph.node(atPoint: GridPoint3(xCoord, yCoord, GridPoint(currentDeck.instance.blueprint.position))) else {
+        guard let node = ship.blueprint.graph.node(atPoint: GridPoint3(xCoord, yCoord, GridPoint(currentDeck.blueprint.position))) else {
             return
         }
         // Find path
@@ -269,17 +265,17 @@ class CrewmanEntity: GKEntity, StatsProvider {
     
     // MARK: Pathing
     
-    private func findClosestEntrance(in modules: [ModuleEntity]) -> (module: ModuleEntity, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])? {
+    private func findClosestEntrance(in modules: [ModuleInstance]) -> (module: ModuleInstance, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])? {
         // Get origin node in graph to prevent finding several times
         let originNode = graphNode
         // Collect distances to entrances
-        var distanceInfo = [(module: ModuleEntity, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])]()
+        var distanceInfo = [(module: ModuleInstance, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])]()
         for module in modules {
-            let entranceCoords = module.instance.placement.absoluteEntrances.map { $0.coordinate }
+            let entranceCoords = module.placement.absoluteEntrances.map { $0.coordinate }
             for entrance in entranceCoords {
                 // Get node
-                guard let node = ship.graph.node(atPoint: entrance) else {
-                    logger.logError("Unable to find node for entrance. Module: \(module.instance.blueprint.name). Entrance: \(entrance).")
+                guard let node = ship.blueprint.graph.node(atPoint: entrance) else {
+                    logger.logError("Unable to find node for entrance. Module: \(module.blueprint.name). Entrance: \(entrance).")
                     continue
                 }
                 // Get path

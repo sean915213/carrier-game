@@ -29,8 +29,9 @@ class ShipEntity: GKEntity {
     
     var instance: ShipInstance? {
         didSet {
+            // TODO: Does this ignore saved values for crewmen?
             if let ship = instance {
-                let entities = ship.crewmen.map { CrewmanEntity(crewman: $0, ship: self) }
+                let entities = ship.crewmen.map { CrewmanEntity(crewman: $0, ship: ship) }
                 crewmanEntities.append(contentsOf: entities)
             } else {
                 crewmanEntities.removeAll()
