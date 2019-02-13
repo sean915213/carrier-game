@@ -12,6 +12,8 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
+// TODO NEXT- how to synchronize selection of a module w/ the display? A bunch of KVO? But also requires that this controller get NEW nodes from related instances/entities?
+
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate {
     
     private enum PanMode { case none, active(SKNode, CGPoint) }
@@ -46,8 +48,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         configureToolbar()
         
         // TODO: TEMPORARY. SEEMS ODD TO JUST "PAUSE" EVENTS WHILE EDITING.
-//        sceneController.autoManagePause = false
-//        scene.isPaused = true
+        sceneController.autoManagePause = false
+        scene.isPaused = true
     }
     
     private func configureToolbar() {
@@ -82,7 +84,13 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     @objc private func endEditingModule() {
-        // TODO: RESET SOMETHING ELSE?
+        guard case let .active(node, _) = editMode else {
+            logger.logError("Asked to end editing module when editMode did not match. editMode: \(editMode)")
+            return
+        }
+        // Remove node
+        node.removeFromParent()
+        // End editing
         editMode = .none
     }
     
@@ -121,7 +129,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         dismiss(animated: true, completion: nil)
         
         // TODO: TESTING
-        let testSprite = SKSpriteNode(color: .green, size: CGSize(width: 5, height: 5))
+        let testSprite = SKSpriteNode(color: UIColor.green.withAlphaComponent(0.4), size: CGSize(width: module.size.x, height: module.size.y))
         scene.addChild(testSprite)
         
         // Set mode to editing
