@@ -16,9 +16,9 @@ import SGYSwiftUtility
 
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate {
     
-    private enum PanMode { case none, active(SKNode, CGPoint) }
+    private enum PanMode { case none, active(SKNode, ModulePlacement, CGPoint) }
     
-    private enum EditMode { case none, active(SKNode, ModuleBlueprint) }
+    private enum EditMode { case none, active(SKNode, ModulePlacement) }
     
     // MARK: - Initialization
     
@@ -34,6 +34,11 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         let toolbar = UIToolbar()
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         return toolbar
+    }()
+    
+    private lazy var context: NSManagedObjectContext = {
+        // TODO: Create a new main context with viewContext as parent? Or store?
+        return NSPersistentContainer.model.viewContext
     }()
     
     // MARK: - Methods
@@ -80,7 +85,16 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     @objc private func rotateModule() {
-        print("&& TAPPED ROTATE")
+        guard case .active(let node, _) = editMode else {
+            assertionFailure("Invalid mode for rotation.")
+            return
+        }
+        // Determine number of current rotations (cannot compare exact numbers due to CGFloat's imprecision)
+        let rotations = floor(node.zRotation / (CGFloat.pi / 2))
+        switch rotations {
+        case 3: node.zRotation = 0
+        default: node.zRotation += CGFloat.pi / 2.0
+        }
     }
     
     @objc private func endEditingModule() {
@@ -99,9 +113,9 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         case .began:
             // Determine if initial pan started on editing node
             let scenePoint = scene.convertPoint(fromView: recognizer.location(in: view))
-            if case .active(let editingNode, _) = editMode, scene.nodes(at: scenePoint).contains(editingNode) {
+            if case .active(let editingNode, let placement) = editMode, scene.nodes(at: scenePoint).contains(editingNode) {
                 // Activate panning. Assign editing node and editing node's *position in view* to enum
-                panMode = .active(editingNode, scene.convertPoint(toView: editingNode.position))
+                panMode = .active(editingNode, placement, scene.convertPoint(toView: editingNode.position))
             }
         case .ended:
             panMode = .none
@@ -110,7 +124,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             break
         }
         // If not panning delegate to super's behavior
-        guard case .active(let node, var originalPosition) = panMode else {
+        guard case .active(let node, let placement, var originalPosition) = panMode else {
             super.recognizedPan(recognizer)
             return
         }
@@ -120,20 +134,38 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         let newGridPos = GridPoint3(scene.convertPoint(fromView: originalPosition), 0)
         // Compare current position and new position in GridPoints. If they're different assign new position from GridPoints.
         guard GridPoint3(node.position, 0) != newGridPos else { return }
-        node.position = CGPoint(x: newGridPos.x, y: newGridPos.y)
+        
+        // TODO: DEBUGGING
+//        node.position = CGPoint(x: newGridPos.x, y: newGridPos.y)
+        placement.origin = CDPoint2(x: newGridPos.x, y: newGridPos.y)
     }
     
     // MARK: ModuleListViewController Delegate
     
     func moduleListViewController(_: ModuleListViewController, selectedModule module: ModuleBlueprint) {
         dismiss(animated: true, completion: nil)
+        // Assigned deck is required
+        guard let (deck, _) = currentDeck else {
+            assertionFailure("Module selected without a current deck.")
+            return
+        }
+        // Create a new module placement
+        let modulePlacement = ModulePlacement.insertNew(into: context)
+        modulePlacement.origin = CDPoint2(x: 0, y: 0)
+        modulePlacement.rotation = .none
+        modulePlacement.blueprint = module
+        modulePlacement.deck = deck.blueprint
+        // Create a module entity
+        let moduleEntity = ModuleEntity(placement: modulePlacement)
+        // TODO: ADD TO SOME ENTITIES COLLECTION SOMEWHERE?
         
-        // TODO: TESTING
-        let testSprite = SKSpriteNode(color: UIColor.green.withAlphaComponent(0.4), size: CGSize(width: module.size.x, height: module.size.y))
-        scene.addChild(testSprite)
+        // TODO: TESTING WITH BASIC NODE (NOT EDITING)
+        let moduleNode = moduleEntity.mainNodeComponent.node
+        scene.addChild(moduleNode)
+        
         
         // Set mode to editing
-        editMode = .active(testSprite, module)
+        editMode = .active(moduleNode, modulePlacement)
         
         
         print("&& SELECTED MODULE: \(module)")

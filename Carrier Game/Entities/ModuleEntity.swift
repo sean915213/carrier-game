@@ -9,6 +9,10 @@
 import SpriteKit
 import GameplayKit
 
+// TODO: NEXT- Added observer that updates node position based on change of ModulePlacement. But should this entity even be responsible? Make node component responsible. Then the added editing node component (assumed solution) can do the same rather than this entity having to know about all possible relevant components.
+// BUT- Does that matter? Won't editing node component just add and manage nodes on the main node?
+// BUT THEN- yeah it will but how will it know the information required to modify individual tiles as valid or invalid??? (larger question anyway)
+
 class ModuleEntity: GKEntity {
     
     // MARK: - Initialization
@@ -16,6 +20,7 @@ class ModuleEntity: GKEntity {
     init(placement: ModulePlacement) {
         self.placement = placement
         super.init()
+        setupObservers()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,6 +35,8 @@ class ModuleEntity: GKEntity {
     // TODO: THINGS TO DO WHEN THIS IS ASSIGNED?
     var instance: ModuleInstance?
     
+    private var observers = [NSKeyValueObservation]()
+    
     // TODO: Should be a node component that adheres to protocol since entity should not care whether it's in 2D or 3D environment?
     private(set) lazy var mainNodeComponent: GKSKNodeComponent = {
         // Add component and return
@@ -40,16 +47,11 @@ class ModuleEntity: GKEntity {
     
     // MARK: - Methods
     
-//    func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
-//        let wallCoords = Set(placement.absoluteWallCoords)
-//        // Make graph and add nodes
-//        let graph = GKGridGraph3D([])
-//        for coord in placement.absoluteRect.allPoints {
-//            guard !wallCoords.contains(coord) else { continue }
-//            graph.connectToAdjacentNodes(GKGridGraphNode3D(point: coord))
-//        }
-//        return graph
-//    }
+    private func setupObservers() {
+        observers.append(placement.observe(\ModulePlacement.origin, changeHandler: { placement, _ in
+            self.mainNodeComponent.node.position = CGPoint(placement.origin)
+        }))
+    }
     
     private func makeMainNode() -> SKNode {
         // Make main node
