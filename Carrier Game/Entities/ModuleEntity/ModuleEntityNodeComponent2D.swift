@@ -129,23 +129,15 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
     private func updateEditingOverlayNodes(on placement: ModulePlacement) {
         // Do not perform if not editing
         guard showEditingOverlay else { return }
-        // Gather absolute position of all other module's points
-        var otherPoints = Set<GridPoint2>()
-        for modulePlacement in placement.deck.modules {
-            // Skip our placement
-            guard modulePlacement != placement else { continue }
-            // Add points
-            for point in modulePlacement.absoluteRect.allPoints {
-                otherPoints.insert(GridPoint2(point.x, point.y))
-            }
-        }
+        // Ask deck for list of invalid points. Since we're editing it would be our points overlapping.
+        let invalidPoints = placement.deck.validate(conditions: .modulePlacements)
         // Update the overlay on our points
         for (point, node) in editingOverlayNodes {
             let absPoint3 = placement.absolutePoint(fromRelative: point)
             let absPoint = GridPoint2(absPoint3.x, absPoint3.y)
             // Determine overlay color
             let overlayColor: UIColor
-            if otherPoints.contains(absPoint) {
+            if invalidPoints.contains(absPoint) {
                 overlayColor = .red
             } else {
                 overlayColor = .green
