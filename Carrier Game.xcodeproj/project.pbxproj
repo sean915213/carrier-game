@@ -37,6 +37,7 @@
 		74612C5B21FCFB9C00006E15 /* ModuleEntrance3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74612C5A21FCFB9C00006E15 /* ModuleEntrance3D.swift */; };
 		7471650D21AE0D2500F5AA48 /* ShipEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650C21AE0D2500F5AA48 /* ShipEntity.swift */; };
 		7471650F21AE0E1400F5AA48 /* DeckEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650E21AE0E1400F5AA48 /* DeckEntity.swift */; };
+		748AE3242217934F000015E5 /* ModuleEntityNodeComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748AE3232217934F000015E5 /* ModuleEntityNodeComponent2D.swift */; };
 		748C49D921E6CBCB004019D4 /* GridPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C49D821E6CBCB004019D4 /* GridPoint.swift */; };
 		748C49DB21E6CCE0004019D4 /* GridPoint3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C49DA21E6CCE0004019D4 /* GridPoint3.swift */; };
 		749CB13D2177E7F800949734 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB13C2177E7F800949734 /* AppDelegate.swift */; };
@@ -93,6 +94,7 @@
 		74612C5A21FCFB9C00006E15 /* ModuleEntrance3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntrance3D.swift; sourceTree = "<group>"; };
 		7471650C21AE0D2500F5AA48 /* ShipEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipEntity.swift; sourceTree = "<group>"; };
 		7471650E21AE0E1400F5AA48 /* DeckEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckEntity.swift; sourceTree = "<group>"; };
+		748AE3232217934F000015E5 /* ModuleEntityNodeComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntityNodeComponent2D.swift; sourceTree = "<group>"; };
 		748C49D821E6CBCB004019D4 /* GridPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint.swift; sourceTree = "<group>"; };
 		748C49DA21E6CCE0004019D4 /* GridPoint3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint3.swift; sourceTree = "<group>"; };
 		749CB1392177E7F800949734 /* Carrier Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Carrier Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,8 +162,8 @@
 		742C3641219A4D60007FA1B5 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				748AE3222217932A000015E5 /* ModuleEntity */,
 				742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */,
-				742C3649219A6258007FA1B5 /* ModuleEntity.swift */,
 				7471650C21AE0D2500F5AA48 /* ShipEntity.swift */,
 				7471650E21AE0E1400F5AA48 /* DeckEntity.swift */,
 				74EE318021BF2D1900D4A5FC /* StatReportingEntity.swift */,
@@ -176,6 +178,15 @@
 				742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		748AE3222217932A000015E5 /* ModuleEntity */ = {
+			isa = PBXGroup;
+			children = (
+				742C3649219A6258007FA1B5 /* ModuleEntity.swift */,
+				748AE3232217934F000015E5 /* ModuleEntityNodeComponent2D.swift */,
+			);
+			path = ModuleEntity;
 			sourceTree = "<group>";
 		};
 		748C49D721E6CBAE004019D4 /* Grid Model */ = {
@@ -309,7 +320,7 @@
 				749CB1352177E7F800949734 /* Sources */,
 				749CB1362177E7F800949734 /* Frameworks */,
 				749CB1372177E7F800949734 /* Resources */,
-				2741AACCA7B75D6E9516E092 /* [CP] Embed Pods Frameworks */,
+				72582DFE949303BEFB17A3AB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -367,24 +378,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2741AACCA7B75D6E9516E092 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SGYSwiftUtility/SGYSwiftUtility.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SGYSwiftUtility.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2BFAA8C2C7C8F0EE56CAAAF0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -401,6 +394,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		72582DFE949303BEFB17A3AB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SGYSwiftUtility/SGYSwiftUtility.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SGYSwiftUtility.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -447,6 +458,7 @@
 				749CB1512177E8F200949734 /* BuildViewController.swift in Sources */,
 				74612C5121FCE79D00006E15 /* GridRect.swift in Sources */,
 				74BA5CE82183CD0D0039A2D5 /* Model.xcdatamodeld in Sources */,
+				748AE3242217934F000015E5 /* ModuleEntityNodeComponent2D.swift in Sources */,
 				749CB1592177F8C400949734 /* CrossSectionViewController.swift in Sources */,
 				743152CC219CE67100E3101F /* ModuleJobBlueprint.swift in Sources */,
 				74405C76218E476800BA3A69 /* IdentifiableEntity.swift in Sources */,
