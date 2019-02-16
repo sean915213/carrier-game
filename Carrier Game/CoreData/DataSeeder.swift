@@ -199,41 +199,15 @@ extension DataSeeder {
         // Add modules
         // DECK 0
         // - Engine
-//        deck0.placeModule(try! ModuleBlueprint.entityWithIdentifier("engine.small", using: context)!, at: CDPoint2(x: 0, y: 0))
-        
-        let engine = ModulePlacement.insertNew(into: context)
-        engine.blueprint = try! ModuleBlueprint.entityWithIdentifier("engine.small", using: context)!
-        engine.origin = CDPoint2(x: 0, y: 0)
-        deck0.modulePlacements.insert(engine)
-        
-        
+        try! deck0.placeModule(withIdentifier: "engine.small", at: CDPoint2(x: 0, y: 0))
         // - Weapon
-        let weapon = ModulePlacement.insertNew(into: context)
-        weapon.blueprint = try! ModuleBlueprint.entityWithIdentifier("weapon.laser.small", using: context)!
-        weapon.origin = CDPoint2(x: 10, y: 1)
-        deck0.modulePlacements.insert(weapon)
+        try! deck0.placeModule(withIdentifier: "weapon.laser.small", at: CDPoint2(x: 10, y: 1))
         // - Cafe
-        let cafe = ModulePlacement.insertNew(into: context)
-        cafe.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
-        cafe.origin = CDPoint2(x: 5, y: 0)
-        deck0.modulePlacements.insert(cafe)
-        // - Bulkhead // TEST
-        let bulkhead = ModulePlacement.insertNew(into: context)
-        bulkhead.blueprint = try! ModuleBlueprint.entityWithIdentifier("bulkhead.1x1", using: context)!
-        bulkhead.origin = CDPoint2(x: -1, y: 0)
-        deck0.modulePlacements.insert(bulkhead)
-        // - Cooridor // TEST
-        let cooridor = ModulePlacement.insertNew(into: context)
-        cooridor.blueprint = try! ModuleBlueprint.entityWithIdentifier("cooridor.1x1", using: context)!
-        cooridor.origin = CDPoint2(x: -2, y: 0)
-        deck0.modulePlacements.insert(cooridor)
+        try! deck0.placeModule(withIdentifier: "cafe.small", at: CDPoint2(x: 5, y: 0))
         
         // DECK 1
         // - Quarters
-        let quarters = ModulePlacement.insertNew(into: context)
-        quarters.blueprint = try! ModuleBlueprint.entityWithIdentifier("quarters.small", using: context)!
-        quarters.origin = CDPoint2(x: 5, y: 0)
-        deck1.modulePlacements.insert(quarters)
+        try! deck1.placeModule(withIdentifier: "quarters.small", at: CDPoint2(x: 5, y: 0))
     }
     
     fileprivate static func seedTestBlueprint2(using context: NSManagedObjectContext) {
