@@ -9,10 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-// TODO: NEXT- Added observer that updates node position based on change of ModulePlacement. But should this entity even be responsible? Make node component responsible. Then the added editing node component (assumed solution) can do the same rather than this entity having to know about all possible relevant components.
-// BUT- Does that matter? Won't editing node component just add and manage nodes on the main node?
-// BUT THEN- yeah it will but how will it know the information required to modify individual tiles as valid or invalid??? (larger question anyway)
-
 class ModuleEntity: GKEntity {
     
     // MARK: - Initialization

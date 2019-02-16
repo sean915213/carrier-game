@@ -53,32 +53,27 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
             for y in GridPoint.zero..<GridPoint(blueprint.size.y) {
                 let point = CDPoint2(x: x, y: y)
                 // A node is always made
-                let childNode: SKSpriteNode
-                let size = CGSize(width: 1, height: 1)
-                let position = CGPoint(x: x, y: y)
-                // Assign position and add when finished
-                defer {
-                    childNode.name = "Texture"
-                    childNode.position = position
-                    node.addChild(childNode)
-                }
+                let childNode = SKSpriteNode()
+                childNode.name = "Texture"
+                childNode.size = CGSize(width: 1, height: 1)
+                childNode.position = CGPoint(x: x, y: y)
+                node.addChild(childNode)
                 // Check whether this is a wall
                 guard !borderPoints.contains(point) else {
-                    childNode = SKSpriteNode(imageNamed: "Barrel")
-                    childNode.size = size
+                    childNode.texture = SKTexture(image: UIImage(named: "Barrel")!)
                     continue
                 }
                 // Check whether this is an entrance
                 if let entrance = blueprint.entrances.first(where: { $0.coordinate == point }) {
                     if entrance.zAccess {
-                        childNode = SKSpriteNode(color: .yellow, size: size)
+                        childNode.color = .yellow
                     } else {
-                        childNode = SKSpriteNode(color: .brown, size: size)
+                        childNode.color = .brown
                     }
                     continue
                 }
                 // Otherwise simply open, no-entrance texture
-                childNode = SKSpriteNode(color: .white, size: size)
+                childNode.color = .white
             }
         }
     }
