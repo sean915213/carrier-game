@@ -34,8 +34,6 @@ class ModuleEntity: GKEntity {
     // TODO: THINGS TO DO WHEN THIS IS ASSIGNED?
     var instance: ModuleInstance?
     
-    private var observers = [NSKeyValueObservation]()
-    
     // TODO: Should be a node component that adheres to protocol since entity should not care whether it's in 2D or 3D environment?
     private(set) lazy var mainNodeComponent: GKSKNodeComponent = {
         let component = ModuleEntityNodeComponent2D()
