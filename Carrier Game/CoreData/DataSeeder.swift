@@ -202,34 +202,34 @@ extension DataSeeder {
         let engine = ModulePlacement.insertNew(into: context)
         engine.blueprint = try! ModuleBlueprint.entityWithIdentifier("engine.small", using: context)!
         engine.origin = CDPoint2(x: 0, y: 0)
-        deck0.modules.insert(engine)
+        deck0.modulePlacements.insert(engine)
         // - Weapon
         let weapon = ModulePlacement.insertNew(into: context)
         weapon.blueprint = try! ModuleBlueprint.entityWithIdentifier("weapon.laser.small", using: context)!
         weapon.origin = CDPoint2(x: 10, y: 1)
-        deck0.modules.insert(weapon)
+        deck0.modulePlacements.insert(weapon)
         // - Cafe
         let cafe = ModulePlacement.insertNew(into: context)
         cafe.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
         cafe.origin = CDPoint2(x: 5, y: 0)
-        deck0.modules.insert(cafe)
+        deck0.modulePlacements.insert(cafe)
         // - Bulkhead // TEST
         let bulkhead = ModulePlacement.insertNew(into: context)
         bulkhead.blueprint = try! ModuleBlueprint.entityWithIdentifier("bulkhead.1x1", using: context)!
         bulkhead.origin = CDPoint2(x: -1, y: 0)
-        deck0.modules.insert(bulkhead)
+        deck0.modulePlacements.insert(bulkhead)
         // - Cooridor // TEST
         let cooridor = ModulePlacement.insertNew(into: context)
         cooridor.blueprint = try! ModuleBlueprint.entityWithIdentifier("cooridor.1x1", using: context)!
         cooridor.origin = CDPoint2(x: -2, y: 0)
-        deck0.modules.insert(cooridor)
+        deck0.modulePlacements.insert(cooridor)
         
         // DECK 1
         // - Quarters
         let quarters = ModulePlacement.insertNew(into: context)
         quarters.blueprint = try! ModuleBlueprint.entityWithIdentifier("quarters.small", using: context)!
         quarters.origin = CDPoint2(x: 5, y: 0)
-        deck1.modules.insert(quarters)
+        deck1.modulePlacements.insert(quarters)
     }
     
     fileprivate static func seedTestBlueprint2(using context: NSManagedObjectContext) {
@@ -252,25 +252,25 @@ extension DataSeeder {
         bridge.blueprint = try! ModuleBlueprint.entityWithIdentifier("bridge.small", using: context)!
         bridge.origin = CDPoint2(x: 0, y: 0)
         bridge.rotation = .quarter
-        deck0.modules.insert(bridge)
+        deck0.modulePlacements.insert(bridge)
         // - Cooridors
         for point in [CDPoint2(x: 1, y: 2), CDPoint2(x: 2, y: 2), CDPoint2(x: 3, y: 2), CDPoint2(x: 4, y: 2), CDPoint2(x: 4, y: 3)] {
             let module = ModulePlacement.insertNew(into: context)
             module.blueprint = try! ModuleBlueprint.entityWithIdentifier("cooridor.1x1", using: context)!
             module.origin = point
-            deck0.modules.insert(module)
+            deck0.modulePlacements.insert(module)
         }
         // - Laser
         let laser = ModulePlacement.insertNew(into: context)
         laser.blueprint = try! ModuleBlueprint.entityWithIdentifier("weapon.laser.small", using: context)!
         laser.origin = CDPoint2(x: 3, y: 1)
         laser.rotation = .threeQuarter
-        deck0.modules.insert(laser)
+        deck0.modulePlacements.insert(laser)
         // - Lift
         let lift = ModulePlacement.insertNew(into: context)
         lift.blueprint = try! ModuleBlueprint.entityWithIdentifier("lift", using: context)!
         lift.origin = CDPoint2(x: 4, y: 4)
-        deck0.modules.insert(lift)
+        deck0.modulePlacements.insert(lift)
         
         // 1 - BELOW DECK
         let deck1 = DeckBlueprint.insertNew(into: context, on: ship, at: 1)
@@ -284,17 +284,17 @@ extension DataSeeder {
         let lift1 = ModulePlacement.insertNew(into: context)
         lift1.blueprint = try! ModuleBlueprint.entityWithIdentifier("lift", using: context)!
         lift1.origin = CDPoint2(x: 4, y: 4)
-        deck1.modules.insert(lift1)
+        deck1.modulePlacements.insert(lift1)
         // - Cafe
         let cafe = ModulePlacement.insertNew(into: context)
         cafe.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
         cafe.origin = CDPoint2(x: -1, y: 2)
-        deck1.modules.insert(cafe)
+        deck1.modulePlacements.insert(cafe)
         // - Quarters
         let quarters = ModulePlacement.insertNew(into: context)
         quarters.blueprint = try! ModuleBlueprint.entityWithIdentifier("quarters.small", using: context)!
         quarters.origin = CDPoint2(x: 5, y: 2)
-        deck1.modules.insert(quarters)
+        deck1.modulePlacements.insert(quarters)
     }
 }
 

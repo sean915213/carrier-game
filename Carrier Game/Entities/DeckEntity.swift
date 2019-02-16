@@ -28,7 +28,7 @@ class DeckEntity: GKEntity {
     let blueprint: DeckBlueprint
     
     private(set) lazy var moduleEntities: [ModuleEntity] = {
-        return blueprint.modules.map { ModuleEntity(placement: $0) }
+        return blueprint.modulePlacements.map { ModuleEntity(placement: $0) }
     }()
     
     // MARK: - Methods

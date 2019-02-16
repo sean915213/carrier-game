@@ -18,7 +18,7 @@
     <entity name="DeckBlueprint" representedClassName=".DeckBlueprint" syncable="YES">
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="position" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="modules" toMany="YES" deletionRule="Nullify" destinationEntity="ModulePlacement" inverseName="deck" inverseEntity="ModulePlacement" syncable="YES"/>
+        <relationship name="modulePlacements" toMany="YES" deletionRule="Nullify" destinationEntity="ModulePlacement" inverseName="deck" inverseEntity="ModulePlacement" syncable="YES"/>
         <relationship name="ship" maxCount="1" deletionRule="Nullify" destinationEntity="ShipBlueprint" inverseName="decks" inverseEntity="ShipBlueprint" syncable="YES"/>
     </entity>
     <entity name="DeckInstance" representedClassName=".DeckInstance" syncable="YES">
@@ -61,7 +61,7 @@
         <attribute name="origin" optional="YES" attributeType="Transformable" valueTransformerName="CDPoint2Transformer" syncable="YES"/>
         <attribute name="rotation" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="blueprint" maxCount="1" deletionRule="Nullify" destinationEntity="ModuleBlueprint" syncable="YES"/>
-        <relationship name="deck" maxCount="1" deletionRule="Nullify" destinationEntity="DeckBlueprint" inverseName="modules" inverseEntity="DeckBlueprint" syncable="YES"/>
+        <relationship name="deck" maxCount="1" deletionRule="Nullify" destinationEntity="DeckBlueprint" inverseName="modulePlacements" inverseEntity="DeckBlueprint" syncable="YES"/>
     </entity>
     <entity name="ShipBlueprint" representedClassName=".ShipBlueprint" syncable="YES">
         <attribute name="identifier" attributeType="String" syncable="YES"/>
@@ -78,7 +78,7 @@
     <elements>
         <element name="CrewmanInstance" positionX="-27" positionY="63" width="128" height="135"/>
         <element name="CrewmanNeed" positionX="-36" positionY="63" width="128" height="120"/>
-        <element name="DeckBlueprint" positionX="-45" positionY="36" width="128" height="30"/>
+        <element name="DeckBlueprint" positionX="-45" positionY="36" width="128" height="105"/>
         <element name="DeckInstance" positionX="-18" positionY="54" width="128" height="90"/>
         <element name="ModuleBlueprint" positionX="-63" positionY="-18" width="128" height="180"/>
         <element name="ModuleInstance" positionX="-45" positionY="45" width="128" height="90"/>

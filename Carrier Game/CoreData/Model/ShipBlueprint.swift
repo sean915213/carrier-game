@@ -49,7 +49,7 @@ extension ShipBlueprint {
             guard deck != orderedDecks.first else { continue }
             // Get all module entrances with z-access
             var zCoords = [GridPoint3]()
-            for modulePlacement in deck.modules {
+            for modulePlacement in deck.modulePlacements {
                 for entrance in modulePlacement.absoluteEntrances {
                     guard entrance.zAccess else { continue }
                     zCoords.append(entrance.coordinate)

@@ -14,8 +14,7 @@ class DeckBlueprint: NSManagedObject {
     @NSManaged var name: String
     @NSManaged var position: Int16
     
-    // TODO: Rename to modulePlacements
-    @NSManaged var modules: Set<ModulePlacement>
+    @NSManaged var modulePlacements: Set<ModulePlacement>
     @NSManaged var ship: ShipBlueprint
 }
 
@@ -31,7 +30,7 @@ extension DeckBlueprint {
     // MARK: - Properties
     
     var moduleAttributes: [ModuleAttribute: Double] {
-        return modules.compactMap({ $0.blueprint }).map({ $0.attributes }).combined()
+        return modulePlacements.compactMap({ $0.blueprint }).map({ $0.attributes }).combined()
     }
     
     // MARK: - Methods
@@ -39,7 +38,7 @@ extension DeckBlueprint {
     func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
         // Make graph and connect individual module graphs
         let graph = GKGridGraph3D([])
-        for module in modules {
+        for module in modulePlacements {
             graph.addGraph(module.makeGraph(), connectAdjacentNodes: true)
         }
         return graph
@@ -47,10 +46,10 @@ extension DeckBlueprint {
     
     func findOpenCoords() -> [GridPoint3] {
         // Map all coords
-        let allCoords = Set(modules.flatMap({ $0.absoluteRect.allPoints }))
+        let allCoords = Set(modulePlacements.flatMap({ $0.absoluteRect.allPoints }))
         // Find open coords
         var openCoords = [GridPoint3]()
-        for module in modules {
+        for module in modulePlacements {
             for entrance in module.absoluteEntrances {
                 // Check for surrounding
                 guard allCoords.contains(entrance.coordinate + GridPoint3(-1, 0, 0)) else {
@@ -79,7 +78,7 @@ extension DeckBlueprint {
         // Collect points into a set
         var modulePoints = Set<GridPoint2>()
         var invalidPoints = Set<GridPoint2>()
-        for placement in modules {
+        for placement in modulePlacements {
             for point in placement.absoluteRect.allPoints {
                 let gridPoint = GridPoint2(point.x, point.y)
                 // If already in set then there's an overlap

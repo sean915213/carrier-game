@@ -34,7 +34,7 @@ extension DeckInstance {
         let deck = DeckInstance.insertNew(into: context)
         deck.blueprint = blueprint
         // Make modules
-        for placement in blueprint.modules {
+        for placement in blueprint.modulePlacements {
             let instance = ModuleInstance.insertNew(into: context, using: placement)
             deck.modules.insert(instance)
         }
