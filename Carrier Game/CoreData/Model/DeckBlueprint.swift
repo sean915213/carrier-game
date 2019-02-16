@@ -94,6 +94,9 @@ extension DeckBlueprint {
 }
 
 extension DeckBlueprint {
+    
+    enum PlacementError: Error { case notFound }
+    
     class func insertNew(into context: NSManagedObjectContext, on ship: ShipBlueprint, at position: Int16) -> DeckBlueprint {
         // Make instance
         let deck = DeckBlueprint.insertNew(into: context)
@@ -101,5 +104,27 @@ extension DeckBlueprint {
         // Add to ship
         ship.decks.insert(deck)
         return deck
+    }
+    
+    @discardableResult
+    func placeModule(withIdentifier identifier: String, at origin: CDPoint2) throws -> ModulePlacement {
+        // Insert a new module placement into our current context
+        guard let context = managedObjectContext else { fatalError("Attempt to place a module on a DeckBlueprint with no associated context.") }
+        // Retrieve module
+        guard let module = try ModuleBlueprint.entityWithIdentifier(identifier, using: context) else { throw PlacementError.notFound }
+        // Place
+        return placeModule(module, at: origin)
+    }
+    
+    @discardableResult
+    func placeModule(_ module: ModuleBlueprint, at origin: CDPoint2) -> ModulePlacement {
+        // Insert a new module placement into our current context
+        guard let context = managedObjectContext else { fatalError("Attempt to place a module on a DeckBlueprint with no associated context.") }
+        let placement = ModulePlacement.insertNew(into: context)
+        placement.blueprint = module
+        placement.origin = origin
+        // Add to our list and return
+        modulePlacements.insert(placement)
+        return placement
     }
 }

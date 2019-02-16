@@ -199,10 +199,14 @@ extension DataSeeder {
         // Add modules
         // DECK 0
         // - Engine
+//        deck0.placeModule(try! ModuleBlueprint.entityWithIdentifier("engine.small", using: context)!, at: CDPoint2(x: 0, y: 0))
+        
         let engine = ModulePlacement.insertNew(into: context)
         engine.blueprint = try! ModuleBlueprint.entityWithIdentifier("engine.small", using: context)!
         engine.origin = CDPoint2(x: 0, y: 0)
         deck0.modulePlacements.insert(engine)
+        
+        
         // - Weapon
         let weapon = ModulePlacement.insertNew(into: context)
         weapon.blueprint = try! ModuleBlueprint.entityWithIdentifier("weapon.laser.small", using: context)!
@@ -248,29 +252,17 @@ extension DataSeeder {
         
         // Add modules
         // - Bridge
-        let bridge = ModulePlacement.insertNew(into: context)
-        bridge.blueprint = try! ModuleBlueprint.entityWithIdentifier("bridge.small", using: context)!
-        bridge.origin = CDPoint2(x: 0, y: 0)
+        let bridge = try! deck0.placeModule(withIdentifier: "bridge.small", at: CDPoint2(x: 0, y: 0))
         bridge.rotation = .quarter
-        deck0.modulePlacements.insert(bridge)
         // - Cooridors
         for point in [CDPoint2(x: 1, y: 2), CDPoint2(x: 2, y: 2), CDPoint2(x: 3, y: 2), CDPoint2(x: 4, y: 2), CDPoint2(x: 4, y: 3)] {
-            let module = ModulePlacement.insertNew(into: context)
-            module.blueprint = try! ModuleBlueprint.entityWithIdentifier("cooridor.1x1", using: context)!
-            module.origin = point
-            deck0.modulePlacements.insert(module)
+            try! deck0.placeModule(withIdentifier: "cooridor.1x1", at: point)
         }
         // - Laser
-        let laser = ModulePlacement.insertNew(into: context)
-        laser.blueprint = try! ModuleBlueprint.entityWithIdentifier("weapon.laser.small", using: context)!
-        laser.origin = CDPoint2(x: 3, y: 1)
+        let laser = try! deck0.placeModule(withIdentifier: "weapon.laser.small", at: CDPoint2(x: 3, y: 1))
         laser.rotation = .threeQuarter
-        deck0.modulePlacements.insert(laser)
         // - Lift
-        let lift = ModulePlacement.insertNew(into: context)
-        lift.blueprint = try! ModuleBlueprint.entityWithIdentifier("lift", using: context)!
-        lift.origin = CDPoint2(x: 4, y: 4)
-        deck0.modulePlacements.insert(lift)
+        try! deck0.placeModule(withIdentifier: "lift", at: CDPoint2(x: 4, y: 4))
         
         // 1 - BELOW DECK
         let deck1 = DeckBlueprint.insertNew(into: context, on: ship, at: 1)
@@ -281,20 +273,11 @@ extension DataSeeder {
 
         // Add modules
         // - Lift
-        let lift1 = ModulePlacement.insertNew(into: context)
-        lift1.blueprint = try! ModuleBlueprint.entityWithIdentifier("lift", using: context)!
-        lift1.origin = CDPoint2(x: 4, y: 4)
-        deck1.modulePlacements.insert(lift1)
+        try! deck1.placeModule(withIdentifier: "lift", at: CDPoint2(x: 4, y: 4))
         // - Cafe
-        let cafe = ModulePlacement.insertNew(into: context)
-        cafe.blueprint = try! ModuleBlueprint.entityWithIdentifier("cafe.small", using: context)!
-        cafe.origin = CDPoint2(x: -1, y: 2)
-        deck1.modulePlacements.insert(cafe)
+        try! deck1.placeModule(withIdentifier: "cafe.small", at: CDPoint2(x: -1, y: 2))
         // - Quarters
-        let quarters = ModulePlacement.insertNew(into: context)
-        quarters.blueprint = try! ModuleBlueprint.entityWithIdentifier("quarters.small", using: context)!
-        quarters.origin = CDPoint2(x: 5, y: 2)
-        deck1.modulePlacements.insert(quarters)
+        try! deck1.placeModule(withIdentifier: "quarters.small", at: CDPoint2(x: 5, y: 2))
     }
 }
 
