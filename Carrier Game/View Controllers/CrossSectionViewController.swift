@@ -67,6 +67,11 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         scene.isPaused = true
     }
     
+    override func setupRecognizers() {
+        super.setupRecognizers()
+        view.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(recognizedLongPress(_:))))
+    }
+    
     private func configureToolbar() {
         var items = [UIBarButtonItem]()
         // Configure based on edit mode
@@ -143,6 +148,24 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         } catch {
             logger.logError("Error saving newly placed module: \(error)")
         }
+    }
+    
+    @objc private func recognizedLongPress(_ recognizer: UILongPressGestureRecognizer) {
+        // Require a deck
+        guard let (deckEntity, _) = currentDeck else { return }
+        // Only matters when not editing currently
+        guard case .none = editMode else { return }
+        // Only looking for a module node
+        guard let moduleNode = scene.nodes(atViewLocation: recognizer.location(in: view)).first(where: { $0.name == "Module" }) else {
+            return
+        }
+        // Find matching module entity (which we definitely expect to find)
+        guard let moduleEntity = deckEntity.moduleEntities.first(where: { $0.mainNodeComponent.node == moduleNode }) else {
+            assertionFailure("Could not find entity with Module node on current deck. This should not happen.")
+            return
+        }
+        // Begin editing pressed module
+        editMode = .active(moduleEntity)
     }
     
     override func recognizedPan(_ recognizer: UIPanGestureRecognizer) {

@@ -64,7 +64,7 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
     private func configureMainNode(on placement: ModulePlacement) {
         // Configure main node
         node = SKNode()
-        node.name = "Module: \(String(describing: self))"
+        node.name = "Module"
         // Perform initial position and rotation updates
         updatePosition(on: placement)
         updateRotation(on: placement)

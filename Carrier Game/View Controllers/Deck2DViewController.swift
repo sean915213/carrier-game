@@ -175,7 +175,7 @@ class Deck2DViewController: UIViewController {
         optionsStack.addArrangedSubview(deckButton)
     }
     
-    private func setupRecognizers() {
+    func setupRecognizers() {
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(recognizedTap(_:))))
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(recognizedPan(_:))))
         view.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(recognizedPinch(_:))))
