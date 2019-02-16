@@ -31,7 +31,7 @@ class ModuleEntity: GKEntity {
     var instance: ModuleInstance?
     
     // TODO: Should be a node component that adheres to protocol since entity should not care whether it's in 2D or 3D environment?
-    private(set) lazy var mainNodeComponent: GKSKNodeComponent = {
+    private(set) lazy var mainNodeComponent: ModuleEntityNodeComponent2D = {
         let component = ModuleEntityNodeComponent2D()
         addComponent(component)
         return component

@@ -12,8 +12,6 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO NEXT- how to synchronize selection of a module w/ the display? A bunch of KVO? But also requires that this controller get NEW nodes from related instances/entities?
-
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate {
     
     private enum PanMode { case none, active(SKNode, ModulePlacement, CGPoint) }
@@ -85,17 +83,33 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     @objc private func rotateModule() {
-        guard case .active(let node, _) = editMode else {
+        guard case .active(_, let placement) = editMode else {
             assertionFailure("Invalid mode for rotation.")
             return
         }
-        // Determine number of current rotations (cannot compare exact numbers due to CGFloat's imprecision)
-        let rotations = floor(node.zRotation / (CGFloat.pi / 2))
-        switch rotations {
-        case 3: node.zRotation = 0
-        default: node.zRotation += CGFloat.pi / 2.0
-        }
+        // Increment by 1 or reset if already at 3/4 rotation
+        placement.rotation = GridRotation(rawValue: placement.rotation.rawValue + 1) ?? .none
+        
+//        if let newRotation = GridRotation(rawValue: placement.rotation.rawValue + 1) {
+//            placement.rotation = newRotation
+//        } else {
+//            // Otherwise was already at 3/4 so reset
+//            placement.rotation = .none
+//        }
     }
+    
+//    @objc private func rotateModule() {
+//        guard case .active(let node, _) = editMode else {
+//            assertionFailure("Invalid mode for rotation.")
+//            return
+//        }
+//        // Determine number of current rotations (cannot compare exact numbers due to CGFloat's imprecision)
+//        let rotations = floor(node.zRotation / (CGFloat.pi / 2))
+//        switch rotations {
+//        case 3: node.zRotation = 0
+//        default: node.zRotation += CGFloat.pi / 2.0
+//        }
+//    }
     
     @objc private func endEditingModule() {
         guard case let .active(node, _) = editMode else {
@@ -134,9 +148,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         let newGridPos = GridPoint3(scene.convertPoint(fromView: originalPosition), 0)
         // Compare current position and new position in GridPoints. If they're different assign new position from GridPoints.
         guard GridPoint3(node.position, 0) != newGridPos else { return }
-        
-        // TODO: DEBUGGING
-//        node.position = CGPoint(x: newGridPos.x, y: newGridPos.y)
         placement.origin = CDPoint2(x: newGridPos.x, y: newGridPos.y)
     }
     
@@ -157,6 +168,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         modulePlacement.deck = deck.blueprint
         // Create a module entity
         let moduleEntity = ModuleEntity(placement: modulePlacement)
+        moduleEntity.mainNodeComponent.showEditingOverlay = true
         // TODO: ADD TO SOME ENTITIES COLLECTION SOMEWHERE?
         
         // TODO: TESTING WITH BASIC NODE (NOT EDITING)

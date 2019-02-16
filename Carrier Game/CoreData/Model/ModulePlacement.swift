@@ -34,13 +34,13 @@ extension ModulePlacement {
 
     var absoluteEntrances: [ModuleEntrance3D] {
         return blueprint.entrances.map { entrance in
-            let translatedCoord = absolutePoint(fromRelative: entrance.coordinate)
+            let translatedCoord = absolutePoint(fromRelative: GridPoint2(entrance.coordinate))
             return ModuleEntrance3D(coordinate: translatedCoord, zAccess: entrance.zAccess)
         }
     }
 
     var absoluteWallCoords: [GridPoint3] {
-        return blueprint.wallCoords.map({ absolutePoint(fromRelative: $0) })
+        return blueprint.wallCoords.map({ absolutePoint(fromRelative: GridPoint2($0)) })
     }
 
     // MARK: - Methods
@@ -56,7 +56,7 @@ extension ModulePlacement {
         return graph
     }
 
-    func absolutePoint(fromRelative point: CDPoint2) -> GridPoint3 {
+    func absolutePoint(fromRelative point: GridPoint2) -> GridPoint3 {
         return absolutePoint(fromRelative: GridPoint3(point, deck.position))
     }
 

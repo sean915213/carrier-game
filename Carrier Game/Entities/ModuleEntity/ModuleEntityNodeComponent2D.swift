@@ -16,16 +16,22 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
     // MARK: - Properties
     
     var showEditingOverlay = false {
-        didSet { updateEditingOverlay() }
+        didSet {
+            guard let placement = modulePlacement else {
+                // TODO: LOG THIS
+                return
+            }
+            toggleEditingOverlay(on: placement)
+        }
     }
     
     private var modulePlacement: ModulePlacement? {
         return (entity as? ModuleEntity)?.placement
     }
     
-    private var editingOverlayNode: SKNode?
+    private lazy var editingOverlayNodes = [GridPoint2: SKSpriteNode]()
     
-    private var positionObserver: NSKeyValueObservation?
+    private lazy var positionObservers = [NSKeyValueObservation]()
     
     private var moduleGridPoints: [GridPoint2] {
         var points = [GridPoint2]()
@@ -42,9 +48,12 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
     
     override func didAddToEntity() {
         super.didAddToEntity()
-        configureMainNode()
-        configureTextureNodes()
-        configureObserver()
+        guard let placement = modulePlacement else {
+            fatalError("\(#function) called without an assigned placement.")
+        }
+        configureMainNode(on: placement)
+        configureTextureNodes(on: placement)
+        configureObservers(on: placement)
     }
     
     override func willRemoveFromEntity() {
@@ -52,21 +61,16 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
         node = SKNode()
     }
     
-    private func configureMainNode() {
-        guard let placement = modulePlacement else {
-            fatalError("\(#function) called without an assigned placement.")
-        }
+    private func configureMainNode(on placement: ModulePlacement) {
         // Configure main node
         node = SKNode()
         node.name = "Module: \(String(describing: self))"
-        node.position = CGPoint(placement.origin)
-        node.zRotation = CGFloat(placement.rotation.radians)
+        // Perform initial position and rotation updates
+        updatePosition(on: placement)
+        updateRotation(on: placement)
     }
 
-    private func configureTextureNodes() {
-        guard let placement = modulePlacement else {
-            fatalError("\(#function) called without an assigned placement.")
-        }
+    private func configureTextureNodes(on placement: ModulePlacement) {
         let blueprint = placement.blueprint
         // NOTE: Texture nodes are placed according to *relative* position since they are attached to one main node that is placed at the placement's origin and rotated as needed.
         let borderPoints = Set(blueprint.wallCoords)
@@ -97,20 +101,80 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
         }
     }
     
-    private func updateEditingOverlay() {
-        
+    private func toggleEditingOverlay(on placement: ModulePlacement) {
+        if showEditingOverlay && editingOverlayNodes.isEmpty {
+            print("&& ADD EDIT NODES")
+            addEditingOverlayNodes(on: placement)
+        } else {
+            print("&& REMOVING EDIT NODES")
+            for (_, overlayNode) in editingOverlayNodes {
+                overlayNode.removeFromParent()
+            }
+            editingOverlayNodes.removeAll(keepingCapacity: true)
+        }
+    }
+    
+    private func addEditingOverlayNodes(on placement: ModulePlacement) {
+        for point in moduleGridPoints {
+            let spriteNode = SKSpriteNode()
+            spriteNode.size = CGSize(width: 1, height: 1)
+            spriteNode.position = CGPoint(point)
+            editingOverlayNodes[point] = spriteNode
+            node.addChild(spriteNode)
+        }
+        // Perform first update to assign colors properly
+        updateEditingOverlayNodes(on: placement)
+    }
+    
+    private func updateEditingOverlayNodes(on placement: ModulePlacement) {
+        // Do not perform if not editing
+        guard showEditingOverlay else { return }
+        // Gather absolute position of all other module's points
+        var otherPoints = Set<GridPoint2>()
+        for modulePlacement in placement.deck.modules {
+            // Skip our placement
+            guard modulePlacement != placement else { continue }
+            // Add points
+            for point in modulePlacement.absoluteRect.allPoints {
+                otherPoints.insert(GridPoint2(point.x, point.y))
+            }
+        }
+        // Update the overlay on our points
+        for (point, node) in editingOverlayNodes {
+            let absPoint3 = placement.absolutePoint(fromRelative: point)
+            let absPoint = GridPoint2(absPoint3.x, absPoint3.y)
+            // Determine overlay color
+            let overlayColor: UIColor
+            if otherPoints.contains(absPoint) {
+                overlayColor = .red
+            } else {
+                overlayColor = .green
+            }
+            // Assign overlay color
+            node.color = overlayColor.withAlphaComponent(0.8)
+        }
     }
     
     private func updatePosition(on placement: ModulePlacement) {
         // Update node's position
         node.position = CGPoint(placement.origin)
         // Update any editing overlay
-        updateEditingOverlay()
+        updateEditingOverlayNodes(on: placement)
     }
     
-    private func configureObserver() {
-        positionObserver = (entity as! ModuleEntity).placement.observe(\ModulePlacement.origin, changeHandler: { placement, _ in
+    private func updateRotation(on placement: ModulePlacement) {
+        // Update node's rotation
+        node.zRotation = CGFloat(placement.rotation.radians)
+        // Update any editing overlay
+        updateEditingOverlayNodes(on: placement)
+    }
+    
+    private func configureObservers(on placement: ModulePlacement) {
+        positionObservers.append(placement.observe(\.origin, changeHandler: { placement, _ in
             self.updatePosition(on: placement)
-        })
+        }))
+        positionObservers.append(placement.observe(\.rotation, changeHandler: { placement, _ in
+            self.updateRotation(on: placement)
+        }))
     }
 }

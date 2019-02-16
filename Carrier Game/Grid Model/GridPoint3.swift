@@ -61,6 +61,10 @@ struct GridPoint3: Hashable, Equatable {
         self.init(point, GridPoint(z))
     }
     
+    init(_ point: GridPoint2, _ z: Int16) {
+        self.init(point.x, point.y, GridPoint(z))
+    }
+    
     init(_ point: CDPoint2, _ z: GridPoint) {
         self.init(GridPoint(point.x), GridPoint(point.y), z)
     }
