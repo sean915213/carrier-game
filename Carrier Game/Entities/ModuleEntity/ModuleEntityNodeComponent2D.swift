@@ -103,10 +103,8 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
     
     private func toggleEditingOverlay(on placement: ModulePlacement) {
         if showEditingOverlay && editingOverlayNodes.isEmpty {
-            print("&& ADD EDIT NODES")
             addEditingOverlayNodes(on: placement)
         } else {
-            print("&& REMOVING EDIT NODES")
             for (_, overlayNode) in editingOverlayNodes {
                 overlayNode.removeFromParent()
             }

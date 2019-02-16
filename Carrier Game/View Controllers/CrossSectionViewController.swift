@@ -183,14 +183,10 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             assertionFailure("Module selected without a current deck.")
             return
         }
-        // Create a new module placement
-        let modulePlacement = ModulePlacement.insertNew(into: context)
-        modulePlacement.origin = CDPoint2(x: 0, y: 0)
-        modulePlacement.rotation = .none
-        modulePlacement.blueprint = module
-        modulePlacement.deck = deck.blueprint
+        // Place module on deck
+        let placement = deck.blueprint.placeModule(module, at: CDPoint2(x: 0, y: 0))
         // Create a module entity
-        let moduleEntity = ModuleEntity(placement: modulePlacement)
+        let moduleEntity = ModuleEntity(placement: placement)
         // Add node to scene
         scene.addChild(moduleEntity.mainNodeComponent.node)
         // Set mode to editing
