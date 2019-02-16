@@ -45,6 +45,35 @@ extension DeckBlueprint {
         return graph
     }
     
+    func findOpenCoords() -> [GridPoint3] {
+        // Map all coords
+        let allCoords = Set(modules.flatMap({ $0.absoluteRect.allPoints }))
+        // Find open coords
+        var openCoords = [GridPoint3]()
+        for module in modules {
+            for entrance in module.absoluteEntrances {
+                // Check for surrounding
+                guard allCoords.contains(entrance.coordinate + GridPoint3(-1, 0, 0)) else {
+                    openCoords.append(entrance.coordinate)
+                    continue
+                }
+                guard allCoords.contains(entrance.coordinate + GridPoint3(1, 0, 0)) else {
+                    openCoords.append(entrance.coordinate)
+                    continue
+                }
+                guard allCoords.contains(entrance.coordinate + GridPoint3(0, 1, 0)) else {
+                    openCoords.append(entrance.coordinate)
+                    continue
+                }
+                guard allCoords.contains(entrance.coordinate + GridPoint3(0, -1, 0)) else {
+                    openCoords.append(entrance.coordinate)
+                    continue
+                }
+            }
+        }
+        return openCoords
+    }
+    
     // TODO: Return type definitely needs fleshed out when validating more than overlapping points
     func validate(conditions: ValidationConditions) -> Set<GridPoint2> {
         // Collect points into a set
