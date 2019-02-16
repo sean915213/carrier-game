@@ -14,9 +14,9 @@ import SGYSwiftUtility
 
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate {
     
-    private enum PanMode { case none, active(SKNode, ModulePlacement, CGPoint) }
+    private enum PanMode { case none, active(ModuleEntity, CGPoint) }
     
-    private enum EditMode { case none, active(SKNode, ModulePlacement) }
+    private enum EditMode: Equatable { case none, active(ModuleEntity) }
     
     // MARK: - Initialization
     
@@ -25,7 +25,19 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     private var panMode: PanMode = .none
     
     private var editMode: EditMode = .none {
-        didSet { configureToolbar() }
+        didSet {
+            guard editMode != oldValue else { return }
+            // Configure toolbar for mode
+            configureToolbar()
+            // If new mode is active then toggle editing overlay on associated node component
+            if case .active(let entity) = editMode {
+                entity.mainNodeComponent.showEditingOverlay = true
+            }
+            // If old value was also active it must have been a different module. So end editing.
+            if case .active(let entity) = oldValue {
+                entity.mainNodeComponent.showEditingOverlay = false
+            }
+        }
     }
     
     private lazy var toolbar: UIToolbar = {
@@ -65,10 +77,12 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         case .active:
             // Rotate module
             items.append(UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(rotateModule)))
-            // Spacer
-            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
             // End editing
             items.append(UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(endEditingModule)))
+            // Spacer
+            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+            // Save placement
+            items.append(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEditingModule)))
         }
         // Add
         toolbar.setItems(items, animated: true)
@@ -83,43 +97,52 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     @objc private func rotateModule() {
-        guard case .active(_, let placement) = editMode else {
-            assertionFailure("Invalid mode for rotation.")
+        guard case .active(let entity) = editMode else {
+            assertionFailure("Invalid editMode for rotation.")
             return
         }
         // Increment by 1 or reset if already at 3/4 rotation
-        placement.rotation = GridRotation(rawValue: placement.rotation.rawValue + 1) ?? .none
-        
-//        if let newRotation = GridRotation(rawValue: placement.rotation.rawValue + 1) {
-//            placement.rotation = newRotation
-//        } else {
-//            // Otherwise was already at 3/4 so reset
-//            placement.rotation = .none
-//        }
+        entity.placement.rotation = GridRotation(rawValue: entity.placement.rotation.rawValue + 1) ?? .none
     }
     
-//    @objc private func rotateModule() {
-//        guard case .active(let node, _) = editMode else {
-//            assertionFailure("Invalid mode for rotation.")
-//            return
-//        }
-//        // Determine number of current rotations (cannot compare exact numbers due to CGFloat's imprecision)
-//        let rotations = floor(node.zRotation / (CGFloat.pi / 2))
-//        switch rotations {
-//        case 3: node.zRotation = 0
-//        default: node.zRotation += CGFloat.pi / 2.0
-//        }
-//    }
-    
     @objc private func endEditingModule() {
-        guard case let .active(node, _) = editMode else {
-            logger.logError("Asked to end editing module when editMode did not match. editMode: \(editMode)")
+        guard case .active(let entity) = editMode else {
+            assertionFailure("Invalid editMode for end editing.")
             return
         }
         // Remove node
-        node.removeFromParent()
+        entity.mainNodeComponent.node.removeFromParent()
         // End editing
         editMode = .none
+    }
+    
+    @objc private func saveEditingModule() {
+        // Be safe
+        guard let (deck, _) = currentDeck else {
+            assertionFailure("No deck assigned for saving.")
+            return
+        }
+        guard case .active = editMode else {
+            assertionFailure("Invalid editMode for saving.")
+            return
+        }
+        // Ask deck to validate
+        let invalidPoints = deck.blueprint.validate(conditions: .modulePlacements)
+        guard invalidPoints.isEmpty else {
+            let alert = UIAlertController(title: "Invalid Position", message: "This is not a valid position to save the module.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        do {
+            // Save
+            try NSPersistentContainer.model.viewContext.save()
+            logger.logInfo("Successfully saved new module.")
+            // End editing
+            editMode = .none
+        } catch {
+            logger.logError("Error saving newly placed module: \(error)")
+        }
     }
     
     override func recognizedPan(_ recognizer: UIPanGestureRecognizer) {
@@ -127,9 +150,9 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         case .began:
             // Determine if initial pan started on editing node
             let scenePoint = scene.convertPoint(fromView: recognizer.location(in: view))
-            if case .active(let editingNode, let placement) = editMode, scene.nodes(at: scenePoint).contains(editingNode) {
+            if case .active(let entity) = editMode, scene.nodes(at: scenePoint).contains(entity.mainNodeComponent.node) {
                 // Activate panning. Assign editing node and editing node's *position in view* to enum
-                panMode = .active(editingNode, placement, scene.convertPoint(toView: editingNode.position))
+                panMode = .active(entity, scene.convertPoint(toView: entity.mainNodeComponent.node.position))
             }
         case .ended:
             panMode = .none
@@ -138,7 +161,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             break
         }
         // If not panning delegate to super's behavior
-        guard case .active(let node, let placement, var originalPosition) = panMode else {
+        guard case .active(let entity, var originalPosition) = panMode else {
             super.recognizedPan(recognizer)
             return
         }
@@ -147,8 +170,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         // Convert this position to a scene coord in our grid coords
         let newGridPos = GridPoint3(scene.convertPoint(fromView: originalPosition), 0)
         // Compare current position and new position in GridPoints. If they're different assign new position from GridPoints.
-        guard GridPoint3(node.position, 0) != newGridPos else { return }
-        placement.origin = CDPoint2(x: newGridPos.x, y: newGridPos.y)
+        guard GridPoint3(entity.mainNodeComponent.node.position, 0) != newGridPos else { return }
+        entity.placement.origin = CDPoint2(x: newGridPos.x, y: newGridPos.y)
     }
     
     // MARK: ModuleListViewController Delegate
@@ -168,18 +191,9 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         modulePlacement.deck = deck.blueprint
         // Create a module entity
         let moduleEntity = ModuleEntity(placement: modulePlacement)
-        moduleEntity.mainNodeComponent.showEditingOverlay = true
-        // TODO: ADD TO SOME ENTITIES COLLECTION SOMEWHERE?
-        
-        // TODO: TESTING WITH BASIC NODE (NOT EDITING)
-        let moduleNode = moduleEntity.mainNodeComponent.node
-        scene.addChild(moduleNode)
-        
-        
+        // Add node to scene
+        scene.addChild(moduleEntity.mainNodeComponent.node)
         // Set mode to editing
-        editMode = .active(moduleNode, modulePlacement)
-        
-        
-        print("&& SELECTED MODULE: \(module)")
+        editMode = .active(moduleEntity)
     }
 }
