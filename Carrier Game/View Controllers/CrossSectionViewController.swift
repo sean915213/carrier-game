@@ -149,8 +149,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         switch recognizer.state {
         case .began:
             // Determine if initial pan started on editing node
-            let scenePoint = scene.convertPoint(fromView: recognizer.location(in: view))
-            if case .active(let entity) = editMode, scene.nodes(at: scenePoint).contains(entity.mainNodeComponent.node) {
+            let location = recognizer.location(in: view)
+            if case .active(let entity) = editMode, scene.nodes(atViewLocation: location).contains(entity.mainNodeComponent.node) {
                 // Activate panning. Assign editing node and editing node's *position in view* to enum
                 panMode = .active(entity, scene.convertPoint(toView: entity.mainNodeComponent.node.position))
             }
