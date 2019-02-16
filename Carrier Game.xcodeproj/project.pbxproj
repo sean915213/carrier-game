@@ -38,6 +38,7 @@
 		7471650D21AE0D2500F5AA48 /* ShipEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650C21AE0D2500F5AA48 /* ShipEntity.swift */; };
 		7471650F21AE0E1400F5AA48 /* DeckEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650E21AE0E1400F5AA48 /* DeckEntity.swift */; };
 		748AE3242217934F000015E5 /* ModuleEntityNodeComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748AE3232217934F000015E5 /* ModuleEntityNodeComponent2D.swift */; };
+		748AE3262217A2E5000015E5 /* GridPoint2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748AE3252217A2E5000015E5 /* GridPoint2.swift */; };
 		748C49D921E6CBCB004019D4 /* GridPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C49D821E6CBCB004019D4 /* GridPoint.swift */; };
 		748C49DB21E6CCE0004019D4 /* GridPoint3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C49DA21E6CCE0004019D4 /* GridPoint3.swift */; };
 		749CB13D2177E7F800949734 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB13C2177E7F800949734 /* AppDelegate.swift */; };
@@ -95,6 +96,7 @@
 		7471650C21AE0D2500F5AA48 /* ShipEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipEntity.swift; sourceTree = "<group>"; };
 		7471650E21AE0E1400F5AA48 /* DeckEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckEntity.swift; sourceTree = "<group>"; };
 		748AE3232217934F000015E5 /* ModuleEntityNodeComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntityNodeComponent2D.swift; sourceTree = "<group>"; };
+		748AE3252217A2E5000015E5 /* GridPoint2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint2.swift; sourceTree = "<group>"; };
 		748C49D821E6CBCB004019D4 /* GridPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint.swift; sourceTree = "<group>"; };
 		748C49DA21E6CCE0004019D4 /* GridPoint3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint3.swift; sourceTree = "<group>"; };
 		749CB1392177E7F800949734 /* Carrier Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Carrier Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -196,6 +198,7 @@
 				748C49D821E6CBCB004019D4 /* GridPoint.swift */,
 				748C49DA21E6CCE0004019D4 /* GridPoint3.swift */,
 				74612C5021FCE79D00006E15 /* GridRect.swift */,
+				748AE3252217A2E5000015E5 /* GridPoint2.swift */,
 			);
 			path = "Grid Model";
 			sourceTree = "<group>";
@@ -470,6 +473,7 @@
 				7415561E21BB3CBC009EA087 /* MovementComponentProtocol.swift in Sources */,
 				74FC7A1521B0C856001B4E83 /* float3Extensions.swift in Sources */,
 				742C3640219A4CAC007FA1B5 /* DeckScene.swift in Sources */,
+				748AE3262217A2E5000015E5 /* GridPoint2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

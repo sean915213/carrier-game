@@ -15,6 +15,10 @@ extension CGPoint {
     init(_ vector: vector_int2) {
         self.init(x: CGFloat(vector.x), y: CGFloat(vector.y))
     }
+    
+    init(_ point: GridPoint2) {
+        self.init(x: CGFloat(point.x), y: CGFloat(point.y))
+    }
 }
 
 extension CGPoint {

@@ -67,6 +67,10 @@ extension CDPoint2 {
         self.init(x: point.x, y: point.y)
     }
     
+    convenience init(_ point: GridPoint2) {
+        self.init(x: point.x, y: point.y)
+    }
+    
     override var description: String {
         return "{\(x), \(y)}"
     }
