@@ -64,7 +64,7 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
     private func configureMainNode(on placement: ModulePlacement) {
         // Configure main node
         node = SKNode()
-        node.name = "Module"
+        node.name = SKNode.Name.module.rawValue
         // Perform initial position and rotation updates
         updatePosition(on: placement)
         updateRotation(on: placement)
@@ -77,7 +77,7 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
         for point in moduleGridPoints {
             // A node is always made
             let childNode = SKSpriteNode()
-            childNode.name = "Texture"
+            childNode.name = SKNode.Name.texture.rawValue
             childNode.size = CGSize(width: 1, height: 1)
             childNode.position = CGPoint(point)
             node.addChild(childNode)

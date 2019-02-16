@@ -25,6 +25,7 @@
 		743152D2219CE80E00E3101F /* ModuleNeedBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152D1219CE80E00E3101F /* ModuleNeedBlueprint.swift */; };
 		743152D4219CF43D00E3101F /* CDPoint2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152D3219CF43D00E3101F /* CDPoint2.swift */; };
 		743D00362218CEED00AEA5DE /* SKSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D00352218CEED00AEA5DE /* SKSceneExtension.swift */; };
+		743D00382218D56C00AEA5DE /* SKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D00372218D56C00AEA5DE /* SKNode.swift */; };
 		74405C72218E438200BA3A69 /* DeckInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C71218E438100BA3A69 /* DeckInstance.swift */; };
 		74405C74218E44E100BA3A69 /* ModuleInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C73218E44E100BA3A69 /* ModuleInstance.swift */; };
 		74405C76218E476800BA3A69 /* IdentifiableEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C75218E476800BA3A69 /* IdentifiableEntity.swift */; };
@@ -84,6 +85,7 @@
 		743152D1219CE80E00E3101F /* ModuleNeedBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleNeedBlueprint.swift; sourceTree = "<group>"; };
 		743152D3219CF43D00E3101F /* CDPoint2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPoint2.swift; sourceTree = "<group>"; };
 		743D00352218CEED00AEA5DE /* SKSceneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSceneExtension.swift; sourceTree = "<group>"; };
+		743D00372218D56C00AEA5DE /* SKNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNode.swift; sourceTree = "<group>"; };
 		74405C71218E438100BA3A69 /* DeckInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckInstance.swift; sourceTree = "<group>"; };
 		74405C73218E44E100BA3A69 /* ModuleInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleInstance.swift; sourceTree = "<group>"; };
 		74405C75218E476800BA3A69 /* IdentifiableEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableEntity.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				74FC7A1421B0C856001B4E83 /* float3Extensions.swift */,
 				7415562521BC9F9A009EA087 /* TimeIntervalExtension.swift */,
 				743D00352218CEED00AEA5DE /* SKSceneExtension.swift */,
+				743D00372218D56C00AEA5DE /* SKNode.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				742C3643219A4D87007FA1B5 /* CrewmanEntity.swift in Sources */,
 				7415562021BC6CC3009EA087 /* GKGridGraph3D.swift in Sources */,
 				74BDA04221926F950034DD20 /* CGRectExtensions.swift in Sources */,
+				743D00382218D56C00AEA5DE /* SKNode.swift in Sources */,
 				74BA5CEA2183D1610039A2D5 /* DataSeeder.swift in Sources */,
 				7418C50C22125C6900FA3D27 /* ShipBlueprintController.swift in Sources */,
 				7415562621BC9F9A009EA087 /* TimeIntervalExtension.swift in Sources */,

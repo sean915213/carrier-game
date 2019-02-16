@@ -156,7 +156,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         // Only matters when not editing currently
         guard case .none = editMode else { return }
         // Only looking for a module node
-        guard let moduleNode = scene.nodes(atViewLocation: recognizer.location(in: view)).first(where: { $0.name == "Module" }) else {
+        guard let moduleNode = scene.nodes(atViewLocation: recognizer.location(in: view)).withName(SKNode.Name.module).first else {
             return
         }
         // Find matching module entity (which we definitely expect to find)
@@ -183,7 +183,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         default:
             break
         }
-        // If not panning delegate to super's behavior
+        // If not panning, then delegate to super's behavior
         guard case .active(let entity, var originalPosition) = panMode else {
             super.recognizedPan(recognizer)
             return
