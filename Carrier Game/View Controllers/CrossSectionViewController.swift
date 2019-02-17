@@ -12,6 +12,9 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
+// TODO: Start an optional pan upon long-press.
+// ALSO- Add option to begin simulation in order to see whether crewman can access added modules?
+
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate {
     
     private enum PanMode { case none, active(ModuleEntity, CGPoint) }
