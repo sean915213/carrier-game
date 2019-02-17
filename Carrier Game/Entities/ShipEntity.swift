@@ -29,7 +29,6 @@ class ShipEntity: GKEntity {
     
     var instance: ShipInstance? {
         didSet {
-            // TODO: Does this ignore saved values for crewmen?
             if let ship = instance {
                 let entities = ship.crewmen.map { CrewmanEntity(crewman: $0, ship: ship) }
                 crewmanEntities.append(contentsOf: entities)
@@ -43,16 +42,16 @@ class ShipEntity: GKEntity {
     
     // MARK: Entities
     
-    private(set) lazy var deckEntities: [DeckEntity] = {
+    lazy var deckEntities: [DeckEntity] = {
         return blueprint.orderedDecks.map { DeckEntity(blueprint: $0) }
     }()
-    
-    private(set) lazy var moduleEntities: [ModuleEntity] = {
+
+    lazy var moduleEntities: [ModuleEntity] = {
         return deckEntities.flatMap { $0.moduleEntities }
     }()
-    
-    private(set) var crewmanEntities = [CrewmanEntity]()
-    
+
+    var crewmanEntities = [CrewmanEntity]()
+
     var allEntities: [GKEntity] {
         return (deckEntities as [GKEntity]) + (moduleEntities as [GKEntity]) + (crewmanEntities as [GKEntity])
     }
@@ -76,7 +75,7 @@ class ShipEntity: GKEntity {
 }
 
 extension ShipEntity {
-    
+
     func deck(at position: Int) -> DeckEntity? {
         return deckEntities.first { $0.blueprint.position == position }
     }

@@ -31,7 +31,7 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
     
     private lazy var editingOverlayNodes = [GridPoint2: SKSpriteNode]()
     
-    private lazy var positionObservers = [NSKeyValueObservation]()
+    private lazy var observers = [NSKeyValueObservation]()
     
     private var moduleGridPoints: [GridPoint2] {
         var points = [GridPoint2]()
@@ -160,10 +160,12 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
     }
     
     private func configureObservers(on placement: ModulePlacement) {
-        positionObservers.append(placement.observe(\.origin, changeHandler: { placement, _ in
+        observers.append(placement.observe(\.origin, changeHandler: { [unowned self] placement, _ in
+            guard placement.faultingState == 0 else { return }
             self.updatePosition(on: placement)
         }))
-        positionObservers.append(placement.observe(\.rotation, changeHandler: { placement, _ in
+        observers.append(placement.observe(\.rotation, changeHandler: { [unowned self] placement, _ in
+            guard placement.faultingState == 0 else { return }
             self.updateRotation(on: placement)
         }))
     }

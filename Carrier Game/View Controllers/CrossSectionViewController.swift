@@ -51,6 +51,13 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         return NSPersistentContainer.model.viewContext
     }()
     
+    private lazy var privateUndoManager: UndoManager = {
+        let manager = UndoManager()
+        // Disable creating an automatic group each run-loop
+        manager.groupsByEvent = false
+        return manager
+    }()
+    
     // MARK: - Methods
     
     override func viewDidLoad() {
@@ -61,7 +68,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         toolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor).activate()
         // Show initial toolbar config
         configureToolbar()
-        
         // TODO: TEMPORARY. SEEMS ODD TO JUST "PAUSE" EVENTS WHILE EDITING.
         sceneController.autoManagePause = false
         scene.isPaused = true
@@ -82,10 +88,10 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         case .active:
             // Rotate module
             items.append(UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(rotateModule)))
-            // End editing
-            items.append(UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(endEditingModule)))
             // Spacer
             items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+            // Cancel placement
+            items.append(UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelEditingModule)))
             // Save placement
             items.append(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEditingModule)))
         }
@@ -110,14 +116,20 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         entity.placement.rotation = GridRotation(rawValue: entity.placement.rotation.rawValue + 1) ?? .none
     }
     
-    @objc private func endEditingModule() {
-        guard case .active(let entity) = editMode else {
-            assertionFailure("Invalid editMode for end editing.")
-            return
-        }
-        // Remove node
-        entity.mainNodeComponent.node.removeFromParent()
-        // End editing
+//    @objc private func endEditingModule() {
+//        guard case .active(let entity) = editMode else {
+//            assertionFailure("Invalid editMode for end editing.")
+//            return
+//        }
+//        // Remove node
+//        entity.mainNodeComponent.node.removeFromParent()
+//        // End editing
+//        editMode = .none
+//    }
+    
+    @objc private func cancelEditingModule() {
+        privateUndoManager.endUndoGrouping()
+        privateUndoManager.undo()
         editMode = .none
     }
     
@@ -141,7 +153,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         }
         do {
             // Save
-            try NSPersistentContainer.model.viewContext.save()
+            // TODO: DEBUGGIG
+            try context.save()
             logger.logInfo("Successfully saved new module.")
             // End editing
             editMode = .none
@@ -166,6 +179,16 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         }
         // Begin editing pressed module
         editMode = .active(moduleEntity)
+        
+        // Capture previous values
+        let prevOrigin = moduleEntity.placement.origin
+        let prevRotation = moduleEntity.placement.rotation
+        // Begin an undo group
+        privateUndoManager.beginUndoGrouping()
+        privateUndoManager.registerUndo(withTarget: moduleEntity) { entity in
+            entity.placement.origin = prevOrigin
+            entity.placement.rotation = prevRotation
+        }
     }
     
     override func recognizedPan(_ recognizer: UIPanGestureRecognizer) {
@@ -210,9 +233,27 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         let placement = deck.blueprint.placeModule(module, at: CDPoint2(x: 0, y: 0))
         // Create a module entity
         let moduleEntity = ModuleEntity(placement: placement)
-        // Add node to scene
+        // Add to deck
+        deck.moduleEntities.append(moduleEntity)
+        // Add to scene
+        scene.entities.append(moduleEntity)
         scene.addChild(moduleEntity.mainNodeComponent.node)
+        
         // Set mode to editing
         editMode = .active(moduleEntity)
+        
+        // Begin undo with a new group
+        privateUndoManager.beginUndoGrouping()
+        // Register undo logic
+        privateUndoManager.registerUndo(withTarget: moduleEntity) { [unowned self] (moduleEntity) in
+            // Remove added entities
+            deck.moduleEntities.removeAll(where: { $0 == moduleEntity })
+            self.scene.entities.removeAll(where: { $0 == moduleEntity })
+            // Remove node
+            moduleEntity.mainNodeComponent.node.removeFromParent()
+            // Remove CoreData changes
+            deck.blueprint.modulePlacements.remove(placement)
+            self.context.delete(placement)
+        }
     }
 }
