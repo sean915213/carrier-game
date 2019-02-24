@@ -128,14 +128,14 @@ class ModuleEntityNodeComponent2D: GKSKNodeComponent {
         // Do not perform if not editing
         guard showEditingOverlay else { return }
         // Ask deck for list of invalid points. Since we're editing it would be our points overlapping.
-        let invalidPoints = placement.deck.validate(conditions: .modulePlacements)
+        let overlappingPoints = placement.deck.findOverlappingPoints()
         // Update the overlay on our points
         for (point, node) in editingOverlayNodes {
             let absPoint3 = placement.absolutePoint(fromRelative: point)
             let absPoint = GridPoint2(absPoint3.x, absPoint3.y)
             // Determine overlay color
             let overlayColor: UIColor
-            if invalidPoints.contains(absPoint) {
+            if overlappingPoints.contains(absPoint) {
                 overlayColor = .red
             } else {
                 overlayColor = .green

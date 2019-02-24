@@ -19,13 +19,14 @@ class DeckBlueprint: NSManagedObject {
 }
 
 extension DeckBlueprint {
-    
-    struct ValidationConditions: OptionSet {
-        let rawValue: Int
-        
-        static let modulePlacements = ValidationConditions(rawValue: 1 << 0)
-        static let bounds = ValidationConditions(rawValue: 1 << 1)
-    }
+
+    // TODO: CLEAN UP
+//    struct ValidationConditions: OptionSet {
+//        let rawValue: Int
+//
+//        static let modulePlacements = ValidationConditions(rawValue: 1 << 0)
+//        static let bounds = ValidationConditions(rawValue: 1 << 1)
+//    }
     
     // MARK: - Properties
     
@@ -44,7 +45,7 @@ extension DeckBlueprint {
         return graph
     }
     
-    func findOpenCoords() -> [GridPoint3] {
+    func findOpenPoints() -> [GridPoint3] {
         // Map all coords
         let allCoords = Set(modulePlacements.flatMap({ $0.absoluteRect.allPoints }))
         // Find open coords
@@ -73,8 +74,7 @@ extension DeckBlueprint {
         return openCoords
     }
     
-    // TODO: Return type definitely needs fleshed out when validating more than overlapping points
-    func validate(conditions: ValidationConditions) -> Set<GridPoint2> {
+    func findOverlappingPoints() -> Set<GridPoint2> {
         // Collect points into a set
         var modulePoints = Set<GridPoint2>()
         var invalidPoints = Set<GridPoint2>()
@@ -91,6 +91,26 @@ extension DeckBlueprint {
         }
         return invalidPoints
     }
+
+    // TODO: CLEAN UP
+    // TODO: Return type definitely needs fleshed out when validating more than overlapping points
+//    func validate(conditions: ValidationConditions) -> Set<GridPoint2> {
+//        // Collect points into a set
+//        var modulePoints = Set<GridPoint2>()
+//        var invalidPoints = Set<GridPoint2>()
+//        for placement in modulePlacements {
+//            for point in placement.absoluteRect.allPoints {
+//                let gridPoint = GridPoint2(point.x, point.y)
+//                // If already in set then there's an overlap
+//                if modulePoints.contains(gridPoint) {
+//                    invalidPoints.insert(gridPoint)
+//                } else {
+//                    modulePoints.insert(gridPoint)
+//                }
+//            }
+//        }
+//        return invalidPoints
+//    }
 }
 
 extension DeckBlueprint {
@@ -128,3 +148,12 @@ extension DeckBlueprint {
         return placement
     }
 }
+
+// TODO: CLEAN UP?
+//struct DeckValidationResult {
+//
+//    var overlappingPoints = Set<GridPoint2>()
+//    var unboundedPoints = Set<GridPoint2>()
+//
+//    var isValid: Bool { return overlappingPoints.isEmpty && unboundedPoints.isEmpty }
+//}

@@ -12,14 +12,11 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO: Start an optional pan upon long-press.
-// ALSO- Add option to begin simulation in order to see whether crewman can access added modules?
-
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate {
     
     private enum PanMode { case none, active(ModuleEntity, CGPoint) }
     
-    private enum EditMode: Equatable { case none, active(ModuleEntity) }
+    private enum EditMode: Equatable { case none, active(ModuleEntity, UndoManager) }
     
     // MARK: - Initialization
     
@@ -33,11 +30,11 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             // Configure toolbar for mode
             configureToolbar()
             // If new mode is active then toggle editing overlay on associated node component
-            if case .active(let entity) = editMode {
+            if case .active(let entity, _) = editMode {
                 entity.mainNodeComponent.showEditingOverlay = true
             }
             // If old value was also active it must have been a different module. So end editing.
-            if case .active(let entity) = oldValue {
+            if case .active(let entity, _) = oldValue {
                 entity.mainNodeComponent.showEditingOverlay = false
             }
         }
@@ -52,13 +49,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     private lazy var context: NSManagedObjectContext = {
         // TODO: Create a new main context with viewContext as parent? Or store?
         return NSPersistentContainer.model.viewContext
-    }()
-    
-    private lazy var privateUndoManager: UndoManager = {
-        let manager = UndoManager()
-        // Disable creating an automatic group each run-loop
-        manager.groupsByEvent = false
-        return manager
     }()
     
     // MARK: - Methods
@@ -102,6 +92,13 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         toolbar.setItems(items, animated: true)
     }
     
+    private func makeUndoManager() -> UndoManager {
+        let undoManager = UndoManager()
+        undoManager.groupsByEvent = false
+        undoManager.beginUndoGrouping()
+        return undoManager
+    }
+    
     // MARK: Actions
     
     @objc private func showModuleList() {
@@ -111,7 +108,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     @objc private func rotateModule() {
-        guard case .active(let entity) = editMode else {
+        guard case .active(let entity, _) = editMode else {
             assertionFailure("Invalid editMode for rotation.")
             return
         }
@@ -119,36 +116,33 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         entity.placement.rotation = GridRotation(rawValue: entity.placement.rotation.rawValue + 1) ?? .none
     }
     
-//    @objc private func endEditingModule() {
-//        guard case .active(let entity) = editMode else {
-//            assertionFailure("Invalid editMode for end editing.")
-//            return
-//        }
-//        // Remove node
-//        entity.mainNodeComponent.node.removeFromParent()
-//        // End editing
-//        editMode = .none
-//    }
-    
     @objc private func cancelEditingModule() {
-        privateUndoManager.endUndoGrouping()
-        privateUndoManager.undo()
+        // Get undo manager
+        guard case let .active(_, undoManager) = editMode else {
+            assertionFailure("Invalid editMode for cancelling.")
+            return
+        }
+        // Perform undo
+        undoManager.endUndoGrouping()
+        undoManager.undo()
+        // Change mode
         editMode = .none
     }
     
     @objc private func saveEditingModule() {
         // Be safe
-        guard let (deck, _) = currentDeck else {
-            assertionFailure("No deck assigned for saving.")
-            return
-        }
         guard case .active = editMode else {
             assertionFailure("Invalid editMode for saving.")
             return
         }
-        // Ask deck to validate
-        let invalidPoints = deck.blueprint.validate(conditions: .modulePlacements)
-        guard invalidPoints.isEmpty else {
+        // Get deck
+        guard let (deck, _) = currentDeck else {
+            assertionFailure("No deck assigned for saving.")
+            return
+        }
+        // Ask deck to validate overlapping points
+        let overlappingPoints = deck.blueprint.findOverlappingPoints()
+        guard overlappingPoints.isEmpty else {
             let alert = UIAlertController(title: "Invalid Position", message: "This is not a valid position to save the module.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
@@ -156,7 +150,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         }
         do {
             // Save
-            // TODO: DEBUGGIG
             try context.save()
             logger.logInfo("Successfully saved new module.")
             // End editing
@@ -180,15 +173,17 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             assertionFailure("Could not find entity with Module node on current deck. This should not happen.")
             return
         }
+        
+        // Make an undo manager to undo these changes
+        let undoManager = makeUndoManager()
         // Begin editing pressed module
-        editMode = .active(moduleEntity)
+        editMode = .active(moduleEntity, undoManager)
         
         // Capture previous values
         let prevOrigin = moduleEntity.placement.origin
         let prevRotation = moduleEntity.placement.rotation
-        // Begin an undo group
-        privateUndoManager.beginUndoGrouping()
-        privateUndoManager.registerUndo(withTarget: moduleEntity) { entity in
+        // Register reversion
+        undoManager.registerUndo(withTarget: moduleEntity) { entity in
             entity.placement.origin = prevOrigin
             entity.placement.rotation = prevRotation
         }
@@ -199,7 +194,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         case .began:
             // Determine if initial pan started on editing node
             let location = recognizer.location(in: view)
-            if case .active(let entity) = editMode, scene.nodes(atViewLocation: location).contains(entity.mainNodeComponent.node) {
+            if case .active(let entity, _) = editMode, scene.nodes(atViewLocation: location).contains(entity.mainNodeComponent.node) {
                 // Activate panning. Assign editing node and editing node's *position in view* to enum
                 panMode = .active(entity, scene.convertPoint(toView: entity.mainNodeComponent.node.position))
             }
@@ -242,13 +237,13 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         scene.entities.append(moduleEntity)
         scene.addChild(moduleEntity.mainNodeComponent.node)
         
+        // Make an undo manager
+        let undoManager = makeUndoManager()
         // Set mode to editing
-        editMode = .active(moduleEntity)
+        editMode = .active(moduleEntity, undoManager)
         
-        // Begin undo with a new group
-        privateUndoManager.beginUndoGrouping()
         // Register undo logic
-        privateUndoManager.registerUndo(withTarget: moduleEntity) { [unowned self] (moduleEntity) in
+        undoManager.registerUndo(withTarget: moduleEntity) { [unowned self] (moduleEntity) in
             // Remove added entities
             deck.moduleEntities.removeAll(where: { $0 == moduleEntity })
             self.scene.entities.removeAll(where: { $0 == moduleEntity })
