@@ -62,8 +62,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         // Show initial toolbar config
         configureToolbar()
         // TODO: TEMPORARY. SEEMS ODD TO JUST "PAUSE" EVENTS WHILE EDITING.
-        sceneController.autoManagePause = false
-        scene.isPaused = true
+//        sceneController.autoManagePause = false
+//        scene.isPaused = true
     }
     
     override func setupRecognizers() {
@@ -78,6 +78,10 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         case .none:
             // Add module
             items.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showModuleList)))
+            // Spacer
+            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+            // Validate
+            items.append(UIBarButtonItem(title: "Validate", style: .plain, target: self, action: #selector(validateDeck)))
         case .active:
             // Rotate module
             items.append(UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(rotateModule)))
@@ -100,6 +104,17 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     // MARK: Actions
+    
+    @objc private func validateDeck() {
+        // Require a deck
+        guard let (deckEntity, _) = currentDeck else {
+            assertionFailure("\(#function) called without currentDeck assigned.")
+            return
+        }
+        // Overlapping points would already be validated, so only validate open bounds
+        let openPoints = deckEntity.blueprint.findOpenPoints()
+        deckEntity.flashInvalidPoints(openPoints)
+    }
     
     @objc private func showModuleList() {
         let listController = ModuleListViewController()

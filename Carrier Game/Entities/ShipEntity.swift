@@ -30,8 +30,11 @@ class ShipEntity: GKEntity {
     var instance: ShipInstance? {
         didSet {
             if let ship = instance {
-                let entities = ship.crewmen.map { CrewmanEntity(crewman: $0, ship: ship) }
-                crewmanEntities.append(contentsOf: entities)
+                
+                // TODO: DEBUGGING. NOT ADDING ENTITIES
+//                let entities = ship.crewmen.map { CrewmanEntity(crewman: $0, ship: ship) }
+//                crewmanEntities.append(contentsOf: entities)
+                
             } else {
                 crewmanEntities.removeAll()
             }
@@ -42,11 +45,11 @@ class ShipEntity: GKEntity {
     
     // MARK: Entities
     
-    lazy var deckEntities: [DeckEntity] = {
+    private(set) lazy var deckEntities: [DeckEntity] = {
         return blueprint.orderedDecks.map { DeckEntity(blueprint: $0) }
     }()
 
-    lazy var moduleEntities: [ModuleEntity] = {
+    private(set) lazy var moduleEntities: [ModuleEntity] = {
         return deckEntities.flatMap { $0.moduleEntities }
     }()
 

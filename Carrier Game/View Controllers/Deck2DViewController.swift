@@ -132,13 +132,17 @@ class Deck2DViewController: UIViewController {
         // If another deck's node is currently displayed then remove
         currentDeck?.node.removeFromParent()
         // Add new deck's texture node
-        let newNode = entity.makeNode()
+        let newNode = entity.node
         scene.addChild(newNode)
+        
+        
+        // TODO: DEBUGGING NOT UPDATIGN ENTITIES
         // Update all crewman's movement component
-        for crewman in shipEntity.crewmanEntities {
-            let component = crewman.component(ofType: MovementComponent2D.self)!
-            component.visibleVertical = GridPoint(entity.blueprint.position)
-        }
+//        for crewman in shipEntity.crewmanEntities {
+//            let component = crewman.component(ofType: MovementComponent2D.self)!
+//            component.visibleVertical = GridPoint(entity.blueprint.position)
+//        }
+        
         // Assign new deck info
         currentDeck = (entity: entity, node: newNode)
     }
@@ -150,19 +154,23 @@ class Deck2DViewController: UIViewController {
     }
     
     private func setupShip() {
+        
+        // TODO: DEBUGGING. NOT ADDING ENTITIES
+        
         // Add ship entity to scene
         scene.entities.append(shipEntity)
         scene.entities.append(contentsOf: shipEntity.allEntities)
+        
         // Setup crewmen for this scene
-        for crewman in shipEntity.crewmanEntities {
-            // Add a 2D movement component
-            crewman.addComponent(MovementComponent2D())
-            // Add node to scene
-            // NOTE: crewman nodes are always added regardless of the deck they're on because they hide/unhide themselves based on this fact. Keeping the nodes on scene helps time their movement on invisible decks.
-            scene.addChild(crewman.rootNode)
-            // Raise z on crewman node
-            crewman.rootNode.zPosition = 100
-        }
+//        for crewman in shipEntity.crewmanEntities {
+//            // Add a 2D movement component
+//            crewman.addComponent(MovementComponent2D())
+//            // Add node to scene
+//            // NOTE: crewman nodes are always added regardless of the deck they're on because they hide/unhide themselves based on this fact. Keeping the nodes on scene helps time their movement on invisible decks.
+//            scene.addChild(crewman.rootNode)
+//            // Raise z on crewman node
+//            crewman.rootNode.zPosition = 100
+//        }
     }
     
     private func setupButtonStack() {

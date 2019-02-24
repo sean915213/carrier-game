@@ -20,14 +20,6 @@ class DeckBlueprint: NSManagedObject {
 
 extension DeckBlueprint {
 
-    // TODO: CLEAN UP
-//    struct ValidationConditions: OptionSet {
-//        let rawValue: Int
-//
-//        static let modulePlacements = ValidationConditions(rawValue: 1 << 0)
-//        static let bounds = ValidationConditions(rawValue: 1 << 1)
-//    }
-    
     // MARK: - Properties
     
     var moduleAttributes: [ModuleAttribute: Double] {
@@ -45,28 +37,29 @@ extension DeckBlueprint {
         return graph
     }
     
-    func findOpenPoints() -> [GridPoint3] {
+    func findOpenPoints() -> [GridPoint2] {
         // Map all coords
         let allCoords = Set(modulePlacements.flatMap({ $0.absoluteRect.allPoints }))
         // Find open coords
-        var openCoords = [GridPoint3]()
+        var openCoords = [GridPoint2]()
+        let addPoint = { (point: GridPoint3) in openCoords.append(GridPoint2(point.x, point.y)) }
         for module in modulePlacements {
             for entrance in module.absoluteEntrances {
                 // Check for surrounding
                 guard allCoords.contains(entrance.coordinate + GridPoint3(-1, 0, 0)) else {
-                    openCoords.append(entrance.coordinate)
+                    addPoint(entrance.coordinate)
                     continue
                 }
                 guard allCoords.contains(entrance.coordinate + GridPoint3(1, 0, 0)) else {
-                    openCoords.append(entrance.coordinate)
+                    addPoint(entrance.coordinate)
                     continue
                 }
                 guard allCoords.contains(entrance.coordinate + GridPoint3(0, 1, 0)) else {
-                    openCoords.append(entrance.coordinate)
+                    addPoint(entrance.coordinate)
                     continue
                 }
                 guard allCoords.contains(entrance.coordinate + GridPoint3(0, -1, 0)) else {
-                    openCoords.append(entrance.coordinate)
+                    addPoint(entrance.coordinate)
                     continue
                 }
             }
@@ -91,26 +84,6 @@ extension DeckBlueprint {
         }
         return invalidPoints
     }
-
-    // TODO: CLEAN UP
-    // TODO: Return type definitely needs fleshed out when validating more than overlapping points
-//    func validate(conditions: ValidationConditions) -> Set<GridPoint2> {
-//        // Collect points into a set
-//        var modulePoints = Set<GridPoint2>()
-//        var invalidPoints = Set<GridPoint2>()
-//        for placement in modulePlacements {
-//            for point in placement.absoluteRect.allPoints {
-//                let gridPoint = GridPoint2(point.x, point.y)
-//                // If already in set then there's an overlap
-//                if modulePoints.contains(gridPoint) {
-//                    invalidPoints.insert(gridPoint)
-//                } else {
-//                    modulePoints.insert(gridPoint)
-//                }
-//            }
-//        }
-//        return invalidPoints
-//    }
 }
 
 extension DeckBlueprint {
@@ -148,12 +121,3 @@ extension DeckBlueprint {
         return placement
     }
 }
-
-// TODO: CLEAN UP?
-//struct DeckValidationResult {
-//
-//    var overlappingPoints = Set<GridPoint2>()
-//    var unboundedPoints = Set<GridPoint2>()
-//
-//    var isValid: Bool { return overlappingPoints.isEmpty && unboundedPoints.isEmpty }
-//}
