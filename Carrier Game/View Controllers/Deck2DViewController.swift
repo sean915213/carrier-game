@@ -35,28 +35,27 @@ class Deck2DViewController: UIViewController {
         return view as! SKView
     }
     
-    var scene: DeckScene {
-        return sceneController.scene as! DeckScene
-    }
+    private(set) lazy var scene: DeckScene = {
+        let scene = DeckScene(ship: ship, size: CGSize(width: 50, height: 50))
+        scene.scaleMode = .aspectFit
+        // Add camera
+        scene.addChild(camera)
+        scene.camera = camera
+        // Update deck button
+        deckButton.setTitle("Next Deck: \(scene.nextDeck().blueprint.position)", for: [])
+        return scene
+    }()
     
     var cameraScale: CGFloat = 1.0 {
         didSet { camera.setScale(cameraScale) }
     }
     
     private(set) lazy var shipEntity: ShipEntity = {
-        let entity = ShipEntity(blueprint: ship.blueprint)
-        entity.instance = ship
+        let entity = ShipEntity(instance: ship)
         return entity
     }()
     
-    private(set) lazy var sceneController: SceneController = {
-        // Create scene
-        let scene = DeckScene(size: CGSize(width: 50, height: 50))
-        scene.scaleMode = .aspectFit
-        // Add camera
-        scene.addChild(camera)
-        scene.camera = camera
-        // Make controller
+    private(set) lazy var sceneController: SceneController<DeckScene> = {
         return SceneController(scene: scene, context: NSPersistentContainer.model.viewContext)
     }()
     
@@ -82,12 +81,6 @@ class Deck2DViewController: UIViewController {
         return button
     }()
     
-    var currentDeck: (entity: DeckEntity, node: SKNode)? {
-        didSet {
-            deckButton.setTitle("Next Deck: \(nextDeck().blueprint.position)", for: [])
-        }
-    }
-    
     private var lastTranslation: CGPoint = .zero
     
     // MARK: - Methods
@@ -99,17 +92,13 @@ class Deck2DViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Present scene
-        skView.presentScene(sceneController.scene)
+        skView.presentScene(scene)
         // Setup camera
         setupCamera()
-        // Setup ship
-        setupShip()
         // Setup recognizers
         setupRecognizers()
         // Setup button stack
         setupButtonStack()
-        // View origin deck
-        displayDeck(entity: shipEntity.deck(at: 0)!)
     }
     
     func applyCameraPan(position: CGPoint, totalDelta: CGPoint) {
@@ -127,50 +116,10 @@ class Deck2DViewController: UIViewController {
         node.position = newNodePos
     }
     
-    private func displayDeck(entity: DeckEntity) {
-        logger.logInfo("Displaying deck: \(entity.blueprint.position).")
-        // If another deck's node is currently displayed then remove
-        currentDeck?.node.removeFromParent()
-        // Add new deck's texture node
-        let newNode = entity.node
-        scene.addChild(newNode)
-        
-        
-        // TODO: DEBUGGING NOT UPDATIGN ENTITIES
-        // Update all crewman's movement component
-//        for crewman in shipEntity.crewmanEntities {
-//            let component = crewman.component(ofType: MovementComponent2D.self)!
-//            component.visibleVertical = GridPoint(entity.blueprint.position)
-//        }
-        
-        // Assign new deck info
-        currentDeck = (entity: entity, node: newNode)
-    }
-    
     private func setupCamera() {
         // TODO: ALL TEMPORARY
         camera.position = CGPoint(x: 0, y: 0)
         cameraScale = 0.3
-    }
-    
-    private func setupShip() {
-        
-        // TODO: DEBUGGING. NOT ADDING ENTITIES
-        
-        // Add ship entity to scene
-        scene.entities.append(shipEntity)
-        scene.entities.append(contentsOf: shipEntity.allEntities)
-        
-        // Setup crewmen for this scene
-//        for crewman in shipEntity.crewmanEntities {
-//            // Add a 2D movement component
-//            crewman.addComponent(MovementComponent2D())
-//            // Add node to scene
-//            // NOTE: crewman nodes are always added regardless of the deck they're on because they hide/unhide themselves based on this fact. Keeping the nodes on scene helps time their movement on invisible decks.
-//            scene.addChild(crewman.rootNode)
-//            // Raise z on crewman node
-//            crewman.rootNode.zPosition = 100
-//        }
     }
     
     private func setupButtonStack() {
@@ -189,19 +138,10 @@ class Deck2DViewController: UIViewController {
         view.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(recognizedPinch(_:))))
     }
     
-    private func nextDeck() -> DeckEntity {
-        let deck = currentDeck!.entity
-        if shipEntity.deckEntities.last == deck {
-            return shipEntity.deckEntities.first!
-        } else {
-            return shipEntity.deck(at: Int(deck.blueprint.position + 1))!
-        }
-    }
-    
     // MARK: Actions
     
     @objc private func toggleDeck() {
-        displayDeck(entity: nextDeck())
+        scene.visibleDeck = scene.nextDeck()
     }
     
     @objc private func recognizedPinch(_ recognizer: UIPinchGestureRecognizer) {

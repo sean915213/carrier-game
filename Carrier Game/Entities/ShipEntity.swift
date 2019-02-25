@@ -14,8 +14,8 @@ class ShipEntity: GKEntity {
 
     // MARK: - Initialization
     
-    init(blueprint: ShipBlueprint) {
-        self.blueprint = blueprint
+    init(instance: ShipInstance) {
+        self.instance = instance
         super.init()
     }
     
@@ -25,21 +25,9 @@ class ShipEntity: GKEntity {
     
     // MARK: - Properties
     
-    let blueprint: ShipBlueprint
+    let instance: ShipInstance
     
-    var instance: ShipInstance? {
-        didSet {
-            if let ship = instance {
-                
-                // TODO: DEBUGGING. NOT ADDING ENTITIES
-//                let entities = ship.crewmen.map { CrewmanEntity(crewman: $0, ship: ship) }
-//                crewmanEntities.append(contentsOf: entities)
-                
-            } else {
-                crewmanEntities.removeAll()
-            }
-        }
-    }
+    var blueprint: ShipBlueprint { return instance.blueprint }
     
     private lazy var logger = Logger(source: type(of: self))
     
@@ -53,7 +41,9 @@ class ShipEntity: GKEntity {
         return deckEntities.flatMap { $0.moduleEntities }
     }()
 
-    var crewmanEntities = [CrewmanEntity]()
+    private(set) lazy var crewmanEntities: [CrewmanEntity] = {
+        return instance.crewmen.map { CrewmanEntity(crewman: $0, ship: instance) }
+    }()
 
     var allEntities: [GKEntity] {
         return (deckEntities as [GKEntity]) + (moduleEntities as [GKEntity]) + (crewmanEntities as [GKEntity])
@@ -63,9 +53,7 @@ class ShipEntity: GKEntity {
     
     override func update(deltaTime seconds: TimeInterval) {
         defer { super.update(deltaTime: seconds) }
-        // Nothing to do if no instance assigned
-        guard let instance = instance else { return }
-        // Update
+        // Update time on instance
         
         let oldShift = CrewmanShift(date: instance.time)!
         instance.time = instance.time.addingTimeInterval(seconds)

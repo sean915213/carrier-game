@@ -11,11 +11,11 @@ import SpriteKit
 import SGYSwiftUtility
 import CoreData
 
-class SceneController {
+class SceneController<SceneType> where SceneType: SKScene {
     
     // MARK: - Initialization
     
-    init(scene: SKScene, context: NSManagedObjectContext) {
+    init(scene: SceneType, context: NSManagedObjectContext) {
         self.scene = scene
         self.context = context
         registerForNotifications()
@@ -27,7 +27,7 @@ class SceneController {
     
     // MARK: - Properties
     
-    let scene: SKScene
+    let scene: SceneType
     let context: NSManagedObjectContext
     var autoManagePause = true
     var autoSave = false

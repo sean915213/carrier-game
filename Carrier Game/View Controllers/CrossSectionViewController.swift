@@ -106,14 +106,9 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     // MARK: Actions
     
     @objc private func validateDeck() {
-        // Require a deck
-        guard let (deckEntity, _) = currentDeck else {
-            assertionFailure("\(#function) called without currentDeck assigned.")
-            return
-        }
         // Overlapping points would already be validated, so only validate open bounds
-        let openPoints = deckEntity.blueprint.findOpenPoints()
-        deckEntity.flashInvalidPoints(openPoints)
+        let openPoints = scene.visibleDeck.blueprint.findOpenPoints()
+        scene.visibleDeck.flashInvalidPoints(openPoints)
     }
     
     @objc private func showModuleList() {
@@ -150,13 +145,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             assertionFailure("Invalid editMode for saving.")
             return
         }
-        // Get deck
-        guard let (deck, _) = currentDeck else {
-            assertionFailure("No deck assigned for saving.")
-            return
-        }
         // Ask deck to validate overlapping points
-        let overlappingPoints = deck.blueprint.findOverlappingPoints()
+        let overlappingPoints = scene.visibleDeck.blueprint.findOverlappingPoints()
         guard overlappingPoints.isEmpty else {
             let alert = UIAlertController(title: "Invalid Position", message: "This is not a valid position to save the module.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -175,8 +165,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     @objc private func recognizedLongPress(_ recognizer: UILongPressGestureRecognizer) {
-        // Require a deck
-        guard let (deckEntity, _) = currentDeck else { return }
         // Only matters when not editing currently
         guard case .none = editMode else { return }
         // Only looking for a module node
@@ -184,7 +172,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             return
         }
         // Find matching module entity (which we definitely expect to find)
-        guard let moduleEntity = deckEntity.moduleEntities.first(where: { $0.mainNodeComponent.node == moduleNode }) else {
+        guard let moduleEntity = scene.visibleDeck.moduleEntities.first(where: { $0.mainNodeComponent.node == moduleNode }) else {
             assertionFailure("Could not find entity with Module node on current deck. This should not happen.")
             return
         }
@@ -237,19 +225,14 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     func moduleListViewController(_: ModuleListViewController, selectedModule module: ModuleBlueprint) {
         dismiss(animated: true, completion: nil)
-        // Assigned deck is required
-        guard let (deck, _) = currentDeck else {
-            assertionFailure("Module selected without a current deck.")
-            return
-        }
         // Place module on deck
-        let placement = deck.blueprint.placeModule(module, at: CDPoint2(x: 0, y: 0))
+        let placement = scene.visibleDeck.blueprint.placeModule(module, at: CDPoint2(x: 0, y: 0))
         // Create a module entity
         let moduleEntity = ModuleEntity(placement: placement)
         // Add to deck
-        deck.moduleEntities.append(moduleEntity)
+        scene.visibleDeck.moduleEntities.append(moduleEntity)
         // Add to scene
-        scene.entities.append(moduleEntity)
+        scene.activeEntities.append(moduleEntity)
         scene.addChild(moduleEntity.mainNodeComponent.node)
         
         // Make an undo manager
@@ -260,12 +243,12 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         // Register undo logic
         undoManager.registerUndo(withTarget: moduleEntity) { [unowned self] (moduleEntity) in
             // Remove added entities
-            deck.moduleEntities.removeAll(where: { $0 == moduleEntity })
-            self.scene.entities.removeAll(where: { $0 == moduleEntity })
+            self.scene.visibleDeck.moduleEntities.removeAll(where: { $0 == moduleEntity })
+            self.scene.activeEntities.removeAll(where: { $0 == moduleEntity })
             // Remove node
             moduleEntity.mainNodeComponent.node.removeFromParent()
             // Remove CoreData changes
-            deck.blueprint.modulePlacements.remove(placement)
+            self.scene.visibleDeck.blueprint.modulePlacements.remove(placement)
             self.context.delete(placement)
         }
     }
