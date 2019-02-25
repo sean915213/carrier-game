@@ -38,9 +38,13 @@ class DeckScene: SKScene {
         willSet { displayDeck(entity: newValue) }
     }
     
-    lazy var activeEntities: [GKEntity] = {
-        return shipEntity.allEntities
-    }()
+    var enableSimulation: Bool = true
+    
+    var activeEntities: [GKEntity] {
+        var entities = shipEntity.allEntities
+        entities.append(shipEntity)
+        return entities
+    }
     
     private(set) lazy var reporter = StatReportingEntity()
     
@@ -51,8 +55,6 @@ class DeckScene: SKScene {
     // MARK: - Methods
     
     private func setupShip() {
-        activeEntities.append(shipEntity)
-        activeEntities.append(contentsOf: shipEntity.allEntities)
         // Add crewman entities
         for crewman in shipEntity.crewmanEntities {
             // Add a 2D movement component
@@ -76,24 +78,20 @@ class DeckScene: SKScene {
 
     override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
-        
-        
-        // TODO: This seems a bit hacky. Should instead just use time on ship instance and make this an animation only thing vs. an in-game time thing?
-        
-        // Transform to game time for entity updates
-        let gameTime = currentTime * ((60 * 60) / 3.0) * 2
-        
-        // Assign last value when returning
-        defer { lastUpdate = gameTime }
-        // If lastUpdate is zero this is first update so just return
+        // If simulation not enabled then do nothing
+        guard enableSimulation else { return }
+        // Save this update
+        defer { lastUpdate = currentTime }
+        // If lastUpdate is 0 then do nothing yet
         guard lastUpdate != 0 else { return }
-        // Update entities with time difference
-        let dt = gameTime - lastUpdate
-        for entity in activeEntities {
-            entity.update(deltaTime: dt)
-        }
+        // Get real-time difference
+        let dt = currentTime - lastUpdate
+        // Convert to game time delta
+        let gameDT = dt * ((60 * 60) / 3.0) * 2
+        // Apply to active entities
+        for entity in activeEntities { entity.update(deltaTime: gameDT) }
         // Update on stat reporter AFTER entities are updated
-        reporter.update(deltaTime: dt)
+        reporter.update(deltaTime: gameDT)
     }
     
     private func displayDeck(entity: DeckEntity) {

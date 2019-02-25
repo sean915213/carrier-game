@@ -55,15 +55,14 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Disable simulation
+        scene.enableSimulation = false
         // Add toolbar
         view.addSubview(toolbar)
         NSLayoutConstraint.constraintsPinningView(toolbar, axis: .horizontal).activate()
         toolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor).activate()
         // Show initial toolbar config
         configureToolbar()
-        // TODO: TEMPORARY. SEEMS ODD TO JUST "PAUSE" EVENTS WHILE EDITING.
-//        sceneController.autoManagePause = false
-//        scene.isPaused = true
     }
     
     override func setupRecognizers() {
@@ -232,7 +231,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         // Add to deck
         scene.visibleDeck.moduleEntities.append(moduleEntity)
         // Add to scene
-        scene.activeEntities.append(moduleEntity)
         scene.addChild(moduleEntity.mainNodeComponent.node)
         
         // Make an undo manager
@@ -244,7 +242,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         undoManager.registerUndo(withTarget: moduleEntity) { [unowned self] (moduleEntity) in
             // Remove added entities
             self.scene.visibleDeck.moduleEntities.removeAll(where: { $0 == moduleEntity })
-            self.scene.activeEntities.removeAll(where: { $0 == moduleEntity })
             // Remove node
             moduleEntity.mainNodeComponent.node.removeFromParent()
             // Remove CoreData changes
