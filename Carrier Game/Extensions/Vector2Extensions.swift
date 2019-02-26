@@ -18,11 +18,3 @@ extension vector_int2 {
 extension vector_int2 {
     static let zero = vector_int2()
 }
-
-extension vector_int2: Hashable {
-    
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(x)
-        hasher.combine(y)
-    }
-}

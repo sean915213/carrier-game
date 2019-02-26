@@ -23,19 +23,7 @@ extension float3 {
         self.init(Float(point.x), Float(point.y), Float(vertical))
     }
     
-    func rounded() -> float3 {
-        return float3(round(x), round(y), round(z))
-    }
-    
     func floored() -> float3 {
         return float3(floor(x), floor(y), floor(z))
-    }
-}
-
-extension float3: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(x)
-        hasher.combine(y)
-        hasher.combine(z)
     }
 }
