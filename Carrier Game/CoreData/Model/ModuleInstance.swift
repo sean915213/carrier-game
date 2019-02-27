@@ -25,6 +25,7 @@ extension ModuleInstance {
 }
 
 extension ModuleInstance {
+    
     class func insertNew(into context: NSManagedObjectContext, using placement: ModulePlacement) -> ModuleInstance {
         // Make instance
         let module = ModuleInstance.insertNew(into: context)

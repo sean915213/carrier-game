@@ -15,8 +15,8 @@ class DeckEntity: GKEntity {
 
     // MARK: - Initialization
     
-    init(blueprint: DeckBlueprint) {
-        self.blueprint = blueprint
+    init(instance: DeckInstance) {
+        self.instance = instance
         super.init()
     }
     
@@ -26,10 +26,19 @@ class DeckEntity: GKEntity {
     
     // MARK: - Properties
     
-    let blueprint: DeckBlueprint
+    let instance: DeckInstance
+    
+    var blueprint: DeckBlueprint {
+        return instance.blueprint
+    }
     
     lazy var moduleEntities: [ModuleEntity] = {
-        return blueprint.modulePlacements.map { ModuleEntity(placement: $0) }
+        let entities = blueprint.modulePlacements.map { ModuleEntity(placement: $0) }
+        for entity in entities {
+            print("&& DECK [\(blueprint.position)] MODULE ENTITY: \(entity.blueprint.identifier). ORIGIN: \(entity.placement.origin)")
+            
+        }
+        return entities
     }()
     
     // TODO: CHANGED THIS TO ONLY USE METHOD AND NOT TRACK OURSELF. DON'T REMEMBER WHY. MAYBE ANTICIPATIG THIS MANAGING EITHER A 3D or 2D NODE?

@@ -29,6 +29,7 @@ extension DeckInstance {
 }
 
 extension DeckInstance {
+    
     class func insertNew(into context: NSManagedObjectContext, using blueprint: DeckBlueprint) -> DeckInstance {
         // Make instance
         let deck = DeckInstance.insertNew(into: context)
@@ -39,5 +40,25 @@ extension DeckInstance {
             deck.modules.insert(instance)
         }
         return deck
+    }
+    
+    func placeModule(withIdentifier identifier: String, at origin: CDPoint2) throws -> ModuleInstance {
+        let placement = try blueprint.placeModule(withIdentifier: identifier, at: origin)
+        return placeModule(withPlacement: placement)
+    }
+    
+    func placeModule(_ module: ModuleBlueprint, at origin: CDPoint2) -> ModuleInstance {
+        let placement = blueprint.placeModule(module, at: origin)
+        return placeModule(withPlacement: placement)
+    }
+    
+    private func placeModule(withPlacement placement: ModulePlacement) -> ModuleInstance {
+        // Insert a new module placement into our current context
+        guard let context = managedObjectContext else { fatalError("Attempt to place a module on a DeckInstance with no associated context.") }
+        // Create an instance
+        let instance = ModuleInstance.insertNew(into: context, using: placement)
+        // Add to our set and return
+        modules.insert(instance)
+        return instance
     }
 }

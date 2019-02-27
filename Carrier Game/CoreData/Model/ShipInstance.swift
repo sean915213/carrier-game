@@ -24,6 +24,10 @@ extension ShipInstance {
     var allModules: [ModuleInstance] {
         return decks.flatMap { $0.modules }
     }
+    
+    var orderedDecks: [DeckInstance] {
+        return decks.sorted(by: { $0.blueprint.position < $1.blueprint.position })
+    }
 }
 
 extension ShipInstance {

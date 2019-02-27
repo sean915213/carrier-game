@@ -38,7 +38,9 @@ class DeckScene: SKScene {
         willSet { displayDeck(entity: newValue) }
     }
     
-    var enableSimulation: Bool = true
+    var enableSimulation: Bool = true {
+        didSet { updateSimulationEnabled() }
+    }
     
     var activeEntities: [GKEntity] {
         var entities = shipEntity.allEntities
@@ -73,6 +75,13 @@ class DeckScene: SKScene {
             return shipEntity.deckEntities.first!
         } else {
             return shipEntity.deck(at: Int(visibleDeck.blueprint.position + 1))!
+        }
+    }
+    
+    private func updateSimulationEnabled() {
+        // Currently only need to pause actions on crewmen
+        for crewman in shipEntity.crewmanEntities {
+            crewman.rootNode.isPaused = !enableSimulation
         }
     }
 

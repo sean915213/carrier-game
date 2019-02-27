@@ -17,6 +17,8 @@ class ModulePlacement: NSManagedObject {
     
     @NSManaged var blueprint: ModuleBlueprint
     @NSManaged var deck: DeckBlueprint
+    
+    @NSManaged var instances: Set<ModuleInstance>
 }
 
 extension ModulePlacement {

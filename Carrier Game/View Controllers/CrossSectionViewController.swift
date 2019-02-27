@@ -12,6 +12,9 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
+// TODO: NEW ISSUES- ModuleBlueprint placement logic on DeckBlueprint is not sufficient. It does not get propagated to DeckInstance (resulting in DeckInstance being out of sync with DeckBlueprint).
+// - Should it really just be written into method that does actual placement of module blueprint upon deck? Presumably this is only place it will actually be done, right?
+
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate {
     
     private enum PanMode { case none, active(ModuleEntity, CGPoint) }
@@ -32,6 +35,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             // If new mode is active then toggle editing overlay on associated node component
             if case .active(let entity, _) = editMode {
                 entity.mainNodeComponent.showEditingOverlay = true
+                if scene.enableSimulation { scene.enableSimulation.toggle() }
             }
             // If old value was also active it must have been a different module. So end editing.
             if case .active(let entity, _) = oldValue {
@@ -79,6 +83,10 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             items.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showModuleList)))
             // Spacer
             items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+            // Continue/Pause simulation
+            items.append(UIBarButtonItem(barButtonSystemItem: scene.enableSimulation ? .pause : .play, target: self, action: #selector(toggleSimulation)))
+            // Spacer
+            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
             // Validate
             items.append(UIBarButtonItem(title: "Validate", style: .plain, target: self, action: #selector(validateDeck)))
         case .active:
@@ -103,6 +111,11 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     // MARK: Actions
+    
+    @objc private func toggleSimulation() {
+        scene.enableSimulation.toggle()
+        configureToolbar()
+    }
     
     @objc private func validateDeck() {
         // Overlapping points would already be validated, so only validate open bounds
@@ -140,7 +153,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     @objc private func saveEditingModule() {
         // Be safe
-        guard case .active = editMode else {
+        guard case .active(let module, _) = editMode else {
             assertionFailure("Invalid editMode for saving.")
             return
         }
@@ -155,7 +168,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         do {
             // Save
             try context.save()
-            logger.logInfo("Successfully saved new module.")
+            logger.logInfo("Successfully saved new module: \(module.blueprint.identifier)")
             // End editing
             editMode = .none
         } catch {
@@ -224,14 +237,24 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     func moduleListViewController(_: ModuleListViewController, selectedModule module: ModuleBlueprint) {
         dismiss(animated: true, completion: nil)
-        // Place module on deck
-        let placement = scene.visibleDeck.blueprint.placeModule(module, at: CDPoint2(x: 0, y: 0))
-        // Create a module entity
-        let moduleEntity = ModuleEntity(placement: placement)
+        // Place module instance on deck
+        let moduleInstance = scene.visibleDeck.instance.placeModule(module, at: CDPoint2(x: 0, y: 0))
+        // Create module entity
+        let moduleEntity = ModuleEntity(placement: moduleInstance.placement)
         // Add to deck
         scene.visibleDeck.moduleEntities.append(moduleEntity)
         // Add to scene
         scene.addChild(moduleEntity.mainNodeComponent.node)
+        
+        
+//        // Place module on deck
+//        let placement = scene.visibleDeck.blueprint.placeModule(module, at: CDPoint2(x: 0, y: 0))
+//        // Create a module entity
+//        let moduleEntity = ModuleEntity(placement: placement)
+//        // Add to deck
+//        scene.visibleDeck.moduleEntities.append(moduleEntity)
+//        // Add to scene
+//        scene.addChild(moduleEntity.mainNodeComponent.node)
         
         // Make an undo manager
         let undoManager = makeUndoManager()
@@ -240,13 +263,16 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         
         // Register undo logic
         undoManager.registerUndo(withTarget: moduleEntity) { [unowned self] (moduleEntity) in
-            // Remove added entities
+            // Remove added entities and node
             self.scene.visibleDeck.moduleEntities.removeAll(where: { $0 == moduleEntity })
-            // Remove node
             moduleEntity.mainNodeComponent.node.removeFromParent()
             // Remove CoreData changes
-            self.scene.visibleDeck.blueprint.modulePlacements.remove(placement)
-            self.context.delete(placement)
+            self.scene.visibleDeck.instance.modules.remove(moduleInstance)
+            self.scene.visibleDeck.blueprint.modulePlacements.remove(moduleInstance.placement)
+            self.context.delete(moduleInstance.placement)
+            self.context.delete(moduleInstance)
+            
+            try! self.context.save()
         }
     }
 }

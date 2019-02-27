@@ -13,6 +13,8 @@ class ModuleEntity: GKEntity {
     
     // MARK: - Initialization
     
+    // TODO: SHOULD PROBABLY JUST PASS AN INSTANCE. THERE AREN'T SITUATIONS THAT EXIST NOW WHERE IT'S NOT AVAILABLE
+    
     init(placement: ModulePlacement) {
         self.placement = placement
         super.init()
