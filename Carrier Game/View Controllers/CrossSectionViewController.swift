@@ -12,9 +12,6 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO: NEW ISSUES- ModuleBlueprint placement logic on DeckBlueprint is not sufficient. It does not get propagated to DeckInstance (resulting in DeckInstance being out of sync with DeckBlueprint).
-// - Should it really just be written into method that does actual placement of module blueprint upon deck? Presumably this is only place it will actually be done, right?
-
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate {
     
     private enum PanMode { case none, active(ModuleEntity, CGPoint) }
@@ -261,16 +258,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         // Add to scene
         scene.addChild(moduleEntity.mainNodeComponent.node)
         
-        
-//        // Place module on deck
-//        let placement = scene.visibleDeck.blueprint.placeModule(module, at: CDPoint2(x: 0, y: 0))
-//        // Create a module entity
-//        let moduleEntity = ModuleEntity(placement: placement)
-//        // Add to deck
-//        scene.visibleDeck.moduleEntities.append(moduleEntity)
-//        // Add to scene
-//        scene.addChild(moduleEntity.mainNodeComponent.node)
-        
         // Make an undo manager
         let undoManager = makeUndoManager()
         // Set mode to editing
@@ -286,7 +273,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             self.scene.visibleDeck.blueprint.modulePlacements.remove(moduleInstance.placement)
             self.context.delete(moduleInstance.placement)
             self.context.delete(moduleInstance)
-            
+            // Save
             try! self.context.save()
         }
     }
