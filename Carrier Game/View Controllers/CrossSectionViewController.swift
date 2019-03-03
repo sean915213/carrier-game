@@ -113,7 +113,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     // MARK: Actions
     
     @objc private func toggleSimulation() {
-        configureToolbar()
         // If simulation disabled (meaning the toggle will reenable) then find crewmen in invalid locations and move them to a random, valid location
         if !scene.enableSimulation {
             let gridPositions: [GridPoint3] = ship.blueprint.graph.gridNodes?.map({ $0.position }) ?? []
@@ -129,8 +128,9 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
                 crewman.movementComponent.setPosition(position)
             }
         }
-        // Reenable simulation
+        // Reenable simulation and re-configure toolbar
         scene.enableSimulation.toggle()
+        configureToolbar()
     }
     
     @objc private func validateDeck() {
@@ -185,6 +185,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             // Save
             try context.save()
             logger.logInfo("Successfully saved new module: \(module.blueprint.identifier)")
+            // Ask ship blueprint to redraw its grid graph
+            ship.blueprint.redrawGraph()
             // End editing
             editMode = .none
         } catch {
@@ -287,6 +289,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             self.scene.visibleDeck.blueprint.modulePlacements.remove(moduleInstance.placement)
             self.context.delete(moduleInstance.placement)
             self.context.delete(moduleInstance)
+            // Re-draw grid graph
+            self.ship.blueprint.redrawGraph()
             
             try! self.context.save()
         }

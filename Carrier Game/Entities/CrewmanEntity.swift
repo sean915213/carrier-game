@@ -131,61 +131,11 @@ class CrewmanEntity: GKEntity, StatsProvider {
     private func processIdle() {
         // Check whether on shift
         if isOnShift {
-            // - WORKING
-            // Get job
-            guard let job = instance.job else {
-                // TODO: Implement logic for finding new job
-                fatalError("Crewman without pre-assigned job not implemented.")
-            }
-            logger.logInfo("Beginning work [\(job.blueprint.action)].)")
-            // If current module contains this job then set working and be done
-            guard !currentModule.jobs.contains(job) else {
-                status = .busy(.work, ship.time)
-                return
-            }
-            // Get module entity with job
-            let module = ship.allModules.first(where: { $0.jobs.contains(job) })!
-            // Get path to job module
-            guard let jobInfo = findClosestEntrance(in: [module]) else {
-                fatalError("Could not get path module. Implement this.")
-            }
-            // Update status
-            status = .moving(.work)
-            // Move to module and set status when completed
-            movementComponent.setPath(nodes: jobInfo.path) { result in
-                // NOTE: Do not set idle if interrupted- this means we had something better to do and will result in this state change overriding the state set for the new 'mission'
-                if result != .interrupted {
-                    // Return to idle
-                    self.status = .idle
-                }
-            }
+            // WORKING
+            performWork()
         } else {
-            // - NEEDS
-            // Find module that will satisfy lowest need
-            let lowestNeed = instance.needs.min(by: { (need1, need2) -> Bool in
-                return need1.value < need2.value
-            })!
-            let satisfyingModules = ship.allModules.filter { module -> Bool in
-                return module.blueprint.fulfilledNeeds.contains(where: { $0.action == lowestNeed.action })
-            }
-            // If this contains our current module then set to busy
-            guard !satisfyingModules.contains(currentModule) else {
-                status = .busy(.need(lowestNeed), ship.time)
-                return
-            }
-            // Get closest path to a satisfying module
-            guard let entranceInfo = findClosestEntrance(in: satisfyingModules) else {
-                fatalError("Could not get path module. Implement this.")
-            }
-            logger.logInfo("Moving to need [current: \(lowestNeed.value)] in module: \(entranceInfo.module.blueprint.identifier).)")
-            // Set to moving
-            status = .moving(.need(lowestNeed))
-            // Move to module and set status when completed
-            movementComponent.setPath(nodes: entranceInfo.path) { result in
-                // Set to idle
-                // NOTE: Do not set idle if interrupted- this means we had something better to do and will result in this state change overriding the state set for the new 'mission'
-                if result != .interrupted { self.status = .idle }
-            }
+            // NEEDS
+            fulfillNextNeed()
         }
     }
     
@@ -197,9 +147,6 @@ class CrewmanEntity: GKEntity, StatsProvider {
                 status = .idle
                 return
             }
-            // TODO: RE-IMPLEMENT
-            // If need is no longer priority, then move to idle to choose new need
-//            else if need != getPriorityNeed() { status = .idle }
         case .work:
             // If no longer on shift then switch to idle to choose need
             guard isOnShift else {
@@ -238,9 +185,67 @@ class CrewmanEntity: GKEntity, StatsProvider {
         }
     }
     
-    private func getPriorityNeed() -> CrewmanNeed? {
-        // TODO: Get most important need
-        fatalError("Not implemented.")
+    private func performWork() {
+        // Get job
+        guard let job = instance.job else {
+            // TODO: Implement logic for finding new job
+            fatalError("Crewman without pre-assigned job not implemented.")
+        }
+        logger.logInfo("Beginning work [\(job.blueprint.action)].)")
+        // If current module contains this job then set working and be done
+        guard !currentModule.jobs.contains(job) else {
+            status = .busy(.work, ship.time)
+            return
+        }
+        // Get module entity with job
+        let module = ship.allModules.first(where: { $0.jobs.contains(job) })!
+        // Get path to job module
+        guard let jobInfo = findClosestEntrance(in: [module]) else {
+            fatalError("Could not get path module. Implement this.")
+        }
+        // Update status
+        status = .moving(.work)
+        // Move to module and set status when completed
+        movementComponent.setPath(nodes: jobInfo.path) { result in
+            // NOTE: Do not set idle if interrupted- this means we had something better to do and will result in this state change overriding the state set for the new 'mission'
+            if result != .interrupted {
+                // Return to idle
+                self.status = .idle
+            }
+        }
+    }
+    
+    private func fulfillNextNeed() {
+        // Order the needs lowest to highest
+        let orderedNeeds = instance.needs.sorted(by: { $0.value < $1.value })
+        // Find lowest need that we can move to
+        for need in orderedNeeds {
+            // Check whether current module could satisfy this need
+            guard !currentModule.blueprint.fulfilledNeeds.contains(where: { moduleNeed -> Bool in
+                moduleNeed.action == need.action
+            }) else {
+                status = .busy(.need(need), ship.time)
+                return
+            }
+            // Find modules that would satisfy this need
+            let satisfyingModules = ship.allModules.filter { module -> Bool in
+                return module.blueprint.fulfilledNeeds.contains(where: { $0.action == need.action })
+            }
+            // Find the closest entrance we could move to in one of these modules
+            guard let entranceInfo = findClosestEntrance(in: satisfyingModules) else {
+                // TODO: Logging this results in spam if crewman is stuck in an orphaned module. But should note this somehow?
+                continue
+            }
+            // Set to moving
+            status = .moving(.need(need))
+            // Move to module and set status when completed
+            movementComponent.setPath(nodes: entranceInfo.path) { result in
+                // Set to idle
+                // NOTE: Do not set idle if interrupted- this means we had something better to do and will result in this state change overriding the state set for the new 'mission'
+                if result != .interrupted { self.status = .idle }
+            }
+            return
+        }
     }
     
     private func performMeander() {
