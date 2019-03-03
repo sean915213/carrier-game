@@ -12,7 +12,8 @@ import SpriteKit
 import SGYSwiftUtility
 
 // Configurable. May be better way to do this.
-private let minimumNeedTime: TimeInterval = (TimeInterval.hour * Double(CrewmanShift.length)) / 2.0 // Currently 1/2 a shift
+
+private let minimumNeedTime = CrewmanShift.length / 2
 
 class CrewmanEntity: GKEntity, StatsProvider {
 
@@ -162,8 +163,8 @@ class CrewmanEntity: GKEntity, StatsProvider {
                 status = .idle
                 return
             }
-            // Check whether minimum time spend exceeded
-            guard ship.time.timeIntervalSince(startTime) >= minimumNeedTime else {
+            // Check whether minimum time spent exceeded
+            guard ship.time.timeIntervalSince(startTime) >= minimumNeedTime.converted(to: .seconds).value else {
                 return
             }
             // If current need is fulfilled then reset to idle

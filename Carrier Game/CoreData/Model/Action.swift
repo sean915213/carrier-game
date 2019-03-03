@@ -25,8 +25,6 @@ import Foundation
 @objc enum ActionPriority: Int16 { case low, normal, high  }
 
 typealias ActionFactor = Double
-
 extension ActionFactor {
-    
-    static let overShift = 100.0 / Double(CrewmanShift.length * (60 * 60))
+    static let overShift = 100.0 / CrewmanShift.length.converted(to: .seconds).value
 }

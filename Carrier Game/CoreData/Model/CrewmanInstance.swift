@@ -12,14 +12,18 @@ import GameplayKit
 
 @objc enum CrewmanShift: Int16, CustomDebugStringConvertible {
     
-    static let length = 8
+    static let length = Measurement(value: 8, unit: UnitDuration.hours)
     
     case first, second, third
     
     init?(date: Date) {
-        let hour = Calendar.current.component(.hour, from: date)
-        // Divide by length of a shift and floor for result
-        guard let shift = CrewmanShift(rawValue: Int16(floor(Double(hour) / Double(CrewmanShift.length)))) else { return nil }
+        // Get the hour of the current date
+        // TODO: SHOULD NOT BE USING THE CURRENT CALENDAR.
+        let hour = Double(Calendar.current.component(.hour, from: date))
+        // Divide by the shift length and floor the result
+        let shiftValue = floor(hour / CrewmanShift.length.value)
+        // Try creating an instance from this value
+        guard let shift = CrewmanShift(rawValue: Int16(shiftValue)) else { return nil }
         self = shift
     }
     
