@@ -12,7 +12,7 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
-class Deck2DViewController: UIViewController {
+class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Initialization
     
@@ -50,11 +50,6 @@ class Deck2DViewController: UIViewController {
     var cameraScale: CGFloat = 1.0 {
         didSet { camera.setScale(cameraScale) }
     }
-    
-//    private(set) lazy var shipEntity: ShipEntity = {
-//        let entity = ShipEntity(instance: ship)
-//        return entity
-//    }()
     
     private(set) lazy var sceneController: SceneController<DeckScene> = {
         return SceneController(scene: scene, context: NSPersistentContainer.model.viewContext)
@@ -134,9 +129,13 @@ class Deck2DViewController: UIViewController {
     }
     
     func setupRecognizers() {
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(recognizedTap(_:))))
-        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(recognizedPan(_:))))
-        view.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(recognizedPinch(_:))))
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(recognizedPan(_:)))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(recognizedTap(_:)))
+        let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(recognizedPinch(_:)))
+        for recognizer in [panRecognizer, tapRecognizer, pinchRecognizer] {
+            view.addGestureRecognizer(recognizer)
+            recognizer.delegate = self
+        }
     }
     
     // MARK: Actions

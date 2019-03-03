@@ -68,7 +68,9 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     override func setupRecognizers() {
         super.setupRecognizers()
-        view.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(recognizedLongPress(_:))))
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(recognizedLongPress(_:)))
+        view.addGestureRecognizer(longPressRecognizer)
+        longPressRecognizer.delegate = self
     }
     
     private func configureToolbar() {
@@ -276,5 +278,12 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             // Save
             try! self.context.save()
         }
+    }
+    
+    // MARK: UIGestureRecognizer Delegate Implementation
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        // Allow long press and pan to be recognized simultaneously
+        return gestureRecognizer is UIPanGestureRecognizer && otherGestureRecognizer is UILongPressGestureRecognizer
     }
 }
