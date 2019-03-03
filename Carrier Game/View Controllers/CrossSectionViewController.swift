@@ -119,9 +119,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             for crewman in shipEntity.crewmanEntities {
                 // Check whether crewman's current position is still valid
                 guard !gridPositions.contains(GridPoint3(crewman.instance.position)) else { continue }
-                
-                print("&& FOUND INVALID POS. GETTING RANDOM.")
-                
                 // Find a random node
                 let position = gridPositions.randomElement()!
                 // Assign crewman's position here
@@ -203,7 +200,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         }
         // Find matching module entity (which we definitely expect to find)
         guard let moduleEntity = scene.visibleDeck.moduleEntities.first(where: { $0.mainNodeComponent.node == moduleNode }) else {
-            assertionFailure("Could not find entity with Module node on current deck. This should not happen.")
+            assertionFailure("Could not find entity with module node on current deck. This should not happen.")
             return
         }
         
@@ -289,8 +286,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             self.scene.visibleDeck.blueprint.modulePlacements.remove(moduleInstance.placement)
             self.context.delete(moduleInstance.placement)
             self.context.delete(moduleInstance)
-            // Re-draw grid graph
-            self.ship.blueprint.redrawGraph()
             
             try! self.context.save()
         }
