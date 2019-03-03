@@ -11,6 +11,8 @@ import GameplayKit
 import SpriteKit
 import SGYSwiftUtility
 
+// TODO: With current blueprint we trigger a fatal error. Fix it.
+
 // Configurable. May be better way to do this.
 private let minimumNeedTime: TimeInterval = (TimeInterval.hour * Double(CrewmanShift.length)) / 2.0 // Currently 1/2 a shift
 

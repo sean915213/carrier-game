@@ -35,7 +35,12 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
         return entity as? CrewmanEntity
     }
     
+    override func didAddToEntity() {
+        super.didAddToEntity()
+    }
+    
     override func willRemoveFromEntity() {
+        super.willRemoveFromEntity()
         cancelRunningAction()
     }
     
@@ -54,10 +59,8 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
             let postAction = SKAction.run {
                 // Remove the position we just moved to
                 let newNode = self.remainingPath!.removeFirst()
-                // Assign on entity's instance
-                self.crewman?.instance.position = CDPoint3(newNode.position)
-                // Check whether visible now
-                self.updateVisibility(at: node.position.z)
+                // Assign position on instance and update visibility
+                self.assignPosition(at: newNode.position)
             }
             // Put into sequence so that update only happens once other actions are completed
             let sequenceAction = SKAction.sequence([moveAction, postAction])
@@ -66,16 +69,27 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
         }
         // Add a completed block since we cannot add completion while also assigning key
         allActions.append(SKAction.run {
-            // Nil relevant properties
-            self.path = nil
-            self.remainingPath = nil
-            self.callback = nil
-            // Execute callback
-            completed?(.completed)
+            self.completeAction(with: .completed)
         })
         // Place actions into a sequence and make node run
         let moveSequence = SKAction.sequence(allActions)
         movementNode.run(moveSequence, withKey: moveActionKey)
+    }
+    
+    func setPosition(_ position: GridPoint3) {
+        // Cancel any running actions
+        cancelRunningAction()
+        // Set position on node
+        movementNode.position = CGPoint(x: position.x, y: position.y)
+        // Assign otherwise
+        assignPosition(at: position)
+    }
+    
+    private func assignPosition(at point: GridPoint3) {
+        // Assign on entity's instance
+        self.crewman?.instance.position = CDPoint3(point)
+        // Check whether visible now
+        self.updateVisibility(at: point.z)
     }
     
     private func cancelRunningAction() {
@@ -83,8 +97,17 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
         guard movementNode.action(forKey: moveActionKey) != nil else { return }
         // Remove to cancel
         movementNode.removeAction(forKey: moveActionKey)
-        // Execute callback since removing will not execute the action that does so
-        self.callback?(.interrupted)
+        // Execute completion
+        completeAction(with: .interrupted)
+    }
+    
+    private func completeAction(with result: MovementResult) {
+        // Execute callback
+        callback?(result)
+        // Nil relevant properties
+        path = nil
+        remainingPath = nil
+        callback = nil
     }
     
     private func updateVisibility(at vertical: GridPoint) {

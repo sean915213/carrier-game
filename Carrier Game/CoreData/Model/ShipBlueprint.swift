@@ -36,6 +36,10 @@ extension ShipBlueprint {
         return decks.compactMap({ $0.moduleAttributes }).combined()
     }
     
+    func redrawGraph() {
+        graph = makeGraph()
+    }
+    
     private func makeGraph() -> GKGridGraph3D<GKGridGraphNode3D> {
         // Main graph
         let shipGraph = GKGridGraph3D<GKGridGraphNode3D>([])

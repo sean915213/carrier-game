@@ -59,6 +59,9 @@ class DeckScene: SKScene {
     private func setupShip() {
         // Add crewman entities
         for crewman in shipEntity.crewmanEntities {
+            
+            print("&& ASSIGNING CREWMAN MOVE COMPONENT")
+            
             // Add a 2D movement component
             crewman.addComponent(MovementComponent2D())
             // Add node to scene

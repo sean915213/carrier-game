@@ -19,4 +19,5 @@ protocol MovementComponentProtocol {
     var callback: ((MovementResult) -> Void)? { get }
     
     func setPath(nodes: [GKGridGraphNode3D], completed: ((MovementResult) -> Void)?)
+    func setPosition(_ position: GridPoint3)
 }

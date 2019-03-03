@@ -35,7 +35,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             // If new mode is active then toggle editing overlay on associated node component
             if case .active(let entity, _) = editMode {
                 entity.mainNodeComponent.showEditingOverlay = true
-                if scene.enableSimulation { scene.enableSimulation.toggle() }
+                if scene.enableSimulation { toggleSimulation() }
             }
             // If old value was also active it must have been a different module. So end editing.
             if case .active(let entity, _) = oldValue {
@@ -113,8 +113,24 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     // MARK: Actions
     
     @objc private func toggleSimulation() {
-        scene.enableSimulation.toggle()
         configureToolbar()
+        // If simulation disabled (meaning the toggle will reenable) then find crewmen in invalid locations and move them to a random, valid location
+        if !scene.enableSimulation {
+            let gridPositions: [GridPoint3] = ship.blueprint.graph.gridNodes?.map({ $0.position }) ?? []
+            for crewman in shipEntity.crewmanEntities {
+                // Check whether crewman's current position is still valid
+                guard !gridPositions.contains(GridPoint3(crewman.instance.position)) else { continue }
+                
+                print("&& FOUND INVALID POS. GETTING RANDOM.")
+                
+                // Find a random node
+                let position = gridPositions.randomElement()!
+                // Assign crewman's position here
+                crewman.movementComponent.setPosition(position)
+            }
+        }
+        // Reenable simulation
+        scene.enableSimulation.toggle()
     }
     
     @objc private func validateDeck() {

@@ -28,6 +28,7 @@ class Deck2DViewController: UIViewController {
     // MARK: - Properties
     
     let ship: ShipInstance
+    var shipEntity: ShipEntity { return scene.shipEntity }
     
     private(set) lazy var logger = Logger(source: type(of: self))
     
@@ -50,10 +51,10 @@ class Deck2DViewController: UIViewController {
         didSet { camera.setScale(cameraScale) }
     }
     
-    private(set) lazy var shipEntity: ShipEntity = {
-        let entity = ShipEntity(instance: ship)
-        return entity
-    }()
+//    private(set) lazy var shipEntity: ShipEntity = {
+//        let entity = ShipEntity(instance: ship)
+//        return entity
+//    }()
     
     private(set) lazy var sceneController: SceneController<DeckScene> = {
         return SceneController(scene: scene, context: NSPersistentContainer.model.viewContext)
