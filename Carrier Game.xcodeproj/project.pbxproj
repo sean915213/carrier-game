@@ -38,6 +38,7 @@
 		74612C5921FCF2D500006E15 /* ModuleAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74612C5821FCF2D500006E15 /* ModuleAttribute.swift */; };
 		74612C5B21FCFB9C00006E15 /* ModuleEntrance3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74612C5A21FCFB9C00006E15 /* ModuleEntrance3D.swift */; };
 		74693C7C222C619500D7E6E7 /* SlidingMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74693C7B222C619500D7E6E7 /* SlidingMenuView.swift */; };
+		74693C7E222C7CFF00D7E6E7 /* SlidingMenuToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74693C7D222C7CFF00D7E6E7 /* SlidingMenuToolbarView.swift */; };
 		7471650D21AE0D2500F5AA48 /* ShipEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650C21AE0D2500F5AA48 /* ShipEntity.swift */; };
 		7471650F21AE0E1400F5AA48 /* DeckEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650E21AE0E1400F5AA48 /* DeckEntity.swift */; };
 		748AE3242217934F000015E5 /* ModuleEntityNodeComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748AE3232217934F000015E5 /* ModuleEntityNodeComponent2D.swift */; };
@@ -99,6 +100,7 @@
 		74612C5821FCF2D500006E15 /* ModuleAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleAttribute.swift; sourceTree = "<group>"; };
 		74612C5A21FCFB9C00006E15 /* ModuleEntrance3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntrance3D.swift; sourceTree = "<group>"; };
 		74693C7B222C619500D7E6E7 /* SlidingMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingMenuView.swift; sourceTree = "<group>"; };
+		74693C7D222C7CFF00D7E6E7 /* SlidingMenuToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingMenuToolbarView.swift; sourceTree = "<group>"; };
 		7471650C21AE0D2500F5AA48 /* ShipEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipEntity.swift; sourceTree = "<group>"; };
 		7471650E21AE0E1400F5AA48 /* DeckEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckEntity.swift; sourceTree = "<group>"; };
 		748AE3232217934F000015E5 /* ModuleEntityNodeComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntityNodeComponent2D.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				74693C7B222C619500D7E6E7 /* SlidingMenuView.swift */,
+				74693C7D222C7CFF00D7E6E7 /* SlidingMenuToolbarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 				74405C78218E4EF100BA3A69 /* DeckBlueprint.swift in Sources */,
 				74BDA0442192778E0034DD20 /* CGPointExtensions.swift in Sources */,
 				749CB13D2177E7F800949734 /* AppDelegate.swift in Sources */,
+				74693C7E222C7CFF00D7E6E7 /* SlidingMenuToolbarView.swift in Sources */,
 				742C3646219A4DE2007FA1B5 /* MovementComponent2D.swift in Sources */,
 				7415561E21BB3CBC009EA087 /* MovementComponentProtocol.swift in Sources */,
 				74FC7A1521B0C856001B4E83 /* float3Extensions.swift in Sources */,
