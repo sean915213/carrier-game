@@ -37,6 +37,7 @@
 		74612C5521FCE9FD00006E15 /* ModuleEntrance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74612C5421FCE9FD00006E15 /* ModuleEntrance.swift */; };
 		74612C5921FCF2D500006E15 /* ModuleAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74612C5821FCF2D500006E15 /* ModuleAttribute.swift */; };
 		74612C5B21FCFB9C00006E15 /* ModuleEntrance3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74612C5A21FCFB9C00006E15 /* ModuleEntrance3D.swift */; };
+		74693C7C222C619500D7E6E7 /* SlidingMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74693C7B222C619500D7E6E7 /* SlidingMenuView.swift */; };
 		7471650D21AE0D2500F5AA48 /* ShipEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650C21AE0D2500F5AA48 /* ShipEntity.swift */; };
 		7471650F21AE0E1400F5AA48 /* DeckEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471650E21AE0E1400F5AA48 /* DeckEntity.swift */; };
 		748AE3242217934F000015E5 /* ModuleEntityNodeComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748AE3232217934F000015E5 /* ModuleEntityNodeComponent2D.swift */; };
@@ -97,6 +98,7 @@
 		74612C5421FCE9FD00006E15 /* ModuleEntrance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntrance.swift; sourceTree = "<group>"; };
 		74612C5821FCF2D500006E15 /* ModuleAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleAttribute.swift; sourceTree = "<group>"; };
 		74612C5A21FCFB9C00006E15 /* ModuleEntrance3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntrance3D.swift; sourceTree = "<group>"; };
+		74693C7B222C619500D7E6E7 /* SlidingMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingMenuView.swift; sourceTree = "<group>"; };
 		7471650C21AE0D2500F5AA48 /* ShipEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipEntity.swift; sourceTree = "<group>"; };
 		7471650E21AE0E1400F5AA48 /* DeckEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckEntity.swift; sourceTree = "<group>"; };
 		748AE3232217934F000015E5 /* ModuleEntityNodeComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntityNodeComponent2D.swift; sourceTree = "<group>"; };
@@ -186,6 +188,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		74693C75222C50B900D7E6E7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				74693C7B222C619500D7E6E7 /* SlidingMenuView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		748AE3222217932A000015E5 /* ModuleEntity */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,6 +238,7 @@
 		749CB13B2177E7F800949734 /* Carrier Game */ = {
 			isa = PBXGroup;
 			children = (
+				74693C75222C50B900D7E6E7 /* Views */,
 				748C49D721E6CBAE004019D4 /* Grid Model */,
 				742C3644219A4DC0007FA1B5 /* Components */,
 				742C3641219A4D60007FA1B5 /* Entities */,
@@ -465,6 +476,7 @@
 				740FD03621B5FCB400C34FF8 /* ModuleJobInstance.swift in Sources */,
 				743D00362218CEED00AEA5DE /* SKSceneExtension.swift in Sources */,
 				74BA5CE52183CB640039A2D5 /* NSPersistentContainerExtension.swift in Sources */,
+				74693C7C222C619500D7E6E7 /* SlidingMenuView.swift in Sources */,
 				74048369220919B8002B67BD /* Deck2DViewController.swift in Sources */,
 				74B97DD421B9FC23009973A3 /* CDPoint3.swift in Sources */,
 				749CB1512177E8F200949734 /* BuildViewController.swift in Sources */,
