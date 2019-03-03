@@ -276,7 +276,11 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             self.context.delete(moduleInstance.placement)
             self.context.delete(moduleInstance)
             // Save
-            try! self.context.save()
+            do {
+                try self.context.save()
+            } catch {
+                self.logger.logError("Error saving context during undo: \(error)")
+            }
         }
     }
     
