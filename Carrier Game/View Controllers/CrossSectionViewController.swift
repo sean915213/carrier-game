@@ -19,7 +19,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     private enum EditMode: Equatable { case none, active(ModuleEntity, UndoManager) }
     
     private enum ExpandedMenu: Equatable { case overlays, deck }
-    private enum MenuState: Equatable { case hidden, displayed(ExpandedMenu) }
     
     // MARK: - Initialization
     
@@ -44,26 +43,14 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         }
     }
     
-    private var menuState: MenuState = .hidden
-    
     private lazy var context: NSManagedObjectContext = {
         // TODO: Create a new main context with viewContext as parent? Or store?
         return NSPersistentContainer.model.viewContext
     }()
     
-    private lazy var toolbar: UIToolbar = {
-        let toolbar = UIToolbar()
-        toolbar.translatesAutoresizingMaskIntoConstraints = false
-        return toolbar
-    }()
-    
-    private lazy var menuItemView: SlidingMenuView = {
-        let menuView = SlidingMenuView(translatesAutoresizingMask: false)
-        return menuView
-    }()
-    
-    private lazy var menuPositionConstraint: NSLayoutConstraint = {
-        return menuItemView.topAnchor.constraint(equalTo: toolbar.topAnchor)
+    private lazy var slidingMenuToolbarView: SlidingMenuToolbarView = {
+        let view = SlidingMenuToolbarView(translatesAutoresizingMask: false)
+        return view
     }()
     
     // MARK: - Methods
@@ -72,24 +59,14 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         super.viewDidLoad()
         // Disable simulation
         scene.enableSimulation = false
-        // Add toolbar
-        view.addSubview(toolbar)
-        NSLayoutConstraint.constraintsPinningView(toolbar, axis: .horizontal).activate()
-        toolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor).activate()
-        // Show initial toolbar config
+        // Add toolbar control
+        view.addSubview(slidingMenuToolbarView)
+        NSLayoutConstraint.constraintsPinningView(slidingMenuToolbarView, axis: .horizontal).activate()
+        slidingMenuToolbarView.bottomAnchor.constraint(equalTo: view.bottomAnchor).activate()
+        // Perform initial configuration
         configureToolbar()
-        // Setup sliding menu
-        setupSlidingMenu()
     }
-    
-    private func setupSlidingMenu() {
-        // Insert below toolbar
-        view.insertSubview(menuItemView, belowSubview: toolbar)
-        // Constrain
-        NSLayoutConstraint.constraintsPinningView(menuItemView, axis: .horizontal).activate()
-        menuPositionConstraint.activate()
-    }
-    
+
     override func setupRecognizers() {
         super.setupRecognizers()
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(recognizedLongPress(_:)))
@@ -125,82 +102,37 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             items.append(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEditingModule)))
         }
         // Add
-        toolbar.setItems(items, animated: true)
+        slidingMenuToolbarView.toolbarItems = items
     }
     
-    private func toggleMenuDisplayed(for toggleMenu: ExpandedMenu) {
-        // Determine whether to show or hide based on current state
-        switch menuState {
-        case .hidden:
-            // Configure with buttons first then animate in
-            configureMenu(for: toggleMenu, animated: false)
-            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
-                self.menuPositionConstraint.deactivate()
-                self.menuPositionConstraint = self.menuItemView.bottomAnchor.constraint(equalTo: self.toolbar.topAnchor).activate()
-                self.view.layoutIfNeeded()
-            }, completion: nil)
-            // Assign new state
-            menuState = .displayed(toggleMenu)
-        case .displayed(let currentMenu):
-            // Already displayed, so if selecting new menu just reconfigure buttons
-            guard toggleMenu == currentMenu else {
-                configureMenu(for: toggleMenu, animated: true)
-                menuState = .displayed(toggleMenu)
-                return
-            }
-            // Animate out
-            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                // Animate out
-                self.menuPositionConstraint.deactivate()
-                self.menuPositionConstraint = self.menuItemView.topAnchor.constraint(equalTo: self.toolbar.topAnchor).activate()
-                self.view.layoutIfNeeded()
-            }) { _ in
-                // Remove current views when completed
-                self.menuItemView.stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-            }
-            // Assign new state
-            menuState = .hidden
-        }
-    }
-    
-    private func configureMenu(for menu: ExpandedMenu, animated: Bool) {
-        // Remove existing buttons
-        menuItemView.stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        // Configure new
+    private func makeButtons(for menu: ExpandedMenu) -> [UIButton] {
+        var buttons = [UIButton]()
         switch menu {
         case .overlays:
             // - Lifts
             let liftsButton = UIButton(type: .system)
             liftsButton.setTitle("Lifts", for: [])
-            menuItemView.stackView.addArrangedSubview(liftsButton)
+            buttons.append(liftsButton)
             // - Bounds
             let boundsButton = UIButton(type: .system)
             boundsButton.setTitle("Bounds", for: [])
-            menuItemView.stackView.addArrangedSubview(boundsButton)
+            buttons.append(boundsButton)
         case .deck:
             // - Previous
             let previousButton = UIButton(type: .system)
             previousButton.setTitle("Previous", for: [])
-            menuItemView.stackView.addArrangedSubview(previousButton)
+            buttons.append(previousButton)
             // - Next
             let nextButton = UIButton(type: .system)
             nextButton.setTitle("Next", for: [])
-            menuItemView.stackView.addArrangedSubview(nextButton)
+            buttons.append(nextButton)
             // - Validate
             let validateButton = UIButton(type: .system)
             validateButton.setTitle("Validate", for: [])
             validateButton.addTarget(self, action: #selector(validateDeck(sender:)), for: .touchUpInside)
-            menuItemView.stackView.addArrangedSubview(validateButton)
+            buttons.append(validateButton)
         }
-        // If not animated then layout immediately
-        guard animated else {
-            menuItemView.layoutIfNeeded()
-            return
-        }
-        // Animate
-        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: [], animations: {
-            self.menuItemView.layoutIfNeeded()
-        }, completion: nil)
+        return buttons
     }
     
     private func makeUndoManager() -> UndoManager {
@@ -231,19 +163,19 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     @objc private func tappedOverlays(button: UIBarButtonItem) {
-        // Update menu state
-        toggleMenuDisplayed(for: .overlays)
-        // Update button tint color
-        button.tintColor = menuState == .hidden ? toolbar.tintColor : .red
-        toolbar.items!.filter({ $0 != button }).forEach { $0.tintColor = toolbar.tintColor }
+        if slidingMenuToolbarView.selectedItem == button {
+            slidingMenuToolbarView.hideSlidingMenuIfDisplayed()
+        } else {
+            slidingMenuToolbarView.showOrUpdateSlidingMenu(for: button, with: makeButtons(for: .overlays))
+        }
     }
     
     @objc private func tappedDecks(button: UIBarButtonItem) {
-        // Update menu state
-        toggleMenuDisplayed(for: .deck)
-        // Update button tint color
-        button.tintColor = menuState == .hidden ? toolbar.tintColor : .red
-        toolbar.items!.filter({ $0 != button }).forEach { $0.tintColor = toolbar.tintColor }
+        if slidingMenuToolbarView.selectedItem == button {
+            slidingMenuToolbarView.hideSlidingMenuIfDisplayed()
+        } else {
+            slidingMenuToolbarView.showOrUpdateSlidingMenu(for: button, with: makeButtons(for: .deck))
+        }
     }
     
     @objc private func validateDeck(sender: UIBarButtonItem) {

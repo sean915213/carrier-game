@@ -8,55 +8,7 @@
 
 import UIKit
 
-class MenuToolbarExpandedItem {
-    
-    // MARK: - Initialization
-    
-    init(view: UIView) {
-        self.view = view
-    }
-    
-    // MARK: - Properties
-    
-    let view: UIView
-    var staysSelected = false
-}
-
-class MenuToolbarItem {
-    
-    enum Display { case system(UIBarButtonItem.SystemItem), title(String), view(UIView) }
-    
-    // MARK: - Initialization
-    
-    init(display: Display) {
-        self.display = display
-    }
-    
-    // MARK: - Properties
-    
-    let display: Display
-    var staysSelected = true
-    
-    fileprivate private(set) lazy var barButton: UIBarButtonItem = {
-        switch display {
-        case .system(let systemItem):
-            return UIBarButtonItem(barButtonSystemItem: systemItem, target: nil, action: nil)
-        case .title(let title):
-            return UIBarButtonItem(title: title, style: .plain, target: nil, action: nil)
-        case .view(let view):
-            return UIBarButtonItem(customView: view)
-        }
-    }()
-}
-
 private let animationDuration: TimeInterval = 0.3
-
-protocol SlidingMenuToolbarViewDelegate: AnyObject {
-    
-    func slidingMenuToolbarView(_ view: SlidingMenuToolbarView, didSelectItem item: MenuToolbarItem)
-    func slidingMenuToolbarView(_ view: SlidingMenuToolbarView, didUnselectItem item: MenuToolbarItem)
-    func slidingMenuToolbarView(_ view: SlidingMenuToolbarView, expandedItemsFor item: MenuToolbarItem) -> [MenuToolbarExpandedItem]?
-}
 
 class SlidingMenuToolbarView: UIView {
 
@@ -73,17 +25,19 @@ class SlidingMenuToolbarView: UIView {
     
     // MARK: - Properties
     
-    weak var delegate: SlidingMenuToolbarViewDelegate?
-    
     var selectionColor: UIColor = .red
     
-    var toolbarItems = [MenuToolbarItem]() {
+    var toolbarItems = [UIBarButtonItem]() {
         didSet { updateItems() }
     }
     
-    private(set) var selectedItem: MenuToolbarItem?
-    
-    private var slidingMenuDisplayed = false
+    private(set) var selectedItem: UIBarButtonItem? {
+        didSet {
+            // Update selection colors
+            oldValue?.tintColor = toolbar.tintColor
+            selectedItem?.tintColor = selectionColor
+        }
+    }
     
     private lazy var toolbar: UIToolbar = {
         let toolbar = UIToolbar()
@@ -100,9 +54,14 @@ class SlidingMenuToolbarView: UIView {
         return slidingMenuView.topAnchor.constraint(equalTo: toolbar.topAnchor)
     }()
     
+    private lazy var heightConstraint: NSLayoutConstraint = {
+        return heightAnchor.constraint(equalToConstant: 0)
+    }()
+    
     // MARK: - Methods
     
     private func setup() {
+        heightConstraint.activate()
         // Add menu item view then toolbar
         addSubviews(slidingMenuView, toolbar)
         // Constrain menu item view
@@ -113,21 +72,31 @@ class SlidingMenuToolbarView: UIView {
         toolbar.bottomAnchor.constraint(equalTo: bottomAnchor).activate()
     }
     
-    private func updateItems() {
-        var newButtons = [UIBarButtonItem]()
-        for item in toolbarItems {
-            item.barButton.target = self
-            item.barButton.action = #selector(didTapBarButton(_:))
-            newButtons.append(item.barButton)
+    override func updateConstraints() {
+        // Start with toolbar height
+        var height = toolbar.intrinsicContentSize.height
+        // Assign before finishing
+        defer {
+            heightConstraint.constant = height
+            super.updateConstraints()
         }
-        toolbar.setItems(newButtons, animated: true)
+        // If no item then only toolbar
+        guard selectedItem != nil else { return }
+        // Calculate sliding menu view's height
+        var size = UIView.layoutFittingCompressedSize
+        size.width = bounds.width
+        let menuSize = slidingMenuView.systemLayoutSizeFitting(size, withHorizontalFittingPriority: .defaultHigh, verticalFittingPriority: .fittingSizeLevel)
+        height += menuSize.height
     }
     
-    private func showOrUpdateSlidingMenu(with items: [MenuToolbarExpandedItem]) {
+    func showOrUpdateSlidingMenu(for barButton: UIBarButtonItem, with views: [UIView]) {
+        assert(toolbar.items?.contains(barButton) == true)
+        // Assign/change selected item when we're done
+        defer { selectedItem = barButton }
         // Assign new items
-        setExpandedItems(items)
+        setExpandedViews(views)
         // If already displayed then animate change of items
-        guard !slidingMenuDisplayed else {
+        guard selectedItem == nil else {
             // Animate the layout change
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: animationDuration, delay: 0, options: [], animations: {
                 self.slidingMenuView.layoutIfNeeded()
@@ -141,13 +110,13 @@ class SlidingMenuToolbarView: UIView {
             self.menuPositionConstraint.deactivate()
             self.menuPositionConstraint = self.slidingMenuView.bottomAnchor.constraint(equalTo: self.toolbar.topAnchor).activate()
             self.layoutIfNeeded()
-        }, completion: nil)
+        }, completion: { _ in self.setNeedsUpdateConstraints() })
     }
     
-    private func hideSlidingMenuIfDisplayed() {
+    func hideSlidingMenuIfDisplayed() {
         // Hide only if displayed
-        guard slidingMenuDisplayed else { return }
-        slidingMenuDisplayed = false
+        guard selectedItem != nil else { return }
+        selectedItem = nil
         // Animate out
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
             // Animate out
@@ -156,46 +125,20 @@ class SlidingMenuToolbarView: UIView {
             self.layoutIfNeeded()
         }) { _ in
             // Remove current views when completed
-            self.setExpandedItems([])
+            self.setExpandedViews([])
         }
     }
     
-    private func setExpandedItems(_ items: [MenuToolbarExpandedItem]) {
+    private func updateItems() {
+        toolbar.setItems(toolbarItems, animated: true)
+        hideSlidingMenuIfDisplayed()
+        setNeedsUpdateConstraints()
+    }
+    
+    private func setExpandedViews(_ views: [UIView]) {
         // Remove current items
         slidingMenuView.stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         // Add new ones
-        for item in items { slidingMenuView.stackView.addArrangedSubview(item.view) }
-    }
-    
-    // MARK: Actions
-    
-    @objc private func didTapBarButton(_ button: UIBarButtonItem) {
-        // Check whether a current selection exists
-        if let selection = selectedItem {
-            // Change button color
-            selection.barButton.tintColor = toolbar.tintColor
-            // Remove selection
-            selectedItem = nil
-            // Inform delegate unselected
-            delegate?.slidingMenuToolbarView(self, didUnselectItem: selection)
-            // If this is tapped button then only thing left is to hide menu
-            guard button != selection.barButton else {
-                hideSlidingMenuIfDisplayed()
-                return
-            }
-        }
-        // Find new selected item (which should definitely exist)
-        let newSelection = toolbarItems.first(where: { $0.barButton == button })!
-        // Inform delegate
-        delegate?.slidingMenuToolbarView(self, didSelectItem: newSelection)
-        // If item doesn't stay selected there's nothing more to do
-        guard newSelection.staysSelected else { return }
-        // Color selected and assign
-        newSelection.barButton.tintColor = selectionColor
-        selectedItem = newSelection
-        // Ask delegate for expanded items
-        guard let expandedItems = delegate?.slidingMenuToolbarView(self, expandedItemsFor: newSelection) else { return }
-        // Expand menu
-        showOrUpdateSlidingMenu(with: expandedItems)
+        for view in views { slidingMenuView.stackView.addArrangedSubview(view) }
     }
 }
