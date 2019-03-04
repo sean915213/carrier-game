@@ -121,10 +121,12 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             // - Previous
             let previousButton = UIButton(type: .system)
             previousButton.setTitle("Previous", for: [])
+            previousButton.addTarget(self, action: #selector(displayPreviousDeck), for: .touchUpInside)
             buttons.append(previousButton)
             // - Next
             let nextButton = UIButton(type: .system)
             nextButton.setTitle("Next", for: [])
+            nextButton.addTarget(self, action: #selector(displayNextDeck), for: .touchUpInside)
             buttons.append(nextButton)
             // - Validate
             let validateButton = UIButton(type: .system)
@@ -143,6 +145,14 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     // MARK: Actions
+    
+    @objc private func displayPreviousDeck() {
+        scene.visibleDeck = previousDeck()
+    }
+    
+    @objc private func displayNextDeck() {
+        scene.visibleDeck = nextDeck()
+    }
     
     @objc private func toggleSimulation() {
         // If simulation disabled (meaning the toggle will reenable) then find crewmen in invalid locations and move them to a random, valid location

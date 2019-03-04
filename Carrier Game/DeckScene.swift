@@ -73,14 +73,6 @@ class DeckScene: SKScene {
         }
     }
     
-    func nextDeck() -> DeckEntity {
-        if shipEntity.deckEntities.last == visibleDeck {
-            return shipEntity.deckEntities.first!
-        } else {
-            return shipEntity.deck(at: Int(visibleDeck.blueprint.position + 1))!
-        }
-    }
-    
     private func updateSimulationEnabled() {
         // Currently only need to pause actions on crewmen
         for crewman in shipEntity.crewmanEntities {

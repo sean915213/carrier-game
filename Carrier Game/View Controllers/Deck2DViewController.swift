@@ -42,8 +42,6 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
         // Add camera
         scene.addChild(camera)
         scene.camera = camera
-        // Update deck button
-        deckButton.setTitle("Next Deck: \(scene.nextDeck().blueprint.position)", for: [])
         return scene
     }()
     
@@ -59,22 +57,6 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
         let node = SKCameraNode()
         node.setScale(cameraScale)
         return node
-    }()
-    
-    // TODO: MOVE TO USING BOTTOM TOOLBAR?
-    private(set) lazy var optionsStack: UIStackView = {
-        // Add stack
-        let stack = UIStackView(translatesAutoresizingMask: false)
-        stack.axis = .vertical
-        stack.spacing = NSLayoutConstraint.systemSiblingSpacing
-        return stack
-    }()
-    
-    private lazy var deckButton: UIButton = {
-        let button = UIButton(translatesAutoresizingMask: false)
-        button.setTitleColor(.blue, for: [])
-        button.addTarget(self, action: #selector(toggleDeck), for: .touchUpInside)
-        return button
     }()
     
     private var lastTranslation: CGPoint = .zero
@@ -93,8 +75,6 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
         setupCamera()
         // Setup recognizers
         setupRecognizers()
-        // Setup button stack
-        setupButtonStack()
     }
     
     func applyCameraPan(position: CGPoint, totalDelta: CGPoint) {
@@ -112,20 +92,26 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
         node.position = newNodePos
     }
     
+    func nextDeck() -> DeckEntity {
+        if scene.visibleDeck == shipEntity.deckEntities.last {
+            return shipEntity.deckEntities.first!
+        } else {
+            return shipEntity.deck(at: Int(scene.visibleDeck.blueprint.position + 1))!
+        }
+    }
+    
+    func previousDeck() -> DeckEntity {
+        if scene.visibleDeck == shipEntity.deckEntities.first {
+            return shipEntity.deckEntities.last!
+        } else {
+            return shipEntity.deck(at: Int(scene.visibleDeck.blueprint.position - 1))!
+        }
+    }
+    
     private func setupCamera() {
         // TODO: ALL TEMPORARY
         camera.position = CGPoint(x: 0, y: 0)
         cameraScale = 0.3
-    }
-    
-    private func setupButtonStack() {
-        // Add stack
-        view.addSubview(optionsStack)
-        optionsStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).activate()
-        optionsStack.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor).activate()
-        // Add buttons
-        // - Deck toggle
-        optionsStack.addArrangedSubview(deckButton)
     }
     
     func setupRecognizers() {
@@ -139,10 +125,6 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // MARK: Actions
-    
-    @objc private func toggleDeck() {
-        scene.visibleDeck = scene.nextDeck()
-    }
     
     @objc private func recognizedPinch(_ recognizer: UIPinchGestureRecognizer) {
         switch recognizer.state {
