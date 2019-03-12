@@ -167,4 +167,11 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
         // Assign last translation
         lastTranslation = translation
     }
+    
+    // MARK: UIGestureRecognizer Delegate Implementation
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        // By default only recognize our gestures if they're occurring directly on the root (scene) view
+        return touch.view == view
+    }
 }
