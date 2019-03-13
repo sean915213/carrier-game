@@ -22,7 +22,7 @@ protocol SlidingMenuToolbarViewControllerDelegate: AnyObject {
 
 class SlidingMenuToolbarViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    typealias ItemCollection = (items: [MenuItem], collectionView: UICollectionView, expanded: MenuItem?)
+    typealias ItemCollection = (items: [MenuItem], collectionView: UICollectionView, heightConstraint: NSLayoutConstraint, expanded: MenuItem?)
     
     class MenuItem {
         
@@ -45,13 +45,23 @@ class SlidingMenuToolbarViewController: UIViewController, UICollectionViewDataSo
     
     private lazy var menuHierarchy = [ItemCollection]()
     
+    private lazy var stackView: UIStackView = {
+        let stack = UIStackView(translatesAutoresizingMask: false)
+        stack.axis = .vertical
+        stack.distribution = UIStackView.Distribution.fill
+        stack.alignment = UIStackView.Alignment.fill
+        return stack
+    }()
+    
     // MARK: - Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(stackView)
+        NSLayoutConstraint.constraintsPinningView(stackView).activate()
         // Ask delegate for initial items
         if let rootItems = delegate?.slidingMenuViewController(self, itemsForSelectedItem: nil) {
-            displayNewItems(rootItems)
+            displayNewItems(rootItems, for: nil)
         }
     }
     
@@ -64,36 +74,124 @@ class SlidingMenuToolbarViewController: UIViewController, UICollectionViewDataSo
 //            let collectionHeight = collection.collectionView.contentSize.height
             let collectionHeight = collection.collectionView.collectionViewLayout.collectionViewContentSize.height
             height += collectionHeight
+            
+            print("@@ COLLECTION VIEW FRAME HEIGHT: \(collection.collectionView.frame.size.height). CONTENT HEIGHT: \(collection.collectionView.collectionViewLayout.collectionViewContentSize.height)")
+            print("?? COLLECTION VIEW FRAME ORIGIN: \(collection.collectionView.frame.origin)")
+            
+//            collection.heightConstraint.constant = collection.collectionView.collectionViewLayout.collectionViewContentSize.height
         }
         
         print("&& TOTAL HEIGHT: \(height). FOR COUNT: \(menuHierarchy.count)")
         preferredContentSize = CGSize(width: -1, height: height)
         
-        
         // Modify preferred content size
 //        preferredContentSize = CGSize(width: -1, height: menuHierarchy.first!.collectionView.collectionViewLayout.collectionViewContentSize.height)
     }
     
-    private func displayNewItems(_ items: [MenuItem]) {
+    override func updateViewConstraints() {
+        // Modify menu constraints
+        for collection in menuHierarchy {
+            //            let collectionHeight = collection.collectionView.contentSize.height
+//            let collectionHeight = collection.collectionView.collectionViewLayout.collectionViewContentSize.height
+//            height += collectionHeight
+//
+//            print("@@ COLLECTION VIEW FRAME HEIGHT: \(collection.collectionView.frame.size.height). CONTENT HEIGHT: \(collection.collectionView.collectionViewLayout.collectionViewContentSize.height)")
+//            print("?? COLLECTION VIEW FRAME ORIGIN: \(collection.collectionView.frame.origin)")
+//
+            collection.heightConstraint.constant = collection.collectionView.collectionViewLayout.collectionViewContentSize.height
+        }
+        
+        
+        
+        
+        super.updateViewConstraints()
+    }
+    
+    private func displayNewItems(_ items: [MenuItem], for expandedItem: MenuItem?) {
         // Make a new collection view and add
         let collectionView = makeCollectionView()
-        view.addSubview(collectionView)
-        // Constrain
-        // - VERTICAL
-        // Top
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor).activate()
-        // Bottom
-        let bottomAnchor = menuHierarchy.first?.collectionView.topAnchor ?? view.bottomAnchor
-        collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).activate()
-        // - HORIZONTAL
-        NSLayoutConstraint.constraintsPinningView(collectionView, axis: .horizontal).activate()
+        
+        if menuHierarchy.count == 1 {
+            print("!! CHANGIG BG COLOR")
+            collectionView.backgroundColor = .red
+        }
+        
+        
+        stackView.insertArrangedSubview(collectionView, at: 0)
+        
+        print("## INSERTED NEW ITEM. STACK COUNT: \(stackView.arrangedSubviews.count)")
+        
+//        // Constrain
+//        // - VERTICAL
+//        // Top
+//        let topAnchorConstraint = collectionView.topAnchor.constraint(equalTo: view.topAnchor)
+//        topAnchorConstraint.identifier = "top.anchor"
+//        topAnchorConstraint.activate()
+//        // Bottom
+//        let bottomAnchor = menuHierarchy.first?.collectionView.topAnchor ?? view.bottomAnchor
+//        let bottomAnchorConstraint = collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).activate()
+//        bottomAnchorConstraint.identifier = "bottom.anchor"
+//        // - HORIZONTAL
+//        NSLayoutConstraint.constraintsPinningView(collectionView, axis: .horizontal).activate()
+        
+        // Modify current leading menu (if it exists)
+        if let item = expandedItem {
+            var leadingCollection = menuHierarchy.removeLast()
+            leadingCollection.expanded = item
+            menuHierarchy.append(leadingCollection)
+//            // Modify bottom constrain
+//            let bottomAnchorConstraint =
+        }
+        
+        
         // Add to menu hierarchy
-        menuHierarchy.append((items: items, collectionView: collectionView, expanded: nil))
+        
+        let heightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 1).activate()
+//        view.setNeedsUpdateConstraints()
+        menuHierarchy.append((items: items, collectionView: collectionView, heightConstraint: heightConstraint, expanded: nil))
         
         // Need to perform a reload to get contentSize set properly and therefore update preferredContentSize
         collectionView.performBatchUpdates({
             collectionView.reloadSections(IndexSet(integer: 0))
-        }, completion: nil)
+        }, completion: { _ in
+            print("&& BATCH COMPLETION")
+            self.view.setNeedsUpdateConstraints()
+            self.view.setNeedsLayout()
+        })
+        
+        
+        
+//        // Make a new collection view and add
+//        let collectionView = makeCollectionView()
+//        view.addSubview(collectionView)
+//        // Constrain
+//        // - VERTICAL
+//        // Top
+//        let topAnchorConstraint = collectionView.topAnchor.constraint(equalTo: view.topAnchor)
+//        topAnchorConstraint.identifier = "top.anchor"
+//        topAnchorConstraint.activate()
+//        // Bottom
+//        let bottomAnchor = menuHierarchy.first?.collectionView.topAnchor ?? view.bottomAnchor
+//        let bottomAnchorConstraint = collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).activate()
+//        bottomAnchorConstraint.identifier = "bottom.anchor"
+//        // - HORIZONTAL
+//        NSLayoutConstraint.constraintsPinningView(collectionView, axis: .horizontal).activate()
+//
+//        // Modify current leading menu (if it exists)
+//        if let item = expandedItem {
+//            var leadingCollection = menuHierarchy.removeLast()
+//            leadingCollection.expanded = item
+//            menuHierarchy.append(leadingCollection)
+//            // Modify bottom constrain
+//            let bottomAnchorConstraint =
+//        }
+//        // Add to menu hierarchy
+//        menuHierarchy.append((items: items, collectionView: collectionView, expanded: nil))
+//
+//        // Need to perform a reload to get contentSize set properly and therefore update preferredContentSize
+//        collectionView.performBatchUpdates({
+//            collectionView.reloadSections(IndexSet(integer: 0))
+//        }, completion: nil)
     }
     
 //    private func collapseMostRecentItems() {
@@ -107,6 +205,9 @@ class SlidingMenuToolbarViewController: UIViewController, UICollectionViewDataSo
 //    }
     
     private func collapseMenu(toIndex index: Int?) {
+        
+        print("&& COLLAPSING TO INDEX: \(index)")
+        
         // Iterate through hierarchy backwards
         for i in (0..<menuHierarchy.endIndex).reversed() {
             guard i != index else { break }
@@ -114,6 +215,22 @@ class SlidingMenuToolbarViewController: UIViewController, UICollectionViewDataSo
             collectionView.removeFromSuperview()
             menuHierarchy.remove(at: i)
         }
+        // Check whether a menu item remains
+        guard !menuHierarchy.isEmpty else { return }
+        // Remove last to modify
+        var leadingMenu = menuHierarchy.removeLast()
+        
+//        var topAnchorConstraint = view.constraints.first(where: { $0.identifier == "top.anchor" })!
+//        topAnchorConstraint.deactivate()
+//        topAnchorConstraint = leadingMenu.collectionView.topAnchor.constraint(equalTo: view.topAnchor).activate()
+//        topAnchorConstraint.identifier = "top.anchor"
+        
+        // Nil expanded item and re-assign menu
+        leadingMenu.expanded = nil
+        menuHierarchy.append(leadingMenu)
+        
+//        self.view.setNeedsUpdateConstraints()
+        self.view.setNeedsLayout()
     }
     
     private func makeCollectionView() -> UICollectionView {
@@ -129,6 +246,8 @@ class SlidingMenuToolbarViewController: UIViewController, UICollectionViewDataSo
         view.dataSource = self
         view.delegate = self
         view.allowsMultipleSelection = true
+        
+//        view.heightAnchor.constraint(equalToConstant: 1).withPriority(.defaultLow).activate()
         
         view.register(SlidingMenuToolbarCell.self, forCellWithReuseIdentifier: SlidingMenuToolbarCell.reuseID)
         return view
@@ -164,14 +283,15 @@ class SlidingMenuToolbarViewController: UIViewController, UICollectionViewDataSo
         // Get index & collection from hierarchy
         let selectedMenuIndex = indexOfItemCollection(with: collectionView)
         let itemCollection = menuHierarchy[selectedMenuIndex]
+        let selectedItem = itemCollection.items[indexPath.row]
         // If delegate provides new menu items then expand further
-        guard let expandedItems = delegate?.slidingMenuViewController(self, itemsForSelectedItem: itemCollection.items[indexPath.row]) else {
+        guard let expandedItems = delegate?.slidingMenuViewController(self, itemsForSelectedItem: selectedItem) else {
             return
         }
         // Expanded items replace any expansion up until now so collapse to this menu
         collapseMenu(toIndex: selectedMenuIndex)
         // Display new items
-        displayNewItems(expandedItems)
+        displayNewItems(expandedItems, for: selectedItem)
         
         
         

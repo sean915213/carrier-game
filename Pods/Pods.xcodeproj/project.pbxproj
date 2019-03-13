@@ -469,43 +469,7 @@
 			};
 			name = Debug;
 		};
-		9355D9F77D4941782676CED45638B343 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B511356E54B634F6D1F004F95485155D /* SGYSwiftUtility.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/SGYSwiftUtility/SGYSwiftUtility-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SGYSwiftUtility/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/SGYSwiftUtility/SGYSwiftUtility.modulemap";
-				PRODUCT_MODULE_NAME = SGYSwiftUtility;
-				PRODUCT_NAME = SGYSwiftUtility;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		C77023E73A7E322F7D217ACF0A7BFB0C /* Release */ = {
+		6E603EFC94ABD4553D53B7106FC4FDF3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B511356E54B634F6D1F004F95485155D /* SGYSwiftUtility.xcconfig */;
 			buildSettings = {
@@ -534,13 +498,49 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
+		};
+		8BBA45FA125B347A3F5F4058564B0ABE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B511356E54B634F6D1F004F95485155D /* SGYSwiftUtility.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/SGYSwiftUtility/SGYSwiftUtility-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SGYSwiftUtility/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/SGYSwiftUtility/SGYSwiftUtility.modulemap";
+				PRODUCT_MODULE_NAME = SGYSwiftUtility;
+				PRODUCT_NAME = SGYSwiftUtility;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 		CD8324D57CD462761E218EEA4EA91EC7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -664,8 +664,8 @@
 		DDFA9AA44096307A58EE9D03DA56144F /* Build configuration list for PBXNativeTarget "SGYSwiftUtility" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9355D9F77D4941782676CED45638B343 /* Debug */,
-				C77023E73A7E322F7D217ACF0A7BFB0C /* Release */,
+				8BBA45FA125B347A3F5F4058564B0ABE /* Debug */,
+				6E603EFC94ABD4553D53B7106FC4FDF3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

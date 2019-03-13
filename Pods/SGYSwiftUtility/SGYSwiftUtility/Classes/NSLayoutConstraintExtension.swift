@@ -126,6 +126,12 @@ extension NSLayoutConstraint {
     }
     
     @discardableResult
+    public func withPriority(_ priority: UILayoutPriority) -> NSLayoutConstraint {
+        self.priority = priority
+        return self
+    }
+    
+    @discardableResult
     public func activate() -> NSLayoutConstraint {
         isActive = true
         return self
