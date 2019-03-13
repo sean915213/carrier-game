@@ -53,6 +53,8 @@
 		749CB1512177E8F200949734 /* BuildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1502177E8F200949734 /* BuildViewController.swift */; };
 		749CB1572177F30B00949734 /* Vector2Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1562177F30B00949734 /* Vector2Extensions.swift */; };
 		749CB1592177F8C400949734 /* CrossSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1582177F8C400949734 /* CrossSectionViewController.swift */; };
+		74B45384222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B45383222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift */; };
+		74B45386222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B45385222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift */; };
 		74B97DD421B9FC23009973A3 /* CDPoint3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B97DD321B9FC23009973A3 /* CDPoint3.swift */; };
 		74BA5CE52183CB640039A2D5 /* NSPersistentContainerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA5CE42183CB640039A2D5 /* NSPersistentContainerExtension.swift */; };
 		74BA5CE82183CD0D0039A2D5 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74BA5CE62183CD0D0039A2D5 /* Model.xcdatamodeld */; };
@@ -117,6 +119,8 @@
 		749CB1502177E8F200949734 /* BuildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildViewController.swift; sourceTree = "<group>"; };
 		749CB1562177F30B00949734 /* Vector2Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector2Extensions.swift; sourceTree = "<group>"; };
 		749CB1582177F8C400949734 /* CrossSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossSectionViewController.swift; sourceTree = "<group>"; };
+		74B45383222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingMenuToolbarViewController.swift; sourceTree = "<group>"; };
+		74B45385222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingMenuToolbarCell.swift; sourceTree = "<group>"; };
 		74B97DD321B9FC23009973A3 /* CDPoint3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPoint3.swift; sourceTree = "<group>"; };
 		74BA5CE42183CB640039A2D5 /* NSPersistentContainerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentContainerExtension.swift; sourceTree = "<group>"; };
 		74BA5CE72183CD0D0039A2D5 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -261,6 +265,15 @@
 			path = "Carrier Game";
 			sourceTree = "<group>";
 		};
+		74B45380222DF23000C833E1 /* SlidingMenuToolbarViewController */ = {
+			isa = PBXGroup;
+			children = (
+				74B45383222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift */,
+				74B45385222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift */,
+			);
+			path = SlidingMenuToolbarViewController;
+			sourceTree = "<group>";
+		};
 		74BA5CE02183CAA30039A2D5 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +328,7 @@
 		74BA5CF221867CCF0039A2D5 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				74B45380222DF23000C833E1 /* SlidingMenuToolbarViewController */,
 				749CB1582177F8C400949734 /* CrossSectionViewController.swift */,
 				749CB1502177E8F200949734 /* BuildViewController.swift */,
 				74BA5CF521867F190039A2D5 /* ModuleListViewController */,
@@ -454,6 +468,7 @@
 				74BDA04221926F950034DD20 /* CGRectExtensions.swift in Sources */,
 				743D00382218D56C00AEA5DE /* SKNode.swift in Sources */,
 				74BA5CEA2183D1610039A2D5 /* DataSeeder.swift in Sources */,
+				74B45386222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift in Sources */,
 				7418C50C22125C6900FA3D27 /* ShipBlueprintController.swift in Sources */,
 				7415562621BC9F9A009EA087 /* TimeIntervalExtension.swift in Sources */,
 				74405C7C218E516D00BA3A69 /* ShipInstance.swift in Sources */,
@@ -462,6 +477,7 @@
 				743152D2219CE80E00E3101F /* ModuleNeedBlueprint.swift in Sources */,
 				74612C5B21FCFB9C00006E15 /* ModuleEntrance3D.swift in Sources */,
 				749CB1412177E7F800949734 /* GameViewController.swift in Sources */,
+				74B45384222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift in Sources */,
 				748C49D921E6CBCB004019D4 /* GridPoint.swift in Sources */,
 				7471650F21AE0E1400F5AA48 /* DeckEntity.swift in Sources */,
 				74EE318121BF2D1900D4A5FC /* StatReportingEntity.swift in Sources */,

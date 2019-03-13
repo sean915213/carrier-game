@@ -12,7 +12,7 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
-class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate {
+class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate, SlidingMenuToolbarViewControllerDelegate {
     
     private enum PanMode { case none, active(ModuleEntity, CGPoint) }
     
@@ -30,7 +30,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         didSet {
             guard editMode != oldValue else { return }
             // Configure toolbar for mode
-            configureToolbar()
+//            configureToolbar()
             // If new mode is active then toggle editing overlay on associated node component
             if case .active(let entity, _) = editMode {
                 entity.mainNodeComponent.showEditingOverlay = true
@@ -48,9 +48,14 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         return NSPersistentContainer.model.viewContext
     }()
     
-    private lazy var slidingMenuToolbarView: SlidingMenuToolbarView = {
-        let view = SlidingMenuToolbarView(translatesAutoresizingMask: false)
-        return view
+    private lazy var slidingMenuToolbarController: SlidingMenuToolbarViewController = {
+        let controller = SlidingMenuToolbarViewController()
+        controller.delegate = self
+        return controller
+    }()
+    
+    private lazy var slidingMenuToolbarHeightConstraint: NSLayoutConstraint = {
+        return slidingMenuToolbarController.view.heightAnchor.constraint(equalToConstant: 0)
     }()
     
     // MARK: - Methods
@@ -60,11 +65,26 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         // Disable simulation
         scene.enableSimulation = false
         // Add toolbar control
-        view.addSubview(slidingMenuToolbarView)
-        NSLayoutConstraint.constraintsPinningView(slidingMenuToolbarView, axis: .horizontal).activate()
-        slidingMenuToolbarView.bottomAnchor.constraint(equalTo: view.bottomAnchor).activate()
-        // Perform initial configuration
-        configureToolbar()
+        addChild(slidingMenuToolbarController) { (toolbarView, completed) in
+            toolbarView.translatesAutoresizingMaskIntoConstraints = false
+            toolbarView.backgroundColor = UIColor.white.withAlphaComponent(0.7)
+            self.view.addSubview(toolbarView)
+            NSLayoutConstraint.constraintsPinningView(toolbarView, axis: .horizontal).activate()
+            toolbarView.bottomAnchor.constraint(equalTo: view.bottomAnchor).activate()
+            
+            slidingMenuToolbarHeightConstraint.activate()
+            
+//            _ = slidingMenuToolbarController.preferredContentSize
+            
+            // TODO: TEMPORARY
+//            toolbarView.heightAnchor.constraint(equalToConstant: 35).activate()
+            
+            
+            // Perform initial configuration
+//            configureToolbar()
+            // Complete adding
+            completed()
+        }
     }
 
     override func setupRecognizers() {
@@ -74,36 +94,44 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         longPressRecognizer.delegate = self
     }
     
-    private func configureToolbar() {
-        var items = [UIBarButtonItem]()
-        // Configure based on edit mode
-        switch editMode {
-        case .none:
-            // Add module
-            items.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showModuleList)))
-            // Spacer
-            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
-            // Continue/Pause simulation
-            items.append(UIBarButtonItem(barButtonSystemItem: scene.enableSimulation ? .pause : .play, target: self, action: #selector(toggleSimulation)))
-            // Spacer
-            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
-            // Overlays
-            items.append(UIBarButtonItem(title: "Overlays", style: .plain, target: self, action: #selector(tappedOverlays(button:))))
-            // Validate
-            items.append(UIBarButtonItem(title: "Deck", style: .plain, target: self, action: #selector(tappedDecks(button:))))
-        case .active:
-            // Rotate module
-            items.append(UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(rotateModule)))
-            // Spacer
-            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
-            // Cancel placement
-            items.append(UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelEditingModule)))
-            // Save placement
-            items.append(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEditingModule)))
+    override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
+        super.preferredContentSizeDidChange(forChildContentContainer: container)
+        if container as? UIViewController == slidingMenuToolbarController {
+            print("*** CHANGING CONSTRAINT TO HEIGHT: \(container.preferredContentSize.height)")
+            slidingMenuToolbarHeightConstraint.constant = container.preferredContentSize.height
         }
-        // Add
-        slidingMenuToolbarView.toolbarItems = items
     }
+    
+//    private func configureToolbar() {
+//        var items = [UIBarButtonItem]()
+//        // Configure based on edit mode
+//        switch editMode {
+//        case .none:
+//            // Add module
+//            items.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showModuleList)))
+//            // Spacer
+//            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+//            // Continue/Pause simulation
+//            items.append(UIBarButtonItem(barButtonSystemItem: scene.enableSimulation ? .pause : .play, target: self, action: #selector(toggleSimulation)))
+//            // Spacer
+//            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+//            // Overlays
+//            items.append(UIBarButtonItem(title: "Overlays", style: .plain, target: self, action: #selector(tappedOverlays(button:))))
+//            // Validate
+//            items.append(UIBarButtonItem(title: "Deck", style: .plain, target: self, action: #selector(tappedDecks(button:))))
+//        case .active:
+//            // Rotate module
+//            items.append(UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(rotateModule)))
+//            // Spacer
+//            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+//            // Cancel placement
+//            items.append(UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelEditingModule)))
+//            // Save placement
+//            items.append(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEditingModule)))
+//        }
+//        // Add
+//        slidingMenuToolbarView.toolbarItems = items
+//    }
     
     private func makeButtons(for menu: ExpandedMenu) -> [UIButton] {
         var buttons = [UIButton]()
@@ -169,23 +197,23 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         }
         // Reenable simulation and re-configure toolbar
         scene.enableSimulation.toggle()
-        configureToolbar()
+//        configureToolbar()
     }
     
     @objc private func tappedOverlays(button: UIBarButtonItem) {
-        if slidingMenuToolbarView.selectedItem == button {
-            slidingMenuToolbarView.hideSlidingMenuIfDisplayed()
-        } else {
-            slidingMenuToolbarView.showOrUpdateSlidingMenu(for: button, with: makeButtons(for: .overlays))
-        }
+//        if slidingMenuToolbarView.selectedItem == button {
+//            slidingMenuToolbarView.hideSlidingMenuIfDisplayed()
+//        } else {
+//            slidingMenuToolbarView.showOrUpdateSlidingMenu(for: button, with: makeButtons(for: .overlays))
+//        }
     }
     
     @objc private func tappedDecks(button: UIBarButtonItem) {
-        if slidingMenuToolbarView.selectedItem == button {
-            slidingMenuToolbarView.hideSlidingMenuIfDisplayed()
-        } else {
-            slidingMenuToolbarView.showOrUpdateSlidingMenu(for: button, with: makeButtons(for: .deck))
-        }
+//        if slidingMenuToolbarView.selectedItem == button {
+//            slidingMenuToolbarView.hideSlidingMenuIfDisplayed()
+//        } else {
+//            slidingMenuToolbarView.showOrUpdateSlidingMenu(for: button, with: makeButtons(for: .deck))
+//        }
     }
     
     @objc private func validateDeck(sender: UIBarButtonItem) {
@@ -341,6 +369,27 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
                 self.logger.logError("Error saving context during undo: \(error)")
             }
         }
+    }
+    
+    // MARK: SlidingMenuToolbarViewController Delegate Implementation
+    
+    func slidingMenuViewController(_: SlidingMenuToolbarViewController, itemsForSelectedItem item: SlidingMenuToolbarViewController.MenuItem?) -> [SlidingMenuToolbarViewController.MenuItem]? {
+        
+        print("&& ITEMS FOR SELECTED DELEGATE CALLED: \(item)")
+        
+        var testItems = [SlidingMenuToolbarViewController.MenuItem]()
+        
+        let addItem = SlidingMenuToolbarViewController.MenuItem(type: .text("Add"), identifier: "addModule")
+        testItems.append(addItem)
+        
+        let overlaysItem = SlidingMenuToolbarViewController.MenuItem(type: .text("Overlays"), identifier: "overlays")
+        testItems.append(overlaysItem)
+        
+        return testItems
+    }
+    
+    func slidingMenuViewController(_: SlidingMenuToolbarViewController, deselectedItem item: SlidingMenuToolbarViewController.MenuItem) {
+        print("&& DESELECTED ITEM: \(item)")
     }
     
     // MARK: UIGestureRecognizer Delegate Implementation
