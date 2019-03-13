@@ -12,6 +12,8 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
+// TODO: Repurpose existing calls that created buttons for previous controller to handle new sliding menu controller delegate calls
+
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate, SlidingMenuToolbarViewControllerDelegate {
     
     private enum PanMode { case none, active(ModuleEntity, CGPoint) }
@@ -55,7 +57,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }()
     
     private lazy var slidingMenuToolbarHeightConstraint: NSLayoutConstraint = {
-        return slidingMenuToolbarController.view.heightAnchor.constraint(equalToConstant: 0)
+        return slidingMenuToolbarController.view.heightAnchor.constraint(equalToConstant: 0).withPriority(.defaultHigh)
     }()
     
     // MARK: - Methods
@@ -66,23 +68,15 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         scene.enableSimulation = false
         // Add toolbar control
         addChild(slidingMenuToolbarController) { (toolbarView, completed) in
+            // Configure and add to view
             toolbarView.translatesAutoresizingMaskIntoConstraints = false
             toolbarView.backgroundColor = UIColor.white.withAlphaComponent(0.7)
             self.view.addSubview(toolbarView)
+            // Constrain
             NSLayoutConstraint.constraintsPinningView(toolbarView, axis: .horizontal).activate()
             toolbarView.bottomAnchor.constraint(equalTo: view.bottomAnchor).activate()
-            
+            // - Height constraint based on preferredContentSize
             slidingMenuToolbarHeightConstraint.activate()
-            
-//            _ = slidingMenuToolbarController.preferredContentSize
-            
-            // TODO: TEMPORARY
-//            toolbarView.heightAnchor.constraint(equalToConstant: 35).activate()
-            
-            
-            // Perform initial configuration
-//            configureToolbar()
-            // Complete adding
             completed()
         }
     }
@@ -102,68 +96,37 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         }
     }
     
-//    private func configureToolbar() {
-//        var items = [UIBarButtonItem]()
-//        // Configure based on edit mode
-//        switch editMode {
-//        case .none:
-//            // Add module
-//            items.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showModuleList)))
-//            // Spacer
-//            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
-//            // Continue/Pause simulation
-//            items.append(UIBarButtonItem(barButtonSystemItem: scene.enableSimulation ? .pause : .play, target: self, action: #selector(toggleSimulation)))
-//            // Spacer
-//            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
-//            // Overlays
-//            items.append(UIBarButtonItem(title: "Overlays", style: .plain, target: self, action: #selector(tappedOverlays(button:))))
-//            // Validate
-//            items.append(UIBarButtonItem(title: "Deck", style: .plain, target: self, action: #selector(tappedDecks(button:))))
-//        case .active:
-//            // Rotate module
-//            items.append(UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(rotateModule)))
-//            // Spacer
-//            items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
-//            // Cancel placement
-//            items.append(UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelEditingModule)))
-//            // Save placement
-//            items.append(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEditingModule)))
+//    private func makeButtons(for menu: ExpandedMenu) -> [UIButton] {
+//        var buttons = [UIButton]()
+//        switch menu {
+//        case .overlays:
+//            // - Lifts
+//            let liftsButton = UIButton(type: .system)
+//            liftsButton.setTitle("Lifts", for: [])
+//            buttons.append(liftsButton)
+//            // - Bounds
+//            let boundsButton = UIButton(type: .system)
+//            boundsButton.setTitle("Bounds", for: [])
+//            buttons.append(boundsButton)
+//        case .deck:
+//            // - Previous
+//            let previousButton = UIButton(type: .system)
+//            previousButton.setTitle("Previous", for: [])
+//            previousButton.addTarget(self, action: #selector(displayPreviousDeck), for: .touchUpInside)
+//            buttons.append(previousButton)
+//            // - Next
+//            let nextButton = UIButton(type: .system)
+//            nextButton.setTitle("Next", for: [])
+//            nextButton.addTarget(self, action: #selector(displayNextDeck), for: .touchUpInside)
+//            buttons.append(nextButton)
+//            // - Validate
+//            let validateButton = UIButton(type: .system)
+//            validateButton.setTitle("Validate", for: [])
+//            validateButton.addTarget(self, action: #selector(validateDeck(sender:)), for: .touchUpInside)
+//            buttons.append(validateButton)
 //        }
-//        // Add
-//        slidingMenuToolbarView.toolbarItems = items
+//        return buttons
 //    }
-    
-    private func makeButtons(for menu: ExpandedMenu) -> [UIButton] {
-        var buttons = [UIButton]()
-        switch menu {
-        case .overlays:
-            // - Lifts
-            let liftsButton = UIButton(type: .system)
-            liftsButton.setTitle("Lifts", for: [])
-            buttons.append(liftsButton)
-            // - Bounds
-            let boundsButton = UIButton(type: .system)
-            boundsButton.setTitle("Bounds", for: [])
-            buttons.append(boundsButton)
-        case .deck:
-            // - Previous
-            let previousButton = UIButton(type: .system)
-            previousButton.setTitle("Previous", for: [])
-            previousButton.addTarget(self, action: #selector(displayPreviousDeck), for: .touchUpInside)
-            buttons.append(previousButton)
-            // - Next
-            let nextButton = UIButton(type: .system)
-            nextButton.setTitle("Next", for: [])
-            nextButton.addTarget(self, action: #selector(displayNextDeck), for: .touchUpInside)
-            buttons.append(nextButton)
-            // - Validate
-            let validateButton = UIButton(type: .system)
-            validateButton.setTitle("Validate", for: [])
-            validateButton.addTarget(self, action: #selector(validateDeck(sender:)), for: .touchUpInside)
-            buttons.append(validateButton)
-        }
-        return buttons
-    }
     
     private func makeUndoManager() -> UndoManager {
         let undoManager = UndoManager()
