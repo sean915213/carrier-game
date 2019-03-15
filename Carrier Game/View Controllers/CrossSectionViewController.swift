@@ -12,6 +12,57 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
+private enum MenuItemID: String {
+    case rootOverlays,
+    rootDeck,
+    overlaysLifts,
+    overlaysBounds,
+    deckPrevious,
+    deckNext,
+    deckValidate
+}
+
+// TODO: MAKE MORE ROBUST AND DELEGATE?
+
+class MenuTreeItem {
+    
+    convenience init<T>(title: String, identifier: T) where T: RawRepresentable, T.RawValue == String {
+        self.init(title: title, identifier: identifier.rawValue)
+    }
+    
+    convenience init(title: String, identifier: String) {
+        self.init(item: SlidingMenuToolbarViewController.MenuItem(type: .text(title), identifier: identifier))
+    }
+    
+    init(item: SlidingMenuToolbarViewController.MenuItem) {
+        self.menuItem = item
+    }
+    
+    let menuItem: SlidingMenuToolbarViewController.MenuItem
+    var items = [MenuTreeItem]()
+    
+    var allItems: [MenuTreeItem] {
+        return items.flatMap { $0.items }
+    }
+}
+
+class SlidingMenuTree {
+    
+    init(rootItems: [MenuTreeItem]) {
+        self.rootItems = rootItems
+    }
+    
+    var rootItems: [MenuTreeItem]
+    
+    var allItems: [MenuTreeItem] {
+        return rootItems + rootItems.flatMap { $0.items }
+    }
+    
+    func item(withIdentifier identifier: String) -> MenuTreeItem? {
+        return allItems.first(where: { $0.menuItem.identifier == identifier })
+    }
+}
+
 // TODO: Repurpose existing calls that created buttons for previous controller to handle new sliding menu controller delegate calls
 
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate, SlidingMenuToolbarViewControllerDelegate {
@@ -56,6 +107,10 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         return controller
     }()
     
+    private lazy var menuTree: SlidingMenuTree = {
+        return makeMenuTree()
+    }()
+    
     private lazy var slidingMenuToolbarHeightConstraint: NSLayoutConstraint = {
         return slidingMenuToolbarController.view.heightAnchor.constraint(equalToConstant: 0).withPriority(.defaultHigh)
     }()
@@ -96,37 +151,25 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         }
     }
     
-//    private func makeButtons(for menu: ExpandedMenu) -> [UIButton] {
-//        var buttons = [UIButton]()
-//        switch menu {
-//        case .overlays:
-//            // - Lifts
-//            let liftsButton = UIButton(type: .system)
-//            liftsButton.setTitle("Lifts", for: [])
-//            buttons.append(liftsButton)
-//            // - Bounds
-//            let boundsButton = UIButton(type: .system)
-//            boundsButton.setTitle("Bounds", for: [])
-//            buttons.append(boundsButton)
-//        case .deck:
-//            // - Previous
-//            let previousButton = UIButton(type: .system)
-//            previousButton.setTitle("Previous", for: [])
-//            previousButton.addTarget(self, action: #selector(displayPreviousDeck), for: .touchUpInside)
-//            buttons.append(previousButton)
-//            // - Next
-//            let nextButton = UIButton(type: .system)
-//            nextButton.setTitle("Next", for: [])
-//            nextButton.addTarget(self, action: #selector(displayNextDeck), for: .touchUpInside)
-//            buttons.append(nextButton)
-//            // - Validate
-//            let validateButton = UIButton(type: .system)
-//            validateButton.setTitle("Validate", for: [])
-//            validateButton.addTarget(self, action: #selector(validateDeck(sender:)), for: .touchUpInside)
-//            buttons.append(validateButton)
-//        }
-//        return buttons
-//    }
+    private func makeMenuTree() -> SlidingMenuTree {
+        // Overlays
+        let rootOverlays = MenuTreeItem(title: "Overlays", identifier: MenuItemID.rootOverlays)
+        // - Lifts
+        rootOverlays.items.append(MenuTreeItem(title: "Lifts", identifier: MenuItemID.overlaysLifts))
+        // - Bounds
+        rootOverlays.items.append(MenuTreeItem(title: "Bounds", identifier: MenuItemID.overlaysBounds))
+        
+        // Deck
+        let rootDeck = MenuTreeItem(title: "Deck", identifier: MenuItemID.rootDeck)
+        // - Previous
+        rootDeck.items.append(MenuTreeItem(title: "Previous", identifier: MenuItemID.deckPrevious))
+        // - Next
+        rootDeck.items.append(MenuTreeItem(title: "Next", identifier: MenuItemID.deckNext))
+        // - Validate
+        rootDeck.items.append(MenuTreeItem(title: "Validate", identifier: MenuItemID.deckValidate))
+        
+        return SlidingMenuTree(rootItems: [rootOverlays, rootDeck])
+    }
     
     private func makeUndoManager() -> UndoManager {
         let undoManager = UndoManager()
@@ -337,18 +380,10 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     // MARK: SlidingMenuToolbarViewController Delegate Implementation
     
     func slidingMenuViewController(_: SlidingMenuToolbarViewController, itemsForSelectedItem item: SlidingMenuToolbarViewController.MenuItem?) -> [SlidingMenuToolbarViewController.MenuItem]? {
-        
-        print("&& ITEMS FOR SELECTED DELEGATE CALLED: \(item)")
-        
-        var testItems = [SlidingMenuToolbarViewController.MenuItem]()
-        
-        let addItem = SlidingMenuToolbarViewController.MenuItem(type: .text("Add"), identifier: "addModule")
-        testItems.append(addItem)
-        
-        let overlaysItem = SlidingMenuToolbarViewController.MenuItem(type: .text("Overlays"), identifier: "overlays")
-        testItems.append(overlaysItem)
-        
-        return testItems
+        // If no selected item then this is root items
+        guard let item = item else { return menuTree.rootItems.map { $0.menuItem } }
+        // Otherwise search for item identifier and provide root items (if any)
+        return menuTree.item(withIdentifier: item.identifier)?.items.map { $0.menuItem }
     }
     
     func slidingMenuViewController(_: SlidingMenuToolbarViewController, deselectedItem item: SlidingMenuToolbarViewController.MenuItem) {

@@ -39,7 +39,6 @@ class SlidingMenuToolbarCell: UICollectionViewCell {
     // MARK: - Methods
     
     private func setup() {
-        print("&& CELL SETUP")
         contentView.addSubview(label)
         NSLayoutConstraint.constraintsPinningView(label).activate()
     }
