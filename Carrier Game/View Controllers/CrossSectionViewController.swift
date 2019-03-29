@@ -15,13 +15,17 @@ import SGYSwiftUtility
 private enum MenuItemID: String {
     case rootModule,
     moduleAdd,
+    moduleRotate,
+    moduleSave,
+    moduleCancel,
     rootOverlays,
     overlaysLifts,
     overlaysBounds,
     rootDeck,
     deckPrevious,
     deckNext,
-    deckValidate
+    deckValidate,
+    rootSimulate
 }
 
 // TODO: MAIN- Flesh out menu options. Continue improving sliding menu delegate. Eventually go to adding a new deck to blueprint + required overlays
@@ -157,6 +161,18 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         let addModule = MenuTreeItem(title: "Add", identifier: MenuItemID.moduleAdd)
         addModule.persistentSelection = false
         rootModule.items.append(addModule)
+        // - Rotate
+        let rotateModule = MenuTreeItem(title: "Rotate", identifier: MenuItemID.moduleRotate)
+        rotateModule.persistentSelection = false
+        rootModule.items.append(rotateModule)
+        // - Save
+        let saveModule = MenuTreeItem(title: "Save", identifier: MenuItemID.moduleSave)
+        saveModule.persistentSelection = false
+        rootModule.items.append(saveModule)
+        // - Cancel
+        let cancelModule = MenuTreeItem(title: "Cancel", identifier: MenuItemID.moduleCancel)
+        cancelModule.persistentSelection = false
+        rootModule.items.append(cancelModule)
         
         // OVERLAYS
         let rootOverlays = MenuTreeItem(title: "Overlays", identifier: MenuItemID.rootOverlays)
@@ -180,6 +196,9 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         // - Validate
         rootDeck.items.append(MenuTreeItem(title: "Validate", identifier: MenuItemID.deckValidate))
         
+        // SIMULATE
+        rootItems.append(MenuTreeItem(title: "Simulation", identifier: MenuItemID.rootSimulate))
+        
         // Return constructed tree
         return SlidingMenuTree(rootItems: rootItems)
     }
@@ -191,9 +210,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         return undoManager
     }
     
-    // MARK: Actions
-    
-    @objc private func toggleSimulation() {
+    private func toggleSimulation() {
         // If simulation disabled (meaning the toggle will reenable) then find crewmen in invalid locations and move them to a random, valid location
         if !scene.enableSimulation {
             let gridPositions: [GridPoint3] = ship.blueprint.graph.gridNodes?.map({ $0.position }) ?? []
@@ -210,7 +227,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         scene.enableSimulation.toggle()
     }
     
-    @objc private func rotateModule() {
+    private func rotateModule() {
         guard case .active(let entity, _) = editMode else {
             assertionFailure("Invalid editMode for rotation.")
             return
@@ -219,7 +236,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         entity.placement.rotation = GridRotation(rawValue: entity.placement.rotation.rawValue + 1) ?? .none
     }
     
-    @objc private func cancelEditingModule() {
+    private func cancelEditingModule() {
         // Get undo manager
         guard case let .active(_, undoManager) = editMode else {
             assertionFailure("Invalid editMode for cancelling.")
@@ -232,7 +249,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         editMode = .none
     }
     
-    @objc private func saveEditingModule() {
+    private func saveEditingModule() {
         // Be safe
         guard case .active(let module, _) = editMode else {
             assertionFailure("Invalid editMode for saving.")
@@ -258,6 +275,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             logger.logError("Error saving newly placed module: \(error)")
         }
     }
+    
+    // MARK: Actions
     
     @objc private func recognizedLongPress(_ recognizer: UILongPressGestureRecognizer) {
         // Only matters when not editing currently
@@ -362,6 +381,12 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             let listController = ModuleListViewController()
             listController.delegate = self
             present(listController, animated: true, completion: nil)
+        case .moduleRotate:
+            rotateModule()
+        case .moduleSave:
+            saveEditingModule()
+        case .moduleCancel:
+            cancelEditingModule()
         case .deckNext:
             scene.visibleDeck = nextDeck()
         case .deckPrevious:
@@ -370,6 +395,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             // Overlapping points would already be validated, so only validate open bounds
             let openPoints = scene.visibleDeck.blueprint.findOpenPoints()
             scene.visibleDeck.flashInvalidPoints(openPoints)
+        case .rootSimulate:
+            toggleSimulation()
         default:
             break
         }
@@ -384,7 +411,13 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     func slidingMenuViewController(_: SlidingMenuToolbarViewController, deselectedItem item: SlidingMenuToolbarViewController.MenuItem) {
-        print("&& DESELECTED ITEM: \(item)")
+        // Determine what to do with deselection
+        switch MenuItemID(rawValue: item.identifier)! {
+        case .rootSimulate:
+            toggleSimulation()
+        default:
+            break
+        }
     }
     
     // MARK: UIGestureRecognizer Delegate Implementation
