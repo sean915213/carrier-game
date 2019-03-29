@@ -13,15 +13,18 @@ import GameplayKit
 import SGYSwiftUtility
 
 private enum MenuItemID: String {
-    case rootOverlays,
-    rootDeck,
+    case rootModule,
+    moduleAdd,
+    rootOverlays,
     overlaysLifts,
     overlaysBounds,
+    rootDeck,
     deckPrevious,
     deckNext,
     deckValidate
 }
 
+// TODO: MAIN- Flesh out menu options. Continue improving sliding menu delegate. Eventually go to adding a new deck to blueprint + required overlays
 // TODO: MAKE MORE ROBUST AND DELEGATE?
 
 class MenuTreeItem {
@@ -40,9 +43,10 @@ class MenuTreeItem {
     
     let menuItem: SlidingMenuToolbarViewController.MenuItem
     var items = [MenuTreeItem]()
+    var persistentSelection = true
     
     var allItems: [MenuTreeItem] {
-        return items.flatMap { $0.items }
+        return [self] + items.flatMap { $0.allItems }
     }
 }
 
@@ -55,7 +59,7 @@ class SlidingMenuTree {
     var rootItems: [MenuTreeItem]
     
     var allItems: [MenuTreeItem] {
-        return rootItems + rootItems.flatMap { $0.items }
+        return rootItems.flatMap { $0.allItems }
     }
     
     func item(withIdentifier identifier: String) -> MenuTreeItem? {
@@ -63,15 +67,11 @@ class SlidingMenuTree {
     }
 }
 
-// TODO: Repurpose existing calls that created buttons for previous controller to handle new sliding menu controller delegate calls
-
 class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate, SlidingMenuToolbarViewControllerDelegate {
     
     private enum PanMode { case none, active(ModuleEntity, CGPoint) }
     
     private enum EditMode: Equatable { case none, active(ModuleEntity, UndoManager) }
-    
-    private enum ExpandedMenu: Equatable { case overlays, deck }
     
     // MARK: - Initialization
     
@@ -82,8 +82,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     private var editMode: EditMode = .none {
         didSet {
             guard editMode != oldValue else { return }
-            // Configure toolbar for mode
-//            configureToolbar()
             // If new mode is active then toggle editing overlay on associated node component
             if case .active(let entity, _) = editMode {
                 entity.mainNodeComponent.showEditingOverlay = true
@@ -145,30 +143,45 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
         super.preferredContentSizeDidChange(forChildContentContainer: container)
-        if container as? UIViewController == slidingMenuToolbarController {
-            print("*** CHANGING CONSTRAINT TO HEIGHT: \(container.preferredContentSize.height)")
-            slidingMenuToolbarHeightConstraint.constant = container.preferredContentSize.height
-        }
+        guard let container = container as? UIViewController, container == slidingMenuToolbarController else { return }
+        slidingMenuToolbarHeightConstraint.constant = container.preferredContentSize.height
     }
     
     private func makeMenuTree() -> SlidingMenuTree {
-        // Overlays
+        var rootItems = [MenuTreeItem]()
+        
+        // MODULE
+        let rootModule = MenuTreeItem(title: "Module", identifier: MenuItemID.rootModule)
+        rootItems.append(rootModule)
+        // - Add
+        let addModule = MenuTreeItem(title: "Add", identifier: MenuItemID.moduleAdd)
+        addModule.persistentSelection = false
+        rootModule.items.append(addModule)
+        
+        // OVERLAYS
         let rootOverlays = MenuTreeItem(title: "Overlays", identifier: MenuItemID.rootOverlays)
+        rootItems.append(rootOverlays)
         // - Lifts
         rootOverlays.items.append(MenuTreeItem(title: "Lifts", identifier: MenuItemID.overlaysLifts))
         // - Bounds
         rootOverlays.items.append(MenuTreeItem(title: "Bounds", identifier: MenuItemID.overlaysBounds))
         
-        // Deck
+        // DECK
         let rootDeck = MenuTreeItem(title: "Deck", identifier: MenuItemID.rootDeck)
+        rootItems.append(rootDeck)
         // - Previous
-        rootDeck.items.append(MenuTreeItem(title: "Previous", identifier: MenuItemID.deckPrevious))
+        let deckPrevious = MenuTreeItem(title: "Previous", identifier: MenuItemID.deckPrevious)
+        deckPrevious.persistentSelection = false
+        rootDeck.items.append(deckPrevious)
         // - Next
-        rootDeck.items.append(MenuTreeItem(title: "Next", identifier: MenuItemID.deckNext))
+        let deckNext = MenuTreeItem(title: "Next", identifier: MenuItemID.deckNext)
+        deckNext.persistentSelection = false
+        rootDeck.items.append(deckNext)
         // - Validate
         rootDeck.items.append(MenuTreeItem(title: "Validate", identifier: MenuItemID.deckValidate))
         
-        return SlidingMenuTree(rootItems: [rootOverlays, rootDeck])
+        // Return constructed tree
+        return SlidingMenuTree(rootItems: rootItems)
     }
     
     private func makeUndoManager() -> UndoManager {
@@ -179,14 +192,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     // MARK: Actions
-    
-    @objc private func displayPreviousDeck() {
-        scene.visibleDeck = previousDeck()
-    }
-    
-    @objc private func displayNextDeck() {
-        scene.visibleDeck = nextDeck()
-    }
     
     @objc private func toggleSimulation() {
         // If simulation disabled (meaning the toggle will reenable) then find crewmen in invalid locations and move them to a random, valid location
@@ -203,35 +208,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         }
         // Reenable simulation and re-configure toolbar
         scene.enableSimulation.toggle()
-//        configureToolbar()
-    }
-    
-    @objc private func tappedOverlays(button: UIBarButtonItem) {
-//        if slidingMenuToolbarView.selectedItem == button {
-//            slidingMenuToolbarView.hideSlidingMenuIfDisplayed()
-//        } else {
-//            slidingMenuToolbarView.showOrUpdateSlidingMenu(for: button, with: makeButtons(for: .overlays))
-//        }
-    }
-    
-    @objc private func tappedDecks(button: UIBarButtonItem) {
-//        if slidingMenuToolbarView.selectedItem == button {
-//            slidingMenuToolbarView.hideSlidingMenuIfDisplayed()
-//        } else {
-//            slidingMenuToolbarView.showOrUpdateSlidingMenu(for: button, with: makeButtons(for: .deck))
-//        }
-    }
-    
-    @objc private func validateDeck(sender: UIBarButtonItem) {
-        // Overlapping points would already be validated, so only validate open bounds
-        let openPoints = scene.visibleDeck.blueprint.findOpenPoints()
-        scene.visibleDeck.flashInvalidPoints(openPoints)
-    }
-    
-    @objc private func showModuleList() {
-        let listController = ModuleListViewController()
-        listController.delegate = self
-        present(listController, animated: true, completion: nil)
     }
     
     @objc private func rotateModule() {
@@ -379,11 +355,32 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     // MARK: SlidingMenuToolbarViewController Delegate Implementation
     
-    func slidingMenuViewController(_: SlidingMenuToolbarViewController, itemsForSelectedItem item: SlidingMenuToolbarViewController.MenuItem?) -> [SlidingMenuToolbarViewController.MenuItem]? {
+    func slidingMenuViewController(_: SlidingMenuToolbarViewController, shouldSelectTappedItem item: SlidingMenuToolbarViewController.MenuItem) -> Bool {
+        // Determine what to do with selection
+        switch MenuItemID(rawValue: item.identifier)! {
+        case .moduleAdd:
+            let listController = ModuleListViewController()
+            listController.delegate = self
+            present(listController, animated: true, completion: nil)
+        case .deckNext:
+            scene.visibleDeck = nextDeck()
+        case .deckPrevious:
+            scene.visibleDeck = previousDeck()
+        case .deckValidate:
+            // Overlapping points would already be validated, so only validate open bounds
+            let openPoints = scene.visibleDeck.blueprint.findOpenPoints()
+            scene.visibleDeck.flashInvalidPoints(openPoints)
+        default:
+            break
+        }
+        return menuTree.item(withIdentifier: item.identifier)!.persistentSelection
+    }
+    
+    func slidingMenuViewController(_ controller: SlidingMenuToolbarViewController, itemsForSelectedItem item: SlidingMenuToolbarViewController.MenuItem?) -> [SlidingMenuToolbarViewController.MenuItem]? {
         // If no selected item then this is root items
         guard let item = item else { return menuTree.rootItems.map { $0.menuItem } }
-        // Otherwise search for item identifier and provide root items (if any)
-        return menuTree.item(withIdentifier: item.identifier)?.items.map { $0.menuItem }
+        // Provide any child items
+        return menuTree.item(withIdentifier: item.identifier)!.items.map { $0.menuItem }
     }
     
     func slidingMenuViewController(_: SlidingMenuToolbarViewController, deselectedItem item: SlidingMenuToolbarViewController.MenuItem) {
