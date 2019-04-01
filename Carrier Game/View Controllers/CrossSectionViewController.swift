@@ -378,14 +378,18 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         // Determine what to do with selection
         switch MenuItemID(rawValue: item.identifier)! {
         case .moduleAdd:
+            guard case .none = editMode else { return false }
             let listController = ModuleListViewController()
             listController.delegate = self
             present(listController, animated: true, completion: nil)
         case .moduleRotate:
+            guard case .active = editMode else { return false }
             rotateModule()
         case .moduleSave:
+            guard case .active = editMode else { return false }
             saveEditingModule()
         case .moduleCancel:
+            guard case .active = editMode else { return false }
             cancelEditingModule()
         case .deckNext:
             scene.visibleDeck = nextDeck()
