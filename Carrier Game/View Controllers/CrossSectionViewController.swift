@@ -25,6 +25,7 @@ private enum MenuItemID: String {
     deckPrevious,
     deckNext,
     deckValidate,
+    deckNew,
     rootSimulate
 }
 
@@ -98,11 +99,6 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         }
     }
     
-    private lazy var context: NSManagedObjectContext = {
-        // TODO: Create a new main context with viewContext as parent? Or store?
-        return NSPersistentContainer.model.viewContext
-    }()
-    
     private lazy var slidingMenuToolbarController: SlidingMenuToolbarViewController = {
         let controller = SlidingMenuToolbarViewController()
         controller.delegate = self
@@ -118,6 +114,11 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }()
     
     private var overlayNodes = [SKNode]()
+    
+    private lazy var context: NSManagedObjectContext = {
+        // TODO: Create a new main context with viewContext as parent? Or store?
+        return NSPersistentContainer.model.viewContext
+    }()
     
     // MARK: - Methods
     
@@ -197,6 +198,10 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         rootDeck.items.append(deckNext)
         // - Validate
         rootDeck.items.append(MenuTreeItem(title: "Validate", identifier: MenuItemID.deckValidate))
+        // - New
+        let deckNew = MenuTreeItem(title: "New", identifier: MenuItemID.deckNew)
+        deckNew.persistentSelection = false
+        rootDeck.items.append(deckNew)
         
         // SIMULATE
         rootItems.append(MenuTreeItem(title: "Simulation", identifier: MenuItemID.rootSimulate))
@@ -283,6 +288,19 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         } catch {
             logger.logError("Error saving newly placed module: \(error)")
         }
+    }
+    
+    private func addNewDeck() {
+        // Add deck
+        let deckPosition = ship.orderedDecks.last!.blueprint.position + 1
+        let deck = DeckBlueprint.insertNew(into: context, on: ship.blueprint, at: deckPosition)
+        deck.name = "New Deck"
+        // Switch to deck
+        
+        
+//        deck.ship = ship
+        // Place on ship
+//        ship.decks.insert(deck0)
     }
     
     // MARK: Actions
