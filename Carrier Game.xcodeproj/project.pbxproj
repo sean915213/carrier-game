@@ -24,6 +24,7 @@
 		743152CE219CE6AA00E3101F /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152CD219CE6AA00E3101F /* Action.swift */; };
 		743152D2219CE80E00E3101F /* ModuleNeedBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152D1219CE80E00E3101F /* ModuleNeedBlueprint.swift */; };
 		743152D4219CF43D00E3101F /* CDPoint2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152D3219CF43D00E3101F /* CDPoint2.swift */; };
+		74347BCC2252DBCB000E53E7 /* ZAccessOverlayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74347BCB2252DBCB000E53E7 /* ZAccessOverlayNode.swift */; };
 		743D00362218CEED00AEA5DE /* SKSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D00352218CEED00AEA5DE /* SKSceneExtension.swift */; };
 		743D00382218D56C00AEA5DE /* SKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D00372218D56C00AEA5DE /* SKNode.swift */; };
 		74405C72218E438200BA3A69 /* DeckInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74405C71218E438100BA3A69 /* DeckInstance.swift */; };
@@ -88,6 +89,7 @@
 		743152CD219CE6AA00E3101F /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		743152D1219CE80E00E3101F /* ModuleNeedBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleNeedBlueprint.swift; sourceTree = "<group>"; };
 		743152D3219CF43D00E3101F /* CDPoint2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPoint2.swift; sourceTree = "<group>"; };
+		74347BCB2252DBCB000E53E7 /* ZAccessOverlayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZAccessOverlayNode.swift; sourceTree = "<group>"; };
 		743D00352218CEED00AEA5DE /* SKSceneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSceneExtension.swift; sourceTree = "<group>"; };
 		743D00372218D56C00AEA5DE /* SKNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNode.swift; sourceTree = "<group>"; };
 		74405C71218E438100BA3A69 /* DeckInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckInstance.swift; sourceTree = "<group>"; };
@@ -194,6 +196,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		74347BCA2252DB9D000E53E7 /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				74347BCB2252DBCB000E53E7 /* ZAccessOverlayNode.swift */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
 		74693C75222C50B900D7E6E7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,6 +255,7 @@
 		749CB13B2177E7F800949734 /* Carrier Game */ = {
 			isa = PBXGroup;
 			children = (
+				74347BCA2252DB9D000E53E7 /* Nodes */,
 				74693C75222C50B900D7E6E7 /* Views */,
 				748C49D721E6CBAE004019D4 /* Grid Model */,
 				742C3644219A4DC0007FA1B5 /* Components */,
@@ -459,6 +470,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74347BCC2252DBCB000E53E7 /* ZAccessOverlayNode.swift in Sources */,
 				7415562421BC818C009EA087 /* SceneController.swift in Sources */,
 				743152CE219CE6AA00E3101F /* Action.swift in Sources */,
 				74612C5521FCE9FD00006E15 /* ModuleEntrance.swift in Sources */,

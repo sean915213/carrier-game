@@ -19,7 +19,7 @@ private enum MenuItemID: String {
     moduleSave,
     moduleCancel,
     rootOverlays,
-    overlaysLifts,
+    overlaysZAccess,
     overlaysBounds,
     rootDeck,
     deckPrevious,
@@ -117,6 +117,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         return slidingMenuToolbarController.view.heightAnchor.constraint(equalToConstant: 0).withPriority(.defaultHigh)
     }()
     
+    private var overlayNodes = [SKNode]()
+    
     // MARK: - Methods
     
     override func viewDidLoad() {
@@ -178,7 +180,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         let rootOverlays = MenuTreeItem(title: "Overlays", identifier: MenuItemID.rootOverlays)
         rootItems.append(rootOverlays)
         // - Lifts
-        rootOverlays.items.append(MenuTreeItem(title: "Lifts", identifier: MenuItemID.overlaysLifts))
+        rootOverlays.items.append(MenuTreeItem(title: "Lifts", identifier: MenuItemID.overlaysZAccess))
         // - Bounds
         rootOverlays.items.append(MenuTreeItem(title: "Bounds", identifier: MenuItemID.overlaysBounds))
         
@@ -208,6 +210,13 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         undoManager.groupsByEvent = false
         undoManager.beginUndoGrouping()
         return undoManager
+    }
+    
+    private func addZAccessOverlays() {
+        let overlay = ZAccessOverlayNode(ship: ship.blueprint)
+        overlay.deckIndex = shipEntity.deckEntities.firstIndex(of: scene.visibleDeck)!
+        scene.addChild(overlay)
+        overlayNodes.append(overlay)
     }
     
     private func toggleSimulation() {
@@ -401,6 +410,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             scene.visibleDeck.flashInvalidPoints(openPoints)
         case .rootSimulate:
             toggleSimulation()
+        case .overlaysZAccess:
+            addZAccessOverlays()
         default:
             break
         }
@@ -419,6 +430,15 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         switch MenuItemID(rawValue: item.identifier)! {
         case .rootSimulate:
             toggleSimulation()
+        case .overlaysZAccess:
+            guard let overlayIndex = overlayNodes.firstIndex(where: { $0 is ZAccessOverlayNode }) else {
+                assertionFailure("ZAccess overlay node not found in existing overlay nodes.")
+                return
+            }
+            // Remove overlay
+            let overlay = overlayNodes[overlayIndex] as! ZAccessOverlayNode
+            overlayNodes.remove(at: overlayIndex)
+            overlay.removeFromParent()
         default:
             break
         }
