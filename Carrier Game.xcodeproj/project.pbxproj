@@ -15,6 +15,8 @@
 		7415562621BC9F9A009EA087 /* TimeIntervalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415562521BC9F9A009EA087 /* TimeIntervalExtension.swift */; };
 		7418C50C22125C6900FA3D27 /* ShipBlueprintController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7418C50B22125C6900FA3D27 /* ShipBlueprintController.swift */; };
 		7426BF0E225430F600E3BED4 /* ModuleEntityNodeComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7426BF0D225430F600E3BED4 /* ModuleEntityNodeComponent2D.swift */; };
+		7426BF102254356300E3BED4 /* DeckTextureNodeComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7426BF0F2254356300E3BED4 /* DeckTextureNodeComponent2D.swift */; };
+		7426BF1222543A2300E3BED4 /* BaseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7426BF1122543A2300E3BED4 /* BaseEntity.swift */; };
 		742C3640219A4CAC007FA1B5 /* DeckScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C363F219A4CAC007FA1B5 /* DeckScene.swift */; };
 		742C3643219A4D87007FA1B5 /* CrewmanEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */; };
 		742C3646219A4DE2007FA1B5 /* MovementComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */; };
@@ -80,6 +82,8 @@
 		7415562521BC9F9A009EA087 /* TimeIntervalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtension.swift; sourceTree = "<group>"; };
 		7418C50B22125C6900FA3D27 /* ShipBlueprintController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipBlueprintController.swift; sourceTree = "<group>"; };
 		7426BF0D225430F600E3BED4 /* ModuleEntityNodeComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModuleEntityNodeComponent2D.swift; path = "Carrier Game/Components/ModuleEntityNodeComponent2D.swift"; sourceTree = SOURCE_ROOT; };
+		7426BF0F2254356300E3BED4 /* DeckTextureNodeComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckTextureNodeComponent2D.swift; sourceTree = "<group>"; };
+		7426BF1122543A2300E3BED4 /* BaseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntity.swift; sourceTree = "<group>"; };
 		742C363F219A4CAC007FA1B5 /* DeckScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckScene.swift; sourceTree = "<group>"; };
 		742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanEntity.swift; sourceTree = "<group>"; };
 		742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponent2D.swift; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 				7471650C21AE0D2500F5AA48 /* ShipEntity.swift */,
 				7471650E21AE0E1400F5AA48 /* DeckEntity.swift */,
 				74EE318021BF2D1900D4A5FC /* StatReportingEntity.swift */,
+				7426BF1122543A2300E3BED4 /* BaseEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -192,6 +197,7 @@
 			children = (
 				7415561C21BB3C5E009EA087 /* Protocols */,
 				742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */,
+				7426BF0F2254356300E3BED4 /* DeckTextureNodeComponent2D.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -473,6 +479,7 @@
 				74347BCC2252DBCB000E53E7 /* ZAccessOverlayNode.swift in Sources */,
 				7415562421BC818C009EA087 /* SceneController.swift in Sources */,
 				743152CE219CE6AA00E3101F /* Action.swift in Sources */,
+				7426BF1222543A2300E3BED4 /* BaseEntity.swift in Sources */,
 				74612C5521FCE9FD00006E15 /* ModuleEntrance.swift in Sources */,
 				74612C5921FCF2D500006E15 /* ModuleAttribute.swift in Sources */,
 				742C3643219A4D87007FA1B5 /* CrewmanEntity.swift in Sources */,
@@ -494,6 +501,7 @@
 				7471650F21AE0E1400F5AA48 /* DeckEntity.swift in Sources */,
 				74EE318121BF2D1900D4A5FC /* StatReportingEntity.swift in Sources */,
 				74EE317F21BF2B3E00D4A5FC /* StatsProvider.swift in Sources */,
+				7426BF102254356300E3BED4 /* DeckTextureNodeComponent2D.swift in Sources */,
 				749CB1572177F30B00949734 /* Vector2Extensions.swift in Sources */,
 				743152C8219CE50100E3101F /* CrewmanInstance.swift in Sources */,
 				74BA5CF721867F190039A2D5 /* ModuleListViewController.swift in Sources */,
