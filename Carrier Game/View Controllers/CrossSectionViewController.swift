@@ -368,12 +368,15 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         dismiss(animated: true, completion: nil)
         // Place module instance on deck
         let moduleInstance = scene.visibleDeck.instance.placeModule(module, at: CDPoint2(x: 0, y: 0))
-        // Create module entity
-        let moduleEntity = ModuleEntity(placement: moduleInstance.placement)
-        // Add to deck
-        scene.visibleDeck.moduleEntities.append(moduleEntity)
-        // Add to scene
-        scene.addChild(moduleEntity.mainNodeComponent.node)
+        // Add new entity to deck
+        let moduleEntity = scene.visibleDeck.addModuleEntity(for: moduleInstance.placement)
+        
+//        // Create module entity
+//        let moduleEntity = ModuleEntity(placement: moduleInstance.placement)
+//        // Add to deck
+//        scene.visibleDeck.moduleEntities.append(moduleEntity)
+//        // Add to scene
+//        scene.addChild(moduleEntity.mainNodeComponent.node)
         
         // Make an undo manager
         let undoManager = makeUndoManager()
@@ -382,9 +385,13 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         
         // Register undo logic
         undoManager.registerUndo(withTarget: moduleEntity) { [unowned self] (moduleEntity) in
-            // Remove added entities and node
-            self.scene.visibleDeck.moduleEntities.removeAll(where: { $0 == moduleEntity })
-            moduleEntity.mainNodeComponent.node.removeFromParent()
+            // Remove entity from deck
+            self.scene.visibleDeck.removeModuleEntity(moduleEntity)
+            
+//            // Remove added entities and node
+//            self.scene.visibleDeck.moduleEntities.removeAll(where: { $0 == moduleEntity })
+//            moduleEntity.mainNodeComponent.node.removeFromParent()
+            
             // Remove CoreData changes
             self.scene.visibleDeck.instance.modules.remove(moduleInstance)
             self.scene.visibleDeck.blueprint.modulePlacements.remove(moduleInstance.placement)

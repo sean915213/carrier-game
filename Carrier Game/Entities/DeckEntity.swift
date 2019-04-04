@@ -18,6 +18,7 @@ class DeckEntity: GKEntity {
     init(instance: DeckInstance) {
         self.instance = instance
         super.init()
+        setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,35 +33,42 @@ class DeckEntity: GKEntity {
         return instance.blueprint
     }
     
-    lazy var moduleEntities: [ModuleEntity] = {
-        let entities = blueprint.modulePlacements.map { ModuleEntity(placement: $0) }
-        for entity in entities {
-            print("&& DECK [\(blueprint.position)] MODULE ENTITY: \(entity.blueprint.identifier). ORIGIN: \(entity.placement.origin)")
-            
-        }
-        return entities
-    }()
+    private(set) var moduleEntities = [ModuleEntity]()
     
-    // TODO: CHANGED THIS TO ONLY USE METHOD AND NOT TRACK OURSELF. DON'T REMEMBER WHY. MAYBE ANTICIPATIG THIS MANAGING EITHER A 3D or 2D NODE?
     private(set) lazy var node: SKNode = {
         let textureNode = SKNode()
         textureNode.name = "Deck [\(blueprint.position)]"
-        for module in moduleEntities {
-            textureNode.addChild(module.mainNodeComponent.node)
-        }
         return textureNode
     }()
     
     // MARK: - Methods
     
-//    func makeNode() -> SKNode {
-//        let textureNode = SKNode()
-//        textureNode.name = "Deck [\(blueprint.position)]"
-//        for module in moduleEntities {
-//            textureNode.addChild(module.mainNodeComponent.node)
-//        }
-//        return textureNode
-//    }
+    private func setup() {
+        for placement in blueprint.modulePlacements {
+            addModuleEntity(for: placement)
+        }
+    }
+    
+    @discardableResult
+    func addModuleEntity(for placement: ModulePlacement) -> ModuleEntity {
+        // Create entity and add to list
+        let entity = ModuleEntity(placement: placement)
+        moduleEntities.append(entity)
+        // Add texture node to our root node
+        node.addChild(entity.mainNodeComponent.node)
+        return entity
+    }
+    
+    func removeModuleEntity(_ entity: ModuleEntity) {
+        // Get index
+        guard let index = moduleEntities.firstIndex(of: entity) else {
+            assertionFailure("Asked to remove module entity that does not exist in collection.")
+            return
+        }
+        // Remove entity and node
+        moduleEntities.remove(at: index)
+        entity.mainNodeComponent.node.removeFromParent()
+    }
     
     func flashInvalidPoints<T>(_ points: T) where T: Sequence, T.Element == GridPoint2 {
         // Add flashing node components
