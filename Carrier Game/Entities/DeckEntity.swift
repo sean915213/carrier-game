@@ -10,13 +10,12 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO: ANY REASON FOR THERE TO BE A DECK ENTITY- EXCEPT TO ORGANIZE SCENEKIT RELATED FUNCTIONS? ENTITY SHOULD PROBABLY ONLY BE REQUIRED IF REACTIGN TO TIME UPDATES
 class DeckEntity: GKEntity {
 
     // MARK: - Initialization
     
-    init(instance: DeckInstance) {
-        self.instance = instance
+    init(blueprint: DeckBlueprint) {
+        self.blueprint = blueprint
         super.init()
         setup()
     }
@@ -27,11 +26,7 @@ class DeckEntity: GKEntity {
     
     // MARK: - Properties
     
-    let instance: DeckInstance
-    
-    var blueprint: DeckBlueprint {
-        return instance.blueprint
-    }
+    let blueprint: DeckBlueprint
     
     private(set) var moduleEntities = [ModuleEntity]()
     

@@ -34,7 +34,7 @@ class ShipEntity: GKEntity {
     // MARK: Entities
     
     private(set) lazy var deckEntities: [DeckEntity] = {
-        return instance.orderedDecks.map { DeckEntity(instance: $0) }
+        return instance.orderedDecks.map { DeckEntity(blueprint: $0.blueprint) }
     }()
 
     private(set) lazy var moduleEntities: [ModuleEntity] = {

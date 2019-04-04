@@ -9,6 +9,8 @@
 import UIKit
 import GameplayKit
 
+// TODO: IMPLEMENT INTO DECK ENTITY SINCE WON'T ALWAYS BE USING 2D
+
 class DeckTextureNodeComponent2D: GKSKNodeComponent {
     
     // MARK: - Initialization

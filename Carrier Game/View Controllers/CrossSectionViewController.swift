@@ -366,10 +366,12 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     func moduleListViewController(_: ModuleListViewController, selectedModule module: ModuleBlueprint) {
         dismiss(animated: true, completion: nil)
-        // Place module instance on deck
-        let moduleInstance = scene.visibleDeck.instance.placeModule(module, at: CDPoint2(x: 0, y: 0))
+        
+        // Create module placement on deck blueprint
+        let modulePlacement = scene.visibleDeck.blueprint.placeModule(module, at: CDPoint2(x: 0, y: 0))
+        
         // Add new entity to deck
-        let moduleEntity = scene.visibleDeck.addModuleEntity(for: moduleInstance.placement)
+        let moduleEntity = scene.visibleDeck.addModuleEntity(for: modulePlacement)
         
 //        // Create module entity
 //        let moduleEntity = ModuleEntity(placement: moduleInstance.placement)
@@ -393,10 +395,10 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
 //            moduleEntity.mainNodeComponent.node.removeFromParent()
             
             // Remove CoreData changes
-            self.scene.visibleDeck.instance.modules.remove(moduleInstance)
-            self.scene.visibleDeck.blueprint.modulePlacements.remove(moduleInstance.placement)
-            self.context.delete(moduleInstance.placement)
-            self.context.delete(moduleInstance)
+//            self.scene.visibleDeck.instance.modules.remove(moduleInstance)
+            self.scene.visibleDeck.blueprint.modulePlacements.remove(modulePlacement)
+            self.context.delete(modulePlacement)
+//            self.context.delete(moduleInstance)
             // Save
             do {
                 try self.context.save()
