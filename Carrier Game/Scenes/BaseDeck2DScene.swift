@@ -1,5 +1,5 @@
 //
-//  DeckScene.swift
+//  BaseDeck2DScene.swift
 //  Carrier Game
 //
 //  Created by Sean G Young on 11/12/18.
@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 import SGYSwiftUtility
 
-class DeckScene: SKScene {
+class BaseDeck2DScene: SKScene {
     
     // MARK: - Initialization
     
@@ -58,20 +58,21 @@ class DeckScene: SKScene {
     // MARK: - Methods
     
     private func setupShip() {
+        // INSTANCE -> BLUEPRINT COMMENTED LOGIC
         // Add crewman entities
-        for crewman in shipEntity.crewmanEntities {
-            
-            print("&& ASSIGNING CREWMAN MOVE COMPONENT")
-            
-            // Add a 2D movement component
-            crewman.addComponent(MovementComponent2D())
-            // Add node to scene
-            // NOTE: crewman nodes are always added regardless of the deck they're on because they hide/unhide themselves based on this fact. Keeping the nodes on scene helps time their movement on invisible decks.
-            addChild(crewman.rootNode)
-            // TODO: FIGURE THIS OUT
-            // Raise z on crewman node
-            crewman.rootNode.zPosition = 100
-        }
+//        for crewman in shipEntity.crewmanEntities {
+//
+//            print("&& ASSIGNING CREWMAN MOVE COMPONENT")
+//
+//            // Add a 2D movement component
+//            crewman.addComponent(MovementComponent2D())
+//            // Add node to scene
+//            // NOTE: crewman nodes are always added regardless of the deck they're on because they hide/unhide themselves based on this fact. Keeping the nodes on scene helps time their movement on invisible decks.
+//            addChild(crewman.rootNode)
+//            // TODO: FIGURE THIS OUT
+//            // Raise z on crewman node
+//            crewman.rootNode.zPosition = 100
+//        }
     }
     
     private func updateSimulationEnabled() {

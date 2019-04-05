@@ -36,8 +36,8 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
         return view as! SKView
     }
     
-    private(set) lazy var scene: DeckScene = {
-        let scene = DeckScene(ship: ship, size: CGSize(width: 50, height: 50))
+    private(set) lazy var scene: BaseDeck2DScene = {
+        let scene = BaseDeck2DScene(ship: ship, size: CGSize(width: 50, height: 50))
         scene.scaleMode = .aspectFit
         // Add camera
         scene.addChild(camera)
@@ -49,7 +49,7 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
         didSet { camera.setScale(cameraScale) }
     }
     
-    private(set) lazy var sceneController: SceneController<DeckScene> = {
+    private(set) lazy var sceneController: SceneController<BaseDeck2DScene> = {
         return SceneController(scene: scene, context: NSPersistentContainer.model.viewContext)
     }()
     

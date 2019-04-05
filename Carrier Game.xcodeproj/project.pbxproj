@@ -16,7 +16,7 @@
 		7418C50C22125C6900FA3D27 /* ShipBlueprintController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7418C50B22125C6900FA3D27 /* ShipBlueprintController.swift */; };
 		7426BF0E225430F600E3BED4 /* ModuleEntityNodeComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7426BF0D225430F600E3BED4 /* ModuleEntityNodeComponent2D.swift */; };
 		7426BF102254356300E3BED4 /* DeckTextureNodeComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7426BF0F2254356300E3BED4 /* DeckTextureNodeComponent2D.swift */; };
-		742C3640219A4CAC007FA1B5 /* DeckScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C363F219A4CAC007FA1B5 /* DeckScene.swift */; };
+		742C3640219A4CAC007FA1B5 /* BaseDeck2DScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C363F219A4CAC007FA1B5 /* BaseDeck2DScene.swift */; };
 		742C3643219A4D87007FA1B5 /* CrewmanEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */; };
 		742C3646219A4DE2007FA1B5 /* MovementComponent2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */; };
 		742C364A219A6258007FA1B5 /* ModuleEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C3649219A6258007FA1B5 /* ModuleEntity.swift */; };
@@ -47,12 +47,13 @@
 		748AE3262217A2E5000015E5 /* GridPoint2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748AE3252217A2E5000015E5 /* GridPoint2.swift */; };
 		748C49D921E6CBCB004019D4 /* GridPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C49D821E6CBCB004019D4 /* GridPoint.swift */; };
 		748C49DB21E6CCE0004019D4 /* GridPoint3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C49DA21E6CCE0004019D4 /* GridPoint3.swift */; };
+		749652FA2256DB5200D6FDA5 /* DeckSimulationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749652F92256DB5200D6FDA5 /* DeckSimulationViewController.swift */; };
+		749652FD2256DC0100D6FDA5 /* Deck2DSimulationScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749652FC2256DC0100D6FDA5 /* Deck2DSimulationScene.swift */; };
 		749CB13D2177E7F800949734 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB13C2177E7F800949734 /* AppDelegate.swift */; };
 		749CB13F2177E7F800949734 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 749CB13E2177E7F800949734 /* art.scnassets */; };
 		749CB1412177E7F800949734 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1402177E7F800949734 /* GameViewController.swift */; };
 		749CB1462177E7F900949734 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 749CB1452177E7F900949734 /* Assets.xcassets */; };
 		749CB1492177E7F900949734 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 749CB1472177E7F900949734 /* LaunchScreen.storyboard */; };
-		749CB1512177E8F200949734 /* BuildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1502177E8F200949734 /* BuildViewController.swift */; };
 		749CB1572177F30B00949734 /* Vector2Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1562177F30B00949734 /* Vector2Extensions.swift */; };
 		749CB1592177F8C400949734 /* DeckEditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1582177F8C400949734 /* DeckEditingViewController.swift */; };
 		74B45384222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B45383222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift */; };
@@ -82,7 +83,7 @@
 		7418C50B22125C6900FA3D27 /* ShipBlueprintController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipBlueprintController.swift; sourceTree = "<group>"; };
 		7426BF0D225430F600E3BED4 /* ModuleEntityNodeComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModuleEntityNodeComponent2D.swift; path = "Carrier Game/Components/ModuleEntityNodeComponent2D.swift"; sourceTree = SOURCE_ROOT; };
 		7426BF0F2254356300E3BED4 /* DeckTextureNodeComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckTextureNodeComponent2D.swift; sourceTree = "<group>"; };
-		742C363F219A4CAC007FA1B5 /* DeckScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckScene.swift; sourceTree = "<group>"; };
+		742C363F219A4CAC007FA1B5 /* BaseDeck2DScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDeck2DScene.swift; sourceTree = "<group>"; };
 		742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanEntity.swift; sourceTree = "<group>"; };
 		742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponent2D.swift; sourceTree = "<group>"; };
 		742C3649219A6258007FA1B5 /* ModuleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleEntity.swift; sourceTree = "<group>"; };
@@ -113,6 +114,8 @@
 		748AE3252217A2E5000015E5 /* GridPoint2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint2.swift; sourceTree = "<group>"; };
 		748C49D821E6CBCB004019D4 /* GridPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint.swift; sourceTree = "<group>"; };
 		748C49DA21E6CCE0004019D4 /* GridPoint3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint3.swift; sourceTree = "<group>"; };
+		749652F92256DB5200D6FDA5 /* DeckSimulationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckSimulationViewController.swift; sourceTree = "<group>"; };
+		749652FC2256DC0100D6FDA5 /* Deck2DSimulationScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck2DSimulationScene.swift; sourceTree = "<group>"; };
 		749CB1392177E7F800949734 /* Carrier Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Carrier Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		749CB13C2177E7F800949734 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		749CB13E2177E7F800949734 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -120,7 +123,6 @@
 		749CB1452177E7F900949734 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		749CB1482177E7F900949734 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		749CB14A2177E7F900949734 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		749CB1502177E8F200949734 /* BuildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildViewController.swift; sourceTree = "<group>"; };
 		749CB1562177F30B00949734 /* Vector2Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector2Extensions.swift; sourceTree = "<group>"; };
 		749CB1582177F8C400949734 /* DeckEditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckEditingViewController.swift; sourceTree = "<group>"; };
 		74B45383222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingMenuToolbarViewController.swift; sourceTree = "<group>"; };
@@ -237,6 +239,15 @@
 			path = "Grid Model";
 			sourceTree = "<group>";
 		};
+		749652FB2256DBD500D6FDA5 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				742C363F219A4CAC007FA1B5 /* BaseDeck2DScene.swift */,
+				749652FC2256DC0100D6FDA5 /* Deck2DSimulationScene.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
 		749CB1302177E7F800949734 = {
 			isa = PBXGroup;
 			children = (
@@ -258,6 +269,7 @@
 		749CB13B2177E7F800949734 /* Carrier Game */ = {
 			isa = PBXGroup;
 			children = (
+				749652FB2256DBD500D6FDA5 /* Scenes */,
 				74347BCA2252DB9D000E53E7 /* Nodes */,
 				74693C75222C50B900D7E6E7 /* Views */,
 				748C49D721E6CBAE004019D4 /* Grid Model */,
@@ -272,7 +284,6 @@
 				749CB1452177E7F900949734 /* Assets.xcassets */,
 				749CB1472177E7F900949734 /* LaunchScreen.storyboard */,
 				749CB14A2177E7F900949734 /* Info.plist */,
-				742C363F219A4CAC007FA1B5 /* DeckScene.swift */,
 				7415562321BC818B009EA087 /* SceneController.swift */,
 				74EE317E21BF2B3E00D4A5FC /* StatsProvider.swift */,
 			);
@@ -344,10 +355,10 @@
 			children = (
 				74B45380222DF23000C833E1 /* SlidingMenuToolbarViewController */,
 				749CB1582177F8C400949734 /* DeckEditingViewController.swift */,
-				749CB1502177E8F200949734 /* BuildViewController.swift */,
 				74BA5CF521867F190039A2D5 /* ModuleListViewController */,
 				74048368220919B8002B67BD /* Deck2DViewController.swift */,
 				7418C50B22125C6900FA3D27 /* ShipBlueprintController.swift */,
+				749652F92256DB5200D6FDA5 /* DeckSimulationViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -514,7 +525,6 @@
 				74693C7C222C619500D7E6E7 /* SlidingMenuView.swift in Sources */,
 				74048369220919B8002B67BD /* Deck2DViewController.swift in Sources */,
 				74B97DD421B9FC23009973A3 /* CDPoint3.swift in Sources */,
-				749CB1512177E8F200949734 /* BuildViewController.swift in Sources */,
 				74612C5121FCE79D00006E15 /* GridRect.swift in Sources */,
 				74BA5CE82183CD0D0039A2D5 /* Model.xcdatamodeld in Sources */,
 				749CB1592177F8C400949734 /* DeckEditingViewController.swift in Sources */,
@@ -527,9 +537,11 @@
 				749CB13D2177E7F800949734 /* AppDelegate.swift in Sources */,
 				74693C7E222C7CFF00D7E6E7 /* SlidingMenuToolbarView.swift in Sources */,
 				742C3646219A4DE2007FA1B5 /* MovementComponent2D.swift in Sources */,
+				749652FA2256DB5200D6FDA5 /* DeckSimulationViewController.swift in Sources */,
 				7415561E21BB3CBC009EA087 /* MovementComponentProtocol.swift in Sources */,
 				74FC7A1521B0C856001B4E83 /* float3Extensions.swift in Sources */,
-				742C3640219A4CAC007FA1B5 /* DeckScene.swift in Sources */,
+				742C3640219A4CAC007FA1B5 /* BaseDeck2DScene.swift in Sources */,
+				749652FD2256DC0100D6FDA5 /* Deck2DSimulationScene.swift in Sources */,
 				748AE3262217A2E5000015E5 /* GridPoint2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
