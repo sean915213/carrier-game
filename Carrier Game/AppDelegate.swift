@@ -32,15 +32,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let e = error { fatalError("Failed to load CoreData model with error: \(e)") }
                 DataSeeder.seedIfRequired()
                 
-                // TODO: FETCHING TEST SHIP
+                // TODO: FETCHING TEST SHIP BLUEPRINT
                 let ship = try! ShipBlueprint.entityWithIdentifier("ship.test2", using: NSPersistentContainer.model.viewContext)!
-                
-//                let fetch = ShipInstance.makeFetchRequest()
-//                fetch.predicate = NSPredicate(format: "name = %@", "Test Ship 2")
-//                let ship: ShipInstance = try! NSPersistentContainer.model.viewContext.fetch(fetch)!
-                
                 // Display controller
-                self.window!.rootViewController = CrossSectionViewController(ship: ship)
+                self.window!.rootViewController = DeckEditingViewController(ship: ship)
                 self.window!.makeKeyAndVisible()
             }
         }

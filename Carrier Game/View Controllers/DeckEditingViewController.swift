@@ -1,5 +1,5 @@
 //
-//  CrossSectionViewController.swift
+//  DeckEditingViewController.swift
 //  Carrier Game
 //
 //  Created by Sean G Young on 10/17/18.
@@ -72,7 +72,7 @@ class SlidingMenuTree {
     }
 }
 
-class CrossSectionViewController: Deck2DViewController, ModuleListViewControllerDelegate, SlidingMenuToolbarViewControllerDelegate {
+class DeckEditingViewController: Deck2DViewController, ModuleListViewControllerDelegate, SlidingMenuToolbarViewControllerDelegate {
     
     private enum PanMode { case none, active(ModuleEntity, CGPoint) }
     

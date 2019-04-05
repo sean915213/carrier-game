@@ -54,7 +54,7 @@
 		749CB1492177E7F900949734 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 749CB1472177E7F900949734 /* LaunchScreen.storyboard */; };
 		749CB1512177E8F200949734 /* BuildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1502177E8F200949734 /* BuildViewController.swift */; };
 		749CB1572177F30B00949734 /* Vector2Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1562177F30B00949734 /* Vector2Extensions.swift */; };
-		749CB1592177F8C400949734 /* CrossSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1582177F8C400949734 /* CrossSectionViewController.swift */; };
+		749CB1592177F8C400949734 /* DeckEditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1582177F8C400949734 /* DeckEditingViewController.swift */; };
 		74B45384222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B45383222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift */; };
 		74B45386222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B45385222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift */; };
 		74B97DD421B9FC23009973A3 /* CDPoint3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B97DD321B9FC23009973A3 /* CDPoint3.swift */; };
@@ -122,7 +122,7 @@
 		749CB14A2177E7F900949734 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		749CB1502177E8F200949734 /* BuildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildViewController.swift; sourceTree = "<group>"; };
 		749CB1562177F30B00949734 /* Vector2Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector2Extensions.swift; sourceTree = "<group>"; };
-		749CB1582177F8C400949734 /* CrossSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossSectionViewController.swift; sourceTree = "<group>"; };
+		749CB1582177F8C400949734 /* DeckEditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckEditingViewController.swift; sourceTree = "<group>"; };
 		74B45383222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingMenuToolbarViewController.swift; sourceTree = "<group>"; };
 		74B45385222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingMenuToolbarCell.swift; sourceTree = "<group>"; };
 		74B97DD321B9FC23009973A3 /* CDPoint3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPoint3.swift; sourceTree = "<group>"; };
@@ -343,7 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				74B45380222DF23000C833E1 /* SlidingMenuToolbarViewController */,
-				749CB1582177F8C400949734 /* CrossSectionViewController.swift */,
+				749CB1582177F8C400949734 /* DeckEditingViewController.swift */,
 				749CB1502177E8F200949734 /* BuildViewController.swift */,
 				74BA5CF521867F190039A2D5 /* ModuleListViewController */,
 				74048368220919B8002B67BD /* Deck2DViewController.swift */,
@@ -517,7 +517,7 @@
 				749CB1512177E8F200949734 /* BuildViewController.swift in Sources */,
 				74612C5121FCE79D00006E15 /* GridRect.swift in Sources */,
 				74BA5CE82183CD0D0039A2D5 /* Model.xcdatamodeld in Sources */,
-				749CB1592177F8C400949734 /* CrossSectionViewController.swift in Sources */,
+				749CB1592177F8C400949734 /* DeckEditingViewController.swift in Sources */,
 				743152CC219CE67100E3101F /* ModuleJobBlueprint.swift in Sources */,
 				74405C76218E476800BA3A69 /* IdentifiableEntity.swift in Sources */,
 				7426BF0E225430F600E3BED4 /* ModuleEntityNodeComponent2D.swift in Sources */,
