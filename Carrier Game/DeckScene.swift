@@ -103,10 +103,12 @@ class DeckScene: SKScene {
         // Remove old deck's node and add new
         visibleDeck.node.removeFromParent()
         addChild(entity.node)
-        // Update all crewman's movement component
-        for crewman in shipEntity.crewmanEntities {
-            let component = crewman.component(ofType: MovementComponent2D.self)!
-            component.visibleVertical = GridPoint(entity.blueprint.position)
-        }
+        
+        // INSTANCE -> BLUEPRINT COMMENTED LOGIC
+//        // Update all crewman's movement component
+//        for crewman in shipEntity.crewmanEntities {
+//            let component = crewman.component(ofType: MovementComponent2D.self)!
+//            component.visibleVertical = GridPoint(entity.blueprint.position)
+//        }
     }
 }

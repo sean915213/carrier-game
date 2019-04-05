@@ -17,6 +17,7 @@ class ShipEntity: GKEntity {
     init(instance: ShipInstance) {
         self.instance = instance
         super.init()
+        setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,23 +34,43 @@ class ShipEntity: GKEntity {
     
     // MARK: Entities
     
-    private(set) lazy var deckEntities: [DeckEntity] = {
-        return instance.orderedDecks.map { DeckEntity(blueprint: $0.blueprint) }
-    }()
-
-    private(set) lazy var moduleEntities: [ModuleEntity] = {
+    private(set) var deckEntities = [DeckEntity]()
+    
+    var moduleEntities: [ModuleEntity] {
         return deckEntities.flatMap { $0.moduleEntities }
-    }()
+    }
 
-    private(set) lazy var crewmanEntities: [CrewmanEntity] = {
+    var crewmanEntities: [CrewmanEntity] {
         return instance.crewmen.map { CrewmanEntity(crewman: $0, ship: instance) }
-    }()
+    }
 
     var allEntities: [GKEntity] {
         return (deckEntities as [GKEntity]) + (moduleEntities as [GKEntity]) + (crewmanEntities as [GKEntity])
     }
     
     // MARK: - Methods
+    
+    private func setup() {
+        for blueprint in blueprint.decks {
+            deckEntities.append(DeckEntity(blueprint: blueprint))
+        }
+    }
+    
+    @discardableResult
+    func addDeckEntity(for blueprint: DeckBlueprint) -> DeckEntity {
+        let entity = DeckEntity(blueprint: blueprint)
+        deckEntities.append(entity)
+        return entity
+    }
+    
+    func removeDeckEntity(_ entity: DeckEntity) {
+        guard let index = deckEntities.firstIndex(of: entity) else {
+            assertionFailure("Asked to remove deck entity that does not exist in collection.")
+            return
+        }
+        // Remove
+        deckEntities.remove(at: index)
+    }
     
     override func update(deltaTime seconds: TimeInterval) {
         defer { super.update(deltaTime: seconds) }
