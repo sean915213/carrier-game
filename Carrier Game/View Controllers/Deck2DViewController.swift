@@ -16,7 +16,7 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Initialization
     
-    init(ship: ShipInstance) {
+    init(ship: ShipBlueprint) {
         self.ship = ship
         super.init(nibName: nil, bundle: nil)
     }
@@ -27,7 +27,7 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     
-    let ship: ShipInstance
+    let ship: ShipBlueprint
     var shipEntity: ShipEntity { return scene.shipEntity }
     
     private(set) lazy var logger = Logger(source: type(of: self))

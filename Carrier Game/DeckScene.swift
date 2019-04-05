@@ -14,8 +14,8 @@ class DeckScene: SKScene {
     
     // MARK: - Initialization
     
-    init(ship: ShipInstance, size: CGSize) {
-        shipEntity = ShipEntity(instance: ship)
+    init(ship: ShipBlueprint, size: CGSize) {
+        shipEntity = ShipEntity(blueprint: ship)
         // TODO: Should be assuming a deck will always exist?
         visibleDeck = shipEntity.deck(at: 0)!
         super.init(size: size)
@@ -32,7 +32,8 @@ class DeckScene: SKScene {
     
     let shipEntity: ShipEntity
     
-    var ship: ShipInstance { return shipEntity.instance }
+    // INSTANCE -> BLUEPRINT COMMENTED LOGIC
+//    var ship: ShipInstance { return shipEntity.instance }
     
     var visibleDeck: DeckEntity {
         willSet { displayDeck(entity: newValue) }

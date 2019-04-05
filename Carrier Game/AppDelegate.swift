@@ -33,9 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 DataSeeder.seedIfRequired()
                 
                 // TODO: FETCHING TEST SHIP
-                let fetch = ShipInstance.makeFetchRequest()
-                fetch.predicate = NSPredicate(format: "name = %@", "Test Ship 2")
-                let ship: ShipInstance = try! NSPersistentContainer.model.viewContext.fetch(fetch)!
+                let ship = try! ShipBlueprint.entityWithIdentifier("ship.test2", using: NSPersistentContainer.model.viewContext)!
+                
+//                let fetch = ShipInstance.makeFetchRequest()
+//                fetch.predicate = NSPredicate(format: "name = %@", "Test Ship 2")
+//                let ship: ShipInstance = try! NSPersistentContainer.model.viewContext.fetch(fetch)!
                 
                 // Display controller
                 self.window!.rootViewController = CrossSectionViewController(ship: ship)

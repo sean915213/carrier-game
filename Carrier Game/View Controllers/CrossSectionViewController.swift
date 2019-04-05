@@ -218,7 +218,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     }
     
     private func addZAccessOverlays() {
-        let overlay = ZAccessOverlayNode(ship: ship.blueprint)
+        let overlay = ZAccessOverlayNode(ship: ship)
         overlay.deckIndex = shipEntity.deckEntities.firstIndex(of: scene.visibleDeck)!
         scene.addChild(overlay)
         overlayNodes.append(overlay)
@@ -227,7 +227,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     private func toggleSimulation() {
         // If simulation disabled (meaning the toggle will reenable) then find crewmen in invalid locations and move them to a random, valid location
         if !scene.enableSimulation {
-            let gridPositions: [GridPoint3] = ship.blueprint.graph.gridNodes?.map({ $0.position }) ?? []
+            let gridPositions: [GridPoint3] = ship.graph.gridNodes?.map({ $0.position }) ?? []
             for crewman in shipEntity.crewmanEntities {
                 // Check whether crewman's current position is still valid
                 guard !gridPositions.contains(GridPoint3(crewman.instance.position)) else { continue }
@@ -282,7 +282,7 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
             try context.save()
             logger.logInfo("Successfully saved new module: \(module.blueprint.identifier)")
             // Ask ship blueprint to redraw its grid graph
-            ship.blueprint.redrawGraph()
+            ship.redrawGraph()
             // End editing
             editMode = .none
         } catch {
@@ -292,8 +292,8 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     private func addNewDeck() {
         // Add deck
-        let deckPosition = ship.orderedDecks.last!.blueprint.position + 1
-        let deck = DeckBlueprint.insertNew(into: context, on: ship.blueprint, at: deckPosition)
+        let deckPosition = ship.orderedDecks.last!.position + 1
+        let deck = DeckBlueprint.insertNew(into: context, on: ship, at: deckPosition)
         deck.name = "New Deck"
         // Switch to deck
         
@@ -366,19 +366,10 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
     
     func moduleListViewController(_: ModuleListViewController, selectedModule module: ModuleBlueprint) {
         dismiss(animated: true, completion: nil)
-        
         // Create module placement on deck blueprint
         let modulePlacement = scene.visibleDeck.blueprint.placeModule(module, at: CDPoint2(x: 0, y: 0))
-        
         // Add new entity to deck
         let moduleEntity = scene.visibleDeck.addModuleEntity(for: modulePlacement)
-        
-//        // Create module entity
-//        let moduleEntity = ModuleEntity(placement: moduleInstance.placement)
-//        // Add to deck
-//        scene.visibleDeck.moduleEntities.append(moduleEntity)
-//        // Add to scene
-//        scene.addChild(moduleEntity.mainNodeComponent.node)
         
         // Make an undo manager
         let undoManager = makeUndoManager()
@@ -389,16 +380,9 @@ class CrossSectionViewController: Deck2DViewController, ModuleListViewController
         undoManager.registerUndo(withTarget: moduleEntity) { [unowned self] (moduleEntity) in
             // Remove entity from deck
             self.scene.visibleDeck.removeModuleEntity(moduleEntity)
-            
-//            // Remove added entities and node
-//            self.scene.visibleDeck.moduleEntities.removeAll(where: { $0 == moduleEntity })
-//            moduleEntity.mainNodeComponent.node.removeFromParent()
-            
             // Remove CoreData changes
-//            self.scene.visibleDeck.instance.modules.remove(moduleInstance)
             self.scene.visibleDeck.blueprint.modulePlacements.remove(modulePlacement)
             self.context.delete(modulePlacement)
-//            self.context.delete(moduleInstance)
             // Save
             do {
                 try self.context.save()

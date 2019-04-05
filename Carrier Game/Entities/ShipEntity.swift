@@ -14,8 +14,8 @@ class ShipEntity: GKEntity {
 
     // MARK: - Initialization
     
-    init(instance: ShipInstance) {
-        self.instance = instance
+    init(blueprint: ShipBlueprint) {
+        self.blueprint = blueprint
         super.init()
         setup()
     }
@@ -26,9 +26,7 @@ class ShipEntity: GKEntity {
     
     // MARK: - Properties
     
-    let instance: ShipInstance
-    
-    var blueprint: ShipBlueprint { return instance.blueprint }
+    let blueprint: ShipBlueprint
     
     private lazy var logger = Logger(source: type(of: self))
     
@@ -41,7 +39,9 @@ class ShipEntity: GKEntity {
     }
 
     var crewmanEntities: [CrewmanEntity] {
-        return instance.crewmen.map { CrewmanEntity(crewman: $0, ship: instance) }
+        // INSTANCE -> BLUEPRINT COMMENTED LOGIC
+//        return instance.crewmen.map { CrewmanEntity(crewman: $0, ship: instance) }
+        return []
     }
 
     var allEntities: [GKEntity] {
@@ -75,14 +75,15 @@ class ShipEntity: GKEntity {
     override func update(deltaTime seconds: TimeInterval) {
         defer { super.update(deltaTime: seconds) }
         // Update time on instance
-        
-        let oldShift = CrewmanShift(date: instance.time)!
-        instance.time = instance.time.addingTimeInterval(seconds)
-        // Log new shift
-        let newShift = CrewmanShift(date: instance.time)!
-        if newShift != oldShift {
-            logger.logInfo("New shift: \(newShift).")
-        }
+
+        // INSTANCE -> BLUEPRINT COMMENTED LOGIC
+//        let oldShift = CrewmanShift(date: instance.time)!
+//        instance.time = instance.time.addingTimeInterval(seconds)
+//        // Log new shift
+//        let newShift = CrewmanShift(date: instance.time)!
+//        if newShift != oldShift {
+//            logger.logInfo("New shift: \(newShift).")
+//        }
     }
 }
 
