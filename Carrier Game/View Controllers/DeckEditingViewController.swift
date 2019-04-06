@@ -277,6 +277,22 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
         } catch {
             logger.logError("Error saving newly placed module: \(error)")
         }
+        
+        // TODO: NEED TO CHANGE THIS.
+        // - Implemented logic to update all existing instances- this is certainly not going to be the final logic. Need an update path or revisions model?
+        for instance in ship.instances {
+            // Get deck instance to place on
+            // NOTE: Won't exist when not updating all instances
+            let deck = instance.decks.first(where: { $0.blueprint == scene.visibleDeck.blueprint })!
+            // Create new module instance and add to deck
+            let moduleInstance = ModuleInstance.insertNew(into: context, using: module.placement)
+            deck.modules.insert(moduleInstance)
+        }
+        do {
+            try context.save()
+        } catch {
+            print("&& CAUGHT ERROR SAVING INSTANCES: \(error)")
+        }
     }
     
     private func addNewDeck() {
@@ -295,6 +311,18 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
         } catch {
             logger.logError("Error saving new deck: \(deck)")
             // TODO: ROLL BACK?
+        }
+        
+        // TODO: NEED TO CHANGE THIS.
+        // - Implemented logic to update all existing instances- this is certainly not going to be the final logic. Need an update path or revisions model?
+        for instance in ship.instances {
+            let deckInstance = DeckInstance.insertNew(into: context, using: deck)
+            instance.decks.insert(deckInstance)
+        }
+        do {
+            try context.save()
+        } catch {
+            print("&& CAUGHT ERROR SAVING INSTANCES: \(error)")
         }
     }
     

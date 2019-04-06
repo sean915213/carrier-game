@@ -16,12 +16,18 @@ class ShipBlueprint: NSManagedObject, IdentifiableEntity {
     @NSManaged var name: String
     
     @NSManaged var decks: Set<DeckBlueprint>
+    @NSManaged var instances: Set<ShipInstance>
     
     private lazy var logger = Logger(source: type(of: self))
     
     private(set) lazy var graph: GKGridGraph3D<GKGridGraphNode3D> = {
         return makeGraph()
     }()
+    
+    override func awakeFromInsert() {
+        super.awakeFromInsert()
+        instances = Set<ShipInstance>()
+    }
 }
 
 extension ShipBlueprint {

@@ -68,11 +68,12 @@
         <attribute name="identifier" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="decks" toMany="YES" deletionRule="Cascade" destinationEntity="DeckBlueprint" inverseName="ship" inverseEntity="DeckBlueprint" syncable="YES"/>
+        <relationship name="instances" toMany="YES" deletionRule="Deny" destinationEntity="ShipInstance" inverseName="blueprint" inverseEntity="ShipInstance" syncable="YES"/>
     </entity>
     <entity name="ShipInstance" representedClassName=".ShipInstance" syncable="YES">
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="time" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="blueprint" maxCount="1" deletionRule="Nullify" destinationEntity="ShipBlueprint" syncable="YES"/>
+        <relationship name="blueprint" maxCount="1" deletionRule="Nullify" destinationEntity="ShipBlueprint" inverseName="instances" inverseEntity="ShipBlueprint" syncable="YES"/>
         <relationship name="crewmen" toMany="YES" deletionRule="Cascade" destinationEntity="CrewmanInstance" inverseName="ship" inverseEntity="CrewmanInstance" syncable="YES"/>
         <relationship name="decks" toMany="YES" deletionRule="Cascade" destinationEntity="DeckInstance" inverseName="ship" inverseEntity="DeckInstance" syncable="YES"/>
     </entity>
@@ -87,7 +88,7 @@
         <element name="ModuleJobInstance" positionX="-36" positionY="72" width="128" height="90"/>
         <element name="ModuleNeedBlueprint" positionX="-9" positionY="99" width="128" height="90"/>
         <element name="ModulePlacement" positionX="-36" positionY="54" width="128" height="120"/>
-        <element name="ShipBlueprint" positionX="-54" positionY="27" width="128" height="90"/>
+        <element name="ShipBlueprint" positionX="-54" positionY="27" width="128" height="105"/>
         <element name="ShipInstance" positionX="-36" positionY="45" width="128" height="120"/>
     </elements>
 </model>

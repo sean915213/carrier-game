@@ -33,15 +33,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 DataSeeder.seedIfRequired()
                 
                 // TODO: FETCHING TEST SHIP BLUEPRINT
-                // - Blueprint
-                let blueprint = try! ShipBlueprint.entityWithIdentifier("ship.test2", using: NSPersistentContainer.model.viewContext)!
                 // - Instance
                 let instanceFetch = ShipInstance.makeFetchRequest()
                 instanceFetch.predicate = NSPredicate(format: "name = %@", "Test Ship 2")
                 let instance = try! NSPersistentContainer.model.viewContext.fetch(instanceFetch)!
                 
                 // Display controller
-                self.window!.rootViewController = DeckEditingViewController(ship: blueprint)
+                self.window!.rootViewController = DeckEditingViewController(ship: instance.blueprint)
 //                self.window!.rootViewController = DeckSimulationViewController(ship: instance)
                 self.window!.makeKeyAndVisible()
             }
