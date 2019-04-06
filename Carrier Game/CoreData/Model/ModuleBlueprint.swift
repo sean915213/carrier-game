@@ -27,6 +27,7 @@ class ModuleBlueprint: NSManagedObject, IdentifiableEntity {
     @NSManaged var jobs: Set<ModuleJobBlueprint>
     
     override func awakeFromInsert() {
+        super.awakeFromInsert()
         // Set defaults
         attributes = [:]
         entrances = Set<ModuleEntrance>()

@@ -19,6 +19,12 @@ class ModulePlacement: NSManagedObject {
     @NSManaged var deck: DeckBlueprint
     
     @NSManaged var instances: Set<ModuleInstance>
+    
+    override func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults
+        instances = Set<ModuleInstance>()
+    }
 }
 
 extension ModulePlacement {
