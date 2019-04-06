@@ -328,6 +328,24 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
         }
     }
     
+    override func recognizedTap(_ recognizer: UITapGestureRecognizer) {
+        super.recognizedTap(recognizer)
+        // Get nodes at tap
+        let nodes = scene.nodes(atViewLocation: recognizer.location(in: view))
+        guard !nodes.isEmpty else { return }
+        // Find nodes representing something we want to log
+        for node in nodes {
+            guard let name = SKNode.Name(rawValue: node.name ?? "") else { continue }
+            switch name {
+            case .module:
+                guard let entity = scene.visibleDeck.moduleEntities.first(where: { $0.mainNodeComponent.node == node }) else { continue }
+                logger.logDebug("Tapped module: \(entity.blueprint.identifier).")
+            default:
+                break
+            }
+        }
+    }
+    
     override func recognizedPan(_ recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
         case .began:

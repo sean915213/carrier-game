@@ -143,7 +143,7 @@ class Deck2DViewController<SceneType>: UIViewController, UIGestureRecognizerDele
         }
     }
     
-    @objc private func recognizedTap(_ recognizer: UITapGestureRecognizer) {
+    @objc func recognizedTap(_ recognizer: UITapGestureRecognizer) {
         // Convert tap to scene coord system
         let point = scene.convertPoint(fromView: recognizer.location(in: view))
         logger.logInfo("Tapped grid point: \(GridPoint(point.x)), \(GridPoint(point.y)).")
