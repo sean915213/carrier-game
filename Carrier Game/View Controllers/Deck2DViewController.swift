@@ -38,15 +38,6 @@ class Deck2DViewController<SceneType>: UIViewController, UIGestureRecognizerDele
         return view as! SKView
     }
     
-//    private(set) lazy var scene: BaseDeck2DScene = {
-//        let scene = BaseDeck2DScene(ship: ship, size: CGSize(width: 50, height: 50))
-//        scene.scaleMode = .aspectFit
-//        // Add camera
-//        scene.addChild(camera)
-//        scene.camera = camera
-//        return scene
-//    }()
-    
     var cameraScale: CGFloat = 1.0 {
         didSet { camera.setScale(cameraScale) }
     }
@@ -95,8 +86,9 @@ class Deck2DViewController<SceneType>: UIViewController, UIGestureRecognizerDele
     }
     
     func nextDeck() -> DeckEntity {
-        if scene.visibleDeck == shipEntity.deckEntities.last {
-            return shipEntity.deckEntities.first!
+        let orderedEntities = shipEntity.orderedDeckEntities
+        if scene.visibleDeck == orderedEntities.last {
+            return orderedEntities.first!
         } else {
             return shipEntity.deck(at: Int(scene.visibleDeck.blueprint.position + 1))!
         }

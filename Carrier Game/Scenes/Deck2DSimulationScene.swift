@@ -21,6 +21,7 @@ class Deck2DSimulationScene: BaseDeck2DScene {
         super.init(ship: ship.blueprint, size: size)
         // Assign instance to our entity
         shipEntity.setShipInstance(ship)
+        configureScene()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,11 +41,36 @@ class Deck2DSimulationScene: BaseDeck2DScene {
     }
     
     // MARK: - Methods
+    
+    private func configureScene() {
+        // Add existing crewmen to scene
+        shipEntity.crewmanEntities.forEach { addCrewman($0) }
+    }
+    
+    private func addCrewman(_ entity: CrewmanEntity) {
+        // Add 2D movement components for this scene
+        entity.addComponent(MovementComponent2D())
+        // Add node to scene
+        // NOTE: crewman nodes are always added regardless of the deck they're on because they hide/unhide themselves based on this fact. Keeping the nodes on scene helps time their movement on invisible decks.
+        addChild(entity.rootNode)
+        // TODO: FIGURE THIS OUT
+        // Raise z on crewman node
+        entity.rootNode.zPosition = 100
+    }
 
     private func updateSimulationEnabled() {
         // Currently only need to pause actions on crewmen
         for crewman in shipEntity.crewmanEntities {
             crewman.rootNode.isPaused = !enableSimulation
+        }
+    }
+    
+    override func displayDeck(entity: DeckEntity) {
+        super.displayDeck(entity: entity)
+        // Update all crewman's movement component
+        for crewman in shipEntity.crewmanEntities {
+            let component = crewman.component(ofType: MovementComponent2D.self)!
+            component.visibleVertical = GridPoint(entity.blueprint.position)
         }
     }
     

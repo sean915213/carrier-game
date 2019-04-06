@@ -403,9 +403,11 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
             guard case .active = editMode else { return false }
             cancelEditingModule()
         case .deckNext:
-            scene.visibleDeck = nextDeck()
+            scene.displayDeck(entity: nextDeck())
+//            scene.visibleDeck = nextDeck()
         case .deckPrevious:
-            scene.visibleDeck = previousDeck()
+            scene.displayDeck(entity: previousDeck())
+//            scene.visibleDeck = previousDeck()
         case .deckValidate:
             // Overlapping points would already be validated, so only validate open bounds
             let openPoints = scene.visibleDeck.blueprint.findOpenPoints()

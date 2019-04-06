@@ -29,7 +29,19 @@ class DeckSimulationViewController: Deck2DViewController<Deck2DSimulationScene> 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let deckButton = UIButton(translatesAutoresizingMask: false)
+        deckButton.setTitle("Next Deck", for: [])
+        deckButton.setTitleColor(.blue, for: [])
+        deckButton.addTarget(self, action: #selector(displayNextDeck), for: .touchUpInside)
+        view.addSubview(deckButton)
+        deckButton.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1.0).activate()
+        deckButton.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: -1.0).activate()
+        
         // Do any additional setup after loading the view.
+    }
+    
+    @objc private func displayNextDeck() {
+        scene.displayDeck(entity: nextDeck())
     }
     
 

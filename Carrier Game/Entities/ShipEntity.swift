@@ -56,6 +56,7 @@ class ShipEntity: GKEntity {
     @discardableResult
     func addDeckEntity(for blueprint: DeckBlueprint) -> DeckEntity {
         let entity = DeckEntity(blueprint: blueprint)
+        // Append to deck entities
         deckEntities.append(entity)
         return entity
     }
@@ -112,6 +113,12 @@ class ShipEntity: GKEntity {
 }
 
 extension ShipEntity {
+    
+    var orderedDeckEntities: [DeckEntity] {
+        return deckEntities.sorted { (deck1, deck2) -> Bool in
+            return deck1.blueprint.position < deck2.blueprint.position
+        }
+    }
     
     var moduleEntities: [ModuleEntity] {
         return deckEntities.flatMap { $0.moduleEntities }
