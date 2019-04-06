@@ -25,9 +25,10 @@ private enum MenuItemID: String {
     deckPrevious,
     deckNext,
     deckValidate,
-    deckNew,
-    rootSimulate
+    deckNew
 }
+
+// EDITIGN TODO: Was in the middle of add deck logic when did simulation vs. editing refactor.
 
 // TODO: MAIN- Flesh out menu options. Continue improving sliding menu delegate. Eventually go to adding a new deck to blueprint + required overlays
 // TODO: MAKE MORE ROBUST AND DELEGATE?
@@ -210,9 +211,6 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
         let deckNew = MenuTreeItem(title: "New", identifier: MenuItemID.deckNew)
         deckNew.persistentSelection = false
         rootDeck.items.append(deckNew)
-        
-        // SIMULATE
-        rootItems.append(MenuTreeItem(title: "Simulation", identifier: MenuItemID.rootSimulate))
         
         // Return constructed tree
         return SlidingMenuTree(rootItems: rootItems)
@@ -404,17 +402,12 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
             cancelEditingModule()
         case .deckNext:
             scene.displayDeck(entity: nextDeck())
-//            scene.visibleDeck = nextDeck()
         case .deckPrevious:
             scene.displayDeck(entity: previousDeck())
-//            scene.visibleDeck = previousDeck()
         case .deckValidate:
             // Overlapping points would already be validated, so only validate open bounds
             let openPoints = scene.visibleDeck.blueprint.findOpenPoints()
             scene.visibleDeck.flashInvalidPoints(openPoints)
-        case .rootSimulate:
-//            toggleSimulation()
-            print("&& SIMULATE NO LONGER USED")
         case .overlaysZAccess:
             addZAccessOverlays()
         default:
@@ -433,9 +426,6 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
     func slidingMenuViewController(_: SlidingMenuToolbarViewController, deselectedItem item: SlidingMenuToolbarViewController.MenuItem) {
         // Determine what to do with deselection
         switch MenuItemID(rawValue: item.identifier)! {
-        case .rootSimulate:
-//            toggleSimulation()
-            print("&& SIMULATE NO LONGER USED")
         case .overlaysZAccess:
             guard let overlayIndex = overlayNodes.firstIndex(where: { $0 is ZAccessOverlayNode }) else {
                 assertionFailure("ZAccess overlay node not found in existing overlay nodes.")

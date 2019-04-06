@@ -16,11 +16,10 @@ class BaseDeck2DScene: SKScene {
     
     init(ship: ShipBlueprint, size: CGSize) {
         shipEntity = ShipEntity(blueprint: ship)
-        // TODO: Should be assuming a deck will always exist?
+        // Currently assuming a ship must have a 'root' deck.
         visibleDeck = shipEntity.deck(at: 0)!
         super.init(size: size)
         // Setup
-//        setupShip()
         displayDeck(entity: visibleDeck)
     }
     

@@ -100,15 +100,6 @@ class ShipEntity: GKEntity {
         // Update on decks and crewmen
         deckEntities.forEach { $0.update(deltaTime: seconds) }
         crewmanEntities.forEach { $0.update(deltaTime: seconds) }
-
-        // INSTANCE -> BLUEPRINT COMMENTED LOGIC
-//        let oldShift = CrewmanShift(date: instance.time)!
-//        instance.time = instance.time.addingTimeInterval(seconds)
-//        // Log new shift
-//        let newShift = CrewmanShift(date: instance.time)!
-//        if newShift != oldShift {
-//            logger.logInfo("New shift: \(newShift).")
-//        }
     }
 }
 

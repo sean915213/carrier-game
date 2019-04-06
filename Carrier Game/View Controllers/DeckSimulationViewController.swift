@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: Add simulation logic that was commented out. Also will need a new class of DeckScene.
-
 class DeckSimulationViewController: Deck2DViewController<Deck2DSimulationScene> {
     
     // MARK: - Initialization
@@ -28,32 +26,21 @@ class DeckSimulationViewController: Deck2DViewController<Deck2DSimulationScene> 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // TODO: TEMPORARY
         let deckButton = UIButton(translatesAutoresizingMask: false)
         deckButton.setTitle("Next Deck", for: [])
         deckButton.setTitleColor(.blue, for: [])
         deckButton.addTarget(self, action: #selector(displayNextDeck), for: .touchUpInside)
         view.addSubview(deckButton)
         deckButton.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1.0).activate()
-        deckButton.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: -1.0).activate()
-        
-        // Do any additional setup after loading the view.
+        deckButton.trailingAnchor.constraint(equalToSystemSpacingAfter: view.layoutMarginsGuide.trailingAnchor, multiplier: 1.0).activate()
+
     }
     
     @objc private func displayNextDeck() {
         scene.displayDeck(entity: nextDeck())
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     // TAP RECOGNIZE LOGIC
     

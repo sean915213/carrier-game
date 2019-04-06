@@ -8,10 +8,6 @@
 
 import UIKit
 
-// TODO LATEST:
-// Need to move items with comment "// INSTANCE -> BLUEPRINT COMMENTED LOGIC" to simulation logic vs. editing (static) logic
-// Created classes that inherit from the base simulation classes (ie. this one and DeckSimulationViewController). Need to add commented simulation logic to these so that they share the basic functionality (should be done) but also add the necessary simulation logic
-
 class Deck2DSimulationScene: BaseDeck2DScene {
     
     // MARK: - Initialization
@@ -73,24 +69,6 @@ class Deck2DSimulationScene: BaseDeck2DScene {
             component.visibleVertical = GridPoint(entity.blueprint.position)
         }
     }
-    
-    // TODO: Probably not required now since not editing and simulating in the same controllers
-//    private func toggleSimulation() {
-//        // If simulation disabled (meaning the toggle will reenable) then find crewmen in invalid locations and move them to a random, valid location
-//        if !scene.enableSimulation {
-//            let gridPositions: [GridPoint3] = ship.graph.gridNodes?.map({ $0.position }) ?? []
-//            for crewman in shipEntity.crewmanEntities {
-//                // Check whether crewman's current position is still valid
-//                guard !gridPositions.contains(GridPoint3(crewman.instance.position)) else { continue }
-//                // Find a random node
-//                let position = gridPositions.randomElement()!
-//                // Assign crewman's position here
-//                crewman.movementComponent.setPosition(position)
-//            }
-//        }
-//        // Reenable simulation and re-configure toolbar
-//        scene.enableSimulation.toggle()
-//    }
     
     override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
