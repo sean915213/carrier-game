@@ -21,7 +21,21 @@ protocol SlidingMenuToolbarViewControllerDelegate: AnyObject {
 
 class SlidingMenuToolbarViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    typealias ItemCollection = (items: [MenuItem], collectionView: UICollectionView, heightConstraint: NSLayoutConstraint, expandedIndex: Int?)
+    class ItemCollection {
+        
+        init(items: [MenuItem], collectionView: UICollectionView, heightConstraint: NSLayoutConstraint) {
+            self.items = items
+            self.collectionView = collectionView
+            self.heightConstraint = heightConstraint
+        }
+        
+        var items: [MenuItem]
+        var collectionView: UICollectionView
+        var heightConstraint: NSLayoutConstraint
+        
+        var expandedIndex: Int?
+//        var selectedIndices = Set<Int>()
+    }
     
     class MenuItem {
         
@@ -90,7 +104,9 @@ class SlidingMenuToolbarViewController: UIViewController, UICollectionViewDataSo
         let itemCollectionIndex = menuHierarchy.firstIndex(where: { $0.items.contains(where: { $0.identifier == identifier }) })!
         let itemCollection = menuHierarchy[itemCollectionIndex]
         let itemRowIndex = itemCollection.items.firstIndex(where: { $0.identifier == identifier })!
+        // Deselect in item collection
         itemCollection.collectionView.deselectItem(at: IndexPath(row: itemRowIndex, section: 0), animated: animated)
+        
         // Check whether this is the expanded item. If so, collapse to this index
         if itemCollection.expandedIndex != nil, identifier == itemCollection.items[itemRowIndex].identifier {
             collapseMenu(toIndex: itemCollectionIndex)
@@ -102,15 +118,18 @@ class SlidingMenuToolbarViewController: UIViewController, UICollectionViewDataSo
         let collectionView = makeCollectionView()
         // TODO: Change based on orientation
         stackView.insertArrangedSubview(collectionView, at: 0)
-        // Modify current leading collection entry (if it exists)
-        if let leadingMenuItemIndex = leadingMenuItemIndex {
-            var leadingCollection = menuHierarchy.removeLast()
-            leadingCollection.expandedIndex = leadingMenuItemIndex
-            menuHierarchy.append(leadingCollection)
-        }
-        // Add expanded items to hierarchy
+        // Make height constraint
         let heightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 1).withPriority(.defaultHigh).activate()
-        menuHierarchy.append((items: items, collectionView: collectionView, heightConstraint: heightConstraint, expandedIndex: nil))
+        // Make item collection
+        let newCollection = ItemCollection(items: items, collectionView: collectionView, heightConstraint: heightConstraint)
+        // Modify current leading collection entry (if it exists) before adding new collection
+        if let leadingMenuItemIndex = leadingMenuItemIndex {
+            // Get leading collection (expect this must exists if leading item index passed)
+            let leadingCollection = menuHierarchy.last!
+            leadingCollection.expandedIndex = leadingMenuItemIndex
+        }
+        // Add to menu hierarchy
+        menuHierarchy.append(newCollection)
         // Need to perform a reload to get contentSize set properly and therefore update preferredContentSize
         collectionView.performBatchUpdates({
             collectionView.reloadSections(IndexSet(integer: 0))
@@ -125,19 +144,16 @@ class SlidingMenuToolbarViewController: UIViewController, UICollectionViewDataSo
         // Iterate through hierarchy backwards
         for i in (0..<menuHierarchy.endIndex).reversed() {
             guard i != index else { break }
-            let collectionView = menuHierarchy[i].collectionView
-            collectionView.removeFromSuperview()
-            menuHierarchy.remove(at: i)
+            let itemCollection = menuHierarchy.remove(at: i)
+            // Remove collection view
+            itemCollection.collectionView.removeFromSuperview()
         }
-        // Check whether a menu item remains
-        guard !menuHierarchy.isEmpty else { return }
-        // Remove last to modify
-        var leadingMenu = menuHierarchy.removeLast()
-        // Nil expanded item and re-assign menu
-        leadingMenu.expandedIndex = nil
-        menuHierarchy.append(leadingMenu)
         // Need a layout to update preferredContentSize
-        view.setNeedsLayout()
+        defer { view.setNeedsLayout() }
+        // Check whether a menu item remains
+        guard let leadingCollection = menuHierarchy.last else { return }
+        // Nil expanded index
+        leadingCollection.expandedIndex = nil
     }
     
     private func makeCollectionView() -> UICollectionView {
