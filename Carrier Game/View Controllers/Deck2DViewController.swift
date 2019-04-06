@@ -95,8 +95,9 @@ class Deck2DViewController<SceneType>: UIViewController, UIGestureRecognizerDele
     }
     
     func previousDeck() -> DeckEntity {
-        if scene.visibleDeck == shipEntity.deckEntities.first {
-            return shipEntity.deckEntities.last!
+        let orderedEntities = shipEntity.orderedDeckEntities
+        if scene.visibleDeck == orderedEntities.first {
+            return orderedEntities.last!
         } else {
             return shipEntity.deck(at: Int(scene.visibleDeck.blueprint.position - 1))!
         }

@@ -41,8 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let instance = try! NSPersistentContainer.model.viewContext.fetch(instanceFetch)!
                 
                 // Display controller
-//                self.window!.rootViewController = DeckEditingViewController(ship: blueprint)
-                self.window!.rootViewController = DeckSimulationViewController(ship: instance)
+                self.window!.rootViewController = DeckEditingViewController(ship: blueprint)
+//                self.window!.rootViewController = DeckSimulationViewController(ship: instance)
                 self.window!.makeKeyAndVisible()
             }
         }

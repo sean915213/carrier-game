@@ -133,8 +133,6 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Disable simulation
-//        scene.enableSimulation = false
         // Add toolbar control
         addChild(slidingMenuToolbarController) { (toolbarView, completed) in
             // Configure and add to view
@@ -206,7 +204,9 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
         deckNext.persistentSelection = false
         rootDeck.items.append(deckNext)
         // - Validate
-        rootDeck.items.append(MenuTreeItem(title: "Validate", identifier: MenuItemID.deckValidate))
+        let deckValidate = MenuTreeItem(title: "Validate", identifier: MenuItemID.deckValidate)
+        deckValidate.persistentSelection = false
+        rootDeck.items.append(deckValidate)
         // - New
         let deckNew = MenuTreeItem(title: "New", identifier: MenuItemID.deckNew)
         deckNew.persistentSelection = false
@@ -280,16 +280,22 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
     }
     
     private func addNewDeck() {
-        // Add deck
+        // Make deck blueprint
         let deckPosition = ship.orderedDecks.last!.position + 1
         let deck = DeckBlueprint.insertNew(into: context, on: ship, at: deckPosition)
         deck.name = "New Deck"
-        // Switch to deck
-        
-        
-//        deck.ship = ship
-        // Place on ship
-//        ship.decks.insert(deck0)
+        // Add to ship entity
+        let entity = shipEntity.addDeckEntity(for: deck)
+        // Display
+        scene.displayDeck(entity: entity)
+        // Save insertion
+        do {
+            try NSPersistentContainer.model.viewContext.save()
+            logger.logInfo("Saved new deck at position: \(deck.position).")
+        } catch {
+            logger.logError("Error saving new deck: \(deck)")
+            // TODO: ROLL BACK?
+        }
     }
     
     // MARK: Actions
@@ -408,6 +414,9 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
             // Overlapping points would already be validated, so only validate open bounds
             let openPoints = scene.visibleDeck.blueprint.findOpenPoints()
             scene.visibleDeck.flashInvalidPoints(openPoints)
+        case .deckNew:
+            addNewDeck()
+            slidingMenuToolbarController.deselectItem(withIdentifier: MenuItemID.rootDeck.rawValue)
         case .overlaysZAccess:
             addZAccessOverlays()
         default:
