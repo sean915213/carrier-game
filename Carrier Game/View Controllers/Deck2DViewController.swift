@@ -12,11 +12,12 @@ import CoreData
 import GameplayKit
 import SGYSwiftUtility
 
-class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
+class Deck2DViewController<SceneType>: UIViewController, UIGestureRecognizerDelegate where SceneType: BaseDeck2DScene {
     
     // MARK: - Initialization
     
-    init(ship: ShipBlueprint) {
+    init(scene: SceneType, ship: ShipBlueprint) {
+        self.scene = scene
         self.ship = ship
         super.init(nibName: nil, bundle: nil)
     }
@@ -27,6 +28,7 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     
+    let scene: SceneType
     let ship: ShipBlueprint
     var shipEntity: ShipEntity { return scene.shipEntity }
     
@@ -36,14 +38,14 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
         return view as! SKView
     }
     
-    private(set) lazy var scene: BaseDeck2DScene = {
-        let scene = BaseDeck2DScene(ship: ship, size: CGSize(width: 50, height: 50))
-        scene.scaleMode = .aspectFit
-        // Add camera
-        scene.addChild(camera)
-        scene.camera = camera
-        return scene
-    }()
+//    private(set) lazy var scene: BaseDeck2DScene = {
+//        let scene = BaseDeck2DScene(ship: ship, size: CGSize(width: 50, height: 50))
+//        scene.scaleMode = .aspectFit
+//        // Add camera
+//        scene.addChild(camera)
+//        scene.camera = camera
+//        return scene
+//    }()
     
     var cameraScale: CGFloat = 1.0 {
         didSet { camera.setScale(cameraScale) }
@@ -69,8 +71,8 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Present scene
-        skView.presentScene(scene)
+        // Setup scene
+        setupScene()
         // Setup camera
         setupCamera()
         // Setup recognizers
@@ -108,6 +110,17 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    private func setupScene() {
+        // Configure scene
+        scene.scaleMode = .aspectFit
+        // - Scale mode
+        scene.addChild(camera)
+        // - Camera
+        scene.camera = camera
+        // Present
+        skView.presentScene(scene)
+    }
+    
     private func setupCamera() {
         // TODO: ALL TEMPORARY
         camera.position = CGPoint(x: 0, y: 0)
@@ -140,19 +153,7 @@ class Deck2DViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc private func recognizedTap(_ recognizer: UITapGestureRecognizer) {
         // Convert tap to scene coord system
         let point = scene.convertPoint(fromView: recognizer.location(in: view))
-        // TAP LOGIC
         logger.logInfo("Tapped grid point: \(GridPoint(point.x)), \(GridPoint(point.y)).")
-        // Find associated crewman
-        let nodes = scene.nodes(at: point)
-        let crewmen = shipEntity.crewmanEntities.filter({ nodes.contains($0.rootNode) })
-        for crewman in crewmen {
-            // Add or remove from stat report on scene
-            if let index = scene.reporter.providers.firstIndex(where: { $0 as? CrewmanEntity == crewman }) {
-                scene.reporter.providers.remove(at: index)
-            } else {
-                scene.reporter.providers.append(crewman)
-            }
-        }
     }
     
     @objc func recognizedPan(_ recognizer: UIPanGestureRecognizer) {

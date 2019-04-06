@@ -72,13 +72,21 @@ class SlidingMenuTree {
     }
 }
 
-class DeckEditingViewController: Deck2DViewController, ModuleListViewControllerDelegate, SlidingMenuToolbarViewControllerDelegate {
+class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleListViewControllerDelegate, SlidingMenuToolbarViewControllerDelegate {
     
     private enum PanMode { case none, active(ModuleEntity, CGPoint) }
     
     private enum EditMode: Equatable { case none, active(ModuleEntity, UndoManager) }
     
     // MARK: - Initialization
+    
+    init(ship: ShipBlueprint) {
+        super.init(scene: BaseDeck2DScene(ship: ship, size: CGSize(width: 50, height: 50)), ship: ship)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Properties
     
@@ -90,7 +98,7 @@ class DeckEditingViewController: Deck2DViewController, ModuleListViewControllerD
             // If new mode is active then toggle editing overlay on associated node component
             if case .active(let entity, _) = editMode {
                 entity.mainNodeComponent.showEditingOverlay = true
-                if scene.enableSimulation { toggleSimulation() }
+//                if scene.enableSimulation { toggleSimulation() }
             }
             // If old value was also active it must have been a different module. So end editing.
             if case .active(let entity, _) = oldValue {
@@ -125,7 +133,7 @@ class DeckEditingViewController: Deck2DViewController, ModuleListViewControllerD
     override func viewDidLoad() {
         super.viewDidLoad()
         // Disable simulation
-        scene.enableSimulation = false
+//        scene.enableSimulation = false
         // Add toolbar control
         addChild(slidingMenuToolbarController) { (toolbarView, completed) in
             // Configure and add to view
@@ -222,23 +230,6 @@ class DeckEditingViewController: Deck2DViewController, ModuleListViewControllerD
         overlay.deckIndex = shipEntity.deckEntities.firstIndex(of: scene.visibleDeck)!
         scene.addChild(overlay)
         overlayNodes.append(overlay)
-    }
-    
-    private func toggleSimulation() {
-        // If simulation disabled (meaning the toggle will reenable) then find crewmen in invalid locations and move them to a random, valid location
-        if !scene.enableSimulation {
-            let gridPositions: [GridPoint3] = ship.graph.gridNodes?.map({ $0.position }) ?? []
-            for crewman in shipEntity.crewmanEntities {
-                // Check whether crewman's current position is still valid
-                guard !gridPositions.contains(GridPoint3(crewman.instance.position)) else { continue }
-                // Find a random node
-                let position = gridPositions.randomElement()!
-                // Assign crewman's position here
-                crewman.movementComponent.setPosition(position)
-            }
-        }
-        // Reenable simulation and re-configure toolbar
-        scene.enableSimulation.toggle()
     }
     
     private func rotateModule() {
@@ -420,7 +411,8 @@ class DeckEditingViewController: Deck2DViewController, ModuleListViewControllerD
             let openPoints = scene.visibleDeck.blueprint.findOpenPoints()
             scene.visibleDeck.flashInvalidPoints(openPoints)
         case .rootSimulate:
-            toggleSimulation()
+//            toggleSimulation()
+            print("&& SIMULATE NO LONGER USED")
         case .overlaysZAccess:
             addZAccessOverlays()
         default:
@@ -440,7 +432,8 @@ class DeckEditingViewController: Deck2DViewController, ModuleListViewControllerD
         // Determine what to do with deselection
         switch MenuItemID(rawValue: item.identifier)! {
         case .rootSimulate:
-            toggleSimulation()
+//            toggleSimulation()
+            print("&& SIMULATE NO LONGER USED")
         case .overlaysZAccess:
             guard let overlayIndex = overlayNodes.firstIndex(where: { $0 is ZAccessOverlayNode }) else {
                 assertionFailure("ZAccess overlay node not found in existing overlay nodes.")
@@ -457,6 +450,7 @@ class DeckEditingViewController: Deck2DViewController, ModuleListViewControllerD
     
     // MARK: UIGestureRecognizer Delegate Implementation
     
+    // TODO: NO LONGER WORKING?
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         // Allow long press and pan to be recognized simultaneously
         return gestureRecognizer is UIPanGestureRecognizer && otherGestureRecognizer is UILongPressGestureRecognizer

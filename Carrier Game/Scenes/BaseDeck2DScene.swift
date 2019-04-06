@@ -20,7 +20,7 @@ class BaseDeck2DScene: SKScene {
         visibleDeck = shipEntity.deck(at: 0)!
         super.init(size: size)
         // Setup
-        setupShip()
+//        setupShip()
         displayDeck(entity: visibleDeck)
     }
     
@@ -31,29 +31,22 @@ class BaseDeck2DScene: SKScene {
     // MARK: - Properties
     
     let shipEntity: ShipEntity
-    
-    // INSTANCE -> BLUEPRINT COMMENTED LOGIC
-//    var ship: ShipInstance { return shipEntity.instance }
+    private(set) lazy var logger = Logger(source: type(of: self))
     
     var visibleDeck: DeckEntity {
         willSet { displayDeck(entity: newValue) }
     }
     
-    var enableSimulation: Bool = true {
-        didSet { updateSimulationEnabled() }
-    }
+    // INSTANCE -> BLUEPRINT COMMENTED LOGIC
+//    var activeEntities: [GKEntity] {
+//        var entities = shipEntity.allEntities
+//        entities.append(shipEntity)
+//        return entities
+//    }
     
-    var activeEntities: [GKEntity] {
-        var entities = shipEntity.allEntities
-        entities.append(shipEntity)
-        return entities
-    }
-    
-    private(set) lazy var reporter = StatReportingEntity()
-    
-    private var lastUpdate: TimeInterval = 0
-    
-    private lazy var logger = Logger(source: type(of: self))
+//    private(set) lazy var reporter = StatReportingEntity()
+//
+//    private var lastUpdate: TimeInterval = 0
     
     // MARK: - Methods
     
@@ -74,31 +67,24 @@ class BaseDeck2DScene: SKScene {
 //            crewman.rootNode.zPosition = 100
 //        }
     }
-    
-    private func updateSimulationEnabled() {
-        // Currently only need to pause actions on crewmen
-        for crewman in shipEntity.crewmanEntities {
-            crewman.rootNode.isPaused = !enableSimulation
-        }
-    }
 
-    override func update(_ currentTime: TimeInterval) {
-        super.update(currentTime)
-        // If simulation not enabled then do nothing
-        guard enableSimulation else { return }
-        // Save this update
-        defer { lastUpdate = currentTime }
-        // If lastUpdate is 0 then do nothing yet
-        guard lastUpdate != 0 else { return }
-        // Get real-time difference
-        let dt = currentTime - lastUpdate
-        // Convert to game time delta
-        let gameDT = dt * ((60 * 60) / 3.0) * 2
-        // Apply to active entities
-        for entity in activeEntities { entity.update(deltaTime: gameDT) }
-        // Update on stat reporter AFTER entities are updated
-        reporter.update(deltaTime: gameDT)
-    }
+//    override func update(_ currentTime: TimeInterval) {
+//        super.update(currentTime)
+//        // If simulation not enabled then do nothing
+//        guard enableSimulation else { return }
+//        // Save this update
+//        defer { lastUpdate = currentTime }
+//        // If lastUpdate is 0 then do nothing yet
+//        guard lastUpdate != 0 else { return }
+//        // Get real-time difference
+//        let dt = currentTime - lastUpdate
+//        // Convert to game time delta
+//        let gameDT = dt * ((60 * 60) / 3.0) * 2
+//        // Apply to active entities
+//        for entity in activeEntities { entity.update(deltaTime: gameDT) }
+//        // Update on stat reporter AFTER entities are updated
+//        reporter.update(deltaTime: gameDT)
+//    }
     
     private func displayDeck(entity: DeckEntity) {
         logger.logInfo("Displaying deck: \(entity.blueprint.position).")

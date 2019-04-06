@@ -81,6 +81,12 @@ class DeckEntity: GKEntity {
             node.run(actionSequence)
         }
     }
+    
+    override func update(deltaTime seconds: TimeInterval) {
+        super.update(deltaTime: seconds)
+        // Update module entities
+        moduleEntities.forEach { $0.update(deltaTime: seconds) }
+    }
 }
 
 // TODO: MOVE TO UTILITY?
