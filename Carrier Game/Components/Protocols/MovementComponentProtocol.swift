@@ -11,7 +11,7 @@ import GameKit
 
 enum MovementResult { case completed, interrupted }
 
-protocol MovementComponentProtocol {
+protocol MovementComponentProtocol where Self: GKComponent {
     
     // TODO: Make all these into a single struct?
     var path: [GKGridGraphNode3D]? { get }

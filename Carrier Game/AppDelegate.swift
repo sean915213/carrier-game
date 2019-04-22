@@ -40,8 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // Display controller
 //                self.window!.rootViewController = DeckEditingViewController(ship: instance.blueprint)
-//                self.window!.rootViewController = DeckSimulationViewController(ship: instance)
-                self.window!.rootViewController = ShipSceneController(ship: instance)
+                self.window!.rootViewController = DeckSimulationViewController(ship: instance)
+//                self.window!.rootViewController = ShipSceneController(ship: instance)
                 self.window!.makeKeyAndVisible()
             }
         }

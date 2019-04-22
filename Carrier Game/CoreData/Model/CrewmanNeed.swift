@@ -18,3 +18,16 @@ class CrewmanNeed: NSManagedObject {
     
     @NSManaged var crewman: CrewmanInstance
 }
+
+extension CrewmanNeed {
+    
+    func addValue(_ value: Double) {
+        self.value += value
+        if self.value > 100 { self.value = 100 }
+    }
+    
+    func subtractValue(_ value: Double) {
+        self.value -= value
+        if self.value < 0 { self.value = 0 }
+    }
+}

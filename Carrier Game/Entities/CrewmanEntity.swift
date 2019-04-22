@@ -48,7 +48,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
     }
     
     var gridPosition: GridPoint3 {
-        return GridPoint3(rootNode.position, GridPoint(instance.position.z))
+        return GridPoint3(instance.position)
     }
     
     var graphNode: GKGridGraphNode3D {
@@ -84,6 +84,11 @@ class CrewmanEntity: GKEntity, StatsProvider {
         node.position = CGPoint(x: CGFloat(instance.position.x), y: CGFloat(instance.position.y))
         let nodeComponent = GKSKNodeComponent(node: node)
         addComponent(nodeComponent)
+        // - Needs
+        for need in instance.needs {
+            print("&& CREWMAN [\(instance.name)] ADDING NEED: \(need.action)")
+            addComponent(CrewmanTaskNeedComponent(need: need))
+        }
     }
     
     override func update(deltaTime seconds: TimeInterval) {
@@ -95,23 +100,28 @@ class CrewmanEntity: GKEntity, StatsProvider {
     }
     
     private func updateNeeds(deltaTime seconds: TimeInterval) {
-        // Loop through needs
-        for crewmanNeed in instance.needs {
-            // Find all matching needs that current module fulfills
-            let fulfilledNeeds = currentModule.blueprint.fulfilledNeeds.filter { $0.action == crewmanNeed.action }
-            // If none fulfilled then decrement need by decay
-            guard !fulfilledNeeds.isEmpty else {
-                crewmanNeed.value -= crewmanNeed.decayFactor * seconds
-                if crewmanNeed.value < 0 { crewmanNeed.value = 0 }
-                continue
-            }
-            // Increment need by total and factors
-            for need in fulfilledNeeds {
-                crewmanNeed.value += need.increaseFactor * seconds
-                // If >= 100 then set to 100 and reset status to idle
-                if crewmanNeed.value >= 100 { crewmanNeed.value = 100 }
-            }
-        }
+        // Find the highest priority need
+        let needComponents = components.filter({ $0 is CrewmanTaskNeedComponent }) as! [CrewmanTaskNeedComponent]
+        print("&& CREWMAN NEEDS COUNT: \(needComponents.count)")
+        
+        
+//        // Loop through needs
+//        for crewmanNeed in instance.needs {
+//            // Find all matching needs that current module fulfills
+//            let fulfilledNeeds = currentModule.blueprint.fulfilledNeeds.filter { $0.action == crewmanNeed.action }
+//            // If none fulfilled then decrement need by decay
+//            guard !fulfilledNeeds.isEmpty else {
+//                crewmanNeed.value -= crewmanNeed.decayFactor * seconds
+//                if crewmanNeed.value < 0 { crewmanNeed.value = 0 }
+//                continue
+//            }
+//            // Increment need by total and factors
+//            for need in fulfilledNeeds {
+//                crewmanNeed.value += need.increaseFactor * seconds
+//                // If >= 100 then set to 100 and reset status to idle
+//                if crewmanNeed.value >= 100 { crewmanNeed.value = 100 }
+//            }
+//        }
     }
     
     private func updateState(deltaTime seconds: TimeInterval) {
@@ -271,6 +281,7 @@ class CrewmanEntity: GKEntity, StatsProvider {
     
     // MARK: Pathing
     
+    // TODO: STILL USED?
     private func findClosestEntrance(in modules: [ModuleInstance]) -> (module: ModuleInstance, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])? {
         // Get origin node in graph to prevent finding several times
         let originNode = graphNode

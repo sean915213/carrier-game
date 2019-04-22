@@ -8,6 +8,9 @@
 
 import UIKit
 
+// TODO NEXT: Latest problem is how do we update components/items/efficiency, etc on module instances from crewman work?
+// - IDEA: Assign a property on modules which defines a set of identifiers which can be used to instantiate classes (via an enum?) and initialize each of these (or use static methods via a protocol?) and pass in crewman to have work done?
+
 class DeckSimulationViewController: Deck2DViewController<Deck2DSimulationScene> {
     
     // MARK: - Initialization
