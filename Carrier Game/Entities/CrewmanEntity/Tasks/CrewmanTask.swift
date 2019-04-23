@@ -1,5 +1,5 @@
 //
-//  CrewmanTaskComponent.swift
+//  CrewmanTask.swift
 //  Carrier Game
 //
 //  Created by Sean G Young on 4/7/19.
@@ -10,9 +10,9 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO: NEXT- Cannot have more than one component of the same class assigned to an entity. So,
-// AGAIN- Just do our own custom class and collection that a CrewmanEntity updates time on? Doesn't even have to update time really. Can customize.
-// OR- Have each single component handle ALL of the needs? But then how do we determine which is active? Up to the component since needs have full reign outside of a work shift?
+// TODO: UPDATE- Path finding and basic priority logic is done.
+// NEXT: Implement meander logic for jobs same as needs- this will replicate previous state.
+// THEN: Start fine tuning logic and adding more needs/jobs classes? Or did I begin this for some other reason?
 
 typealias TaskPriority = Int
 extension TaskPriority {
@@ -23,7 +23,15 @@ extension TaskPriority {
     static let none = 0
 }
 
-class CrewmanTaskComponent: GKComponent {
+// TODO: REMOVE?
+
+class CrewmanTask {
+    
+    // MARK: - Initialization
+    
+    init(crewman: CrewmanEntity) {
+        self.crewman = crewman
+    }
 
     // MARK: - Properties
     
@@ -31,11 +39,10 @@ class CrewmanTaskComponent: GKComponent {
         return calculatePriorty()
     }
     
-    var crewman: CrewmanEntity? {
-        return entity as? CrewmanEntity
-    }
+    // TODO: DOES UNOWNED FIX WHAT WOULD BE A REF CYCLE HERE?
+    unowned let crewman: CrewmanEntity
     
-    private(set) lazy var logger = Logger(source: type(of: self))
+    private(set) lazy var logger = Logger(source: "\(type(of: self))")
     
     private(set) var taskControl: Bool = false
 
@@ -53,12 +60,7 @@ class CrewmanTaskComponent: GKComponent {
         taskControl = false
     }
     
-    override func update(deltaTime seconds: TimeInterval) {
-        super.update(deltaTime: seconds)
-        guard let crewman = crewman else {
-            assertionFailure("\(#function) called without assigned Crewman.")
-            return
-        }
+    func update(deltaTime seconds: TimeInterval) {
         update(deltaTime: seconds, on: crewman)
     }
     

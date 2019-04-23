@@ -1,5 +1,5 @@
 //
-//  CrewmanSleepTaskComponent.swift
+//  CrewmanNeedTask.swift
 //  Carrier Game
 //
 //  Created by Sean G Young on 4/7/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CrewmanTaskNeedComponent: CrewmanTaskComponent {
+class CrewmanNeedTask: CrewmanTask {
     
     private enum State {
         case none
@@ -18,9 +18,9 @@ class CrewmanTaskNeedComponent: CrewmanTaskComponent {
 
     // MARK: - Initialization
     
-    init(need: CrewmanNeed) {
+    init(crewman: CrewmanEntity, need: CrewmanNeed) {
         self.need = need
-        super.init()
+        super.init(crewman: crewman)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,8 +32,8 @@ class CrewmanTaskNeedComponent: CrewmanTaskComponent {
     let need: CrewmanNeed
     
     var satisfyingModuleInfo: (module: ModuleInstance, need: ModuleNeedBlueprint)? {
-        guard let need = crewman?.currentModule.blueprint.fulfilledNeeds.first(where: { $0.action == need.action }) else { return nil }
-        return (module: crewman!.currentModule, need: need)
+        guard let need = crewman.currentModule.blueprint.fulfilledNeeds.first(where: { $0.action == need.action }) else { return nil }
+        return (module: crewman.currentModule, need: need)
     }
     
     private var state: State = .none
@@ -53,6 +53,9 @@ class CrewmanTaskNeedComponent: CrewmanTaskComponent {
         guard taskControl else { return }
         // Unless state is none, we're performing some kind of action so nothing to do
         guard case .none = state else { return }
+        
+//        logger.logDebug("== NEED STATE NONE. MOVING.")
+        
         // If we're in a fulfilling module then perform fulfilling action
         if let (module, _) = satisfyingModuleInfo {
             performNeed(in: module, for: crewman)
@@ -63,9 +66,13 @@ class CrewmanTaskNeedComponent: CrewmanTaskComponent {
     }
 
     override func calculatePriorty() -> TaskPriority {
-        // TODO: TOTAL DEBUGGING HERE
-        guard need.action == .sleep else { return .none }
-        return .urgent
+        // TODO: NEED BETTER LOGIC
+        if crewman.isOnShift {
+            return .none
+        } else {
+            // TODO: TOTAL DEBUGGING HERE
+            return .high
+        }
     }
     
     private func updateNeedValue(deltaTime: TimeInterval, on crewman: CrewmanEntity) {
@@ -93,7 +100,6 @@ class CrewmanTaskNeedComponent: CrewmanTaskComponent {
         state = .moving
         // Move to module and set status when completed
         setMovementPath(entranceInfo.path, for: crewman) { result in
-            // Instead of checking for interrupted, etc just set state back to none and if we still have task control we'll continue next update
             self.state = .none
         }
     }
@@ -115,8 +121,8 @@ class CrewmanTaskNeedComponent: CrewmanTaskComponent {
             return
         }
         // Set movement
+        state = .moving
         setMovementPath(path, for: crewman) { result in
-            // Instead of checking for interrupted, etc just set state back to none and if we still have task control we'll continue next update
             self.state = .none
         }
     }

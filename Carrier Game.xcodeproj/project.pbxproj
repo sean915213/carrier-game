@@ -44,6 +44,7 @@
 		748AE3262217A2E5000015E5 /* GridPoint2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748AE3252217A2E5000015E5 /* GridPoint2.swift */; };
 		748C49D921E6CBCB004019D4 /* GridPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C49D821E6CBCB004019D4 /* GridPoint.swift */; };
 		748C49DB21E6CCE0004019D4 /* GridPoint3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C49DA21E6CCE0004019D4 /* GridPoint3.swift */; };
+		749573B5226E80C000F3F176 /* CrewmanJobTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749573B4226E80C000F3F176 /* CrewmanJobTask.swift */; };
 		749652FA2256DB5200D6FDA5 /* DeckSimulationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749652F92256DB5200D6FDA5 /* DeckSimulationViewController.swift */; };
 		749652FD2256DC0100D6FDA5 /* Deck2DSimulationScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749652FC2256DC0100D6FDA5 /* Deck2DSimulationScene.swift */; };
 		749CB13D2177E7F800949734 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB13C2177E7F800949734 /* AppDelegate.swift */; };
@@ -62,8 +63,8 @@
 		74BA5CEF2183D4A50039A2D5 /* ModuleBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA5CEE2183D4A50039A2D5 /* ModuleBlueprint.swift */; };
 		74BA5CF721867F190039A2D5 /* ModuleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA5CF621867F190039A2D5 /* ModuleListViewController.swift */; };
 		74BC2B64225955E4002878A8 /* ShipSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BC2B63225955E4002878A8 /* ShipSceneController.swift */; };
-		74BC2B87225ACF0C002878A8 /* CrewmanTaskComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BC2B86225ACF0C002878A8 /* CrewmanTaskComponent.swift */; };
-		74BC2B89225AD068002878A8 /* CrewmanTaskNeedComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BC2B88225AD068002878A8 /* CrewmanTaskNeedComponent.swift */; };
+		74BC2B87225ACF0C002878A8 /* CrewmanTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BC2B86225ACF0C002878A8 /* CrewmanTask.swift */; };
+		74BC2B89225AD068002878A8 /* CrewmanNeedTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BC2B88225AD068002878A8 /* CrewmanNeedTask.swift */; };
 		74BDA04221926F950034DD20 /* CGRectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BDA04121926F950034DD20 /* CGRectExtensions.swift */; };
 		74BDA0442192778E0034DD20 /* CGPointExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BDA0432192778E0034DD20 /* CGPointExtensions.swift */; };
 		74EE317F21BF2B3E00D4A5FC /* StatsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EE317E21BF2B3E00D4A5FC /* StatsProvider.swift */; };
@@ -111,6 +112,7 @@
 		748AE3252217A2E5000015E5 /* GridPoint2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint2.swift; sourceTree = "<group>"; };
 		748C49D821E6CBCB004019D4 /* GridPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint.swift; sourceTree = "<group>"; };
 		748C49DA21E6CCE0004019D4 /* GridPoint3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPoint3.swift; sourceTree = "<group>"; };
+		749573B4226E80C000F3F176 /* CrewmanJobTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanJobTask.swift; sourceTree = "<group>"; };
 		749652F92256DB5200D6FDA5 /* DeckSimulationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckSimulationViewController.swift; sourceTree = "<group>"; };
 		749652FC2256DC0100D6FDA5 /* Deck2DSimulationScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck2DSimulationScene.swift; sourceTree = "<group>"; };
 		749CB1392177E7F800949734 /* Carrier Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Carrier Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,8 +133,8 @@
 		74BA5CEE2183D4A50039A2D5 /* ModuleBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBlueprint.swift; sourceTree = "<group>"; };
 		74BA5CF621867F190039A2D5 /* ModuleListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleListViewController.swift; sourceTree = "<group>"; };
 		74BC2B63225955E4002878A8 /* ShipSceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipSceneController.swift; sourceTree = "<group>"; };
-		74BC2B86225ACF0C002878A8 /* CrewmanTaskComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanTaskComponent.swift; sourceTree = "<group>"; };
-		74BC2B88225AD068002878A8 /* CrewmanTaskNeedComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanTaskNeedComponent.swift; sourceTree = "<group>"; };
+		74BC2B86225ACF0C002878A8 /* CrewmanTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanTask.swift; sourceTree = "<group>"; };
+		74BC2B88225AD068002878A8 /* CrewmanNeedTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewmanNeedTask.swift; sourceTree = "<group>"; };
 		74BDA04121926F950034DD20 /* CGRectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtensions.swift; sourceTree = "<group>"; };
 		74BDA0432192778E0034DD20 /* CGPointExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtensions.swift; sourceTree = "<group>"; };
 		74EE317E21BF2B3E00D4A5FC /* StatsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsProvider.swift; sourceTree = "<group>"; };
@@ -182,8 +184,8 @@
 		742C3641219A4D60007FA1B5 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				749573B0226E78A200F3F176 /* CrewmanEntity */,
 				748AE3222217932A000015E5 /* ModuleEntity */,
-				742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */,
 				7471650C21AE0D2500F5AA48 /* ShipEntity.swift */,
 				7471650E21AE0E1400F5AA48 /* DeckEntity.swift */,
 				74EE318021BF2D1900D4A5FC /* StatReportingEntity.swift */,
@@ -194,7 +196,6 @@
 		742C3644219A4DC0007FA1B5 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				74BC2B85225ACEF1002878A8 /* Task Components */,
 				7415561C21BB3C5E009EA087 /* Protocols */,
 				742C3645219A4DE2007FA1B5 /* MovementComponent2D.swift */,
 				7426BF0F2254356300E3BED4 /* DeckTextureNodeComponent2D.swift */,
@@ -236,6 +237,25 @@
 				748AE3252217A2E5000015E5 /* GridPoint2.swift */,
 			);
 			path = "Grid Model";
+			sourceTree = "<group>";
+		};
+		749573B0226E78A200F3F176 /* CrewmanEntity */ = {
+			isa = PBXGroup;
+			children = (
+				749573B1226E790B00F3F176 /* Tasks */,
+				742C3642219A4D87007FA1B5 /* CrewmanEntity.swift */,
+			);
+			path = CrewmanEntity;
+			sourceTree = "<group>";
+		};
+		749573B1226E790B00F3F176 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				74BC2B88225AD068002878A8 /* CrewmanNeedTask.swift */,
+				74BC2B86225ACF0C002878A8 /* CrewmanTask.swift */,
+				749573B4226E80C000F3F176 /* CrewmanJobTask.swift */,
+			);
+			path = Tasks;
 			sourceTree = "<group>";
 		};
 		749652FB2256DBD500D6FDA5 /* Scenes */ = {
@@ -378,15 +398,6 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		74BC2B85225ACEF1002878A8 /* Task Components */ = {
-			isa = PBXGroup;
-			children = (
-				74BC2B86225ACF0C002878A8 /* CrewmanTaskComponent.swift */,
-				74BC2B88225AD068002878A8 /* CrewmanTaskNeedComponent.swift */,
-			);
-			path = "Task Components";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -510,7 +521,7 @@
 				7415562021BC6CC3009EA087 /* GKGridGraph3D.swift in Sources */,
 				74BDA04221926F950034DD20 /* CGRectExtensions.swift in Sources */,
 				743D00382218D56C00AEA5DE /* SKNode.swift in Sources */,
-				74BC2B89225AD068002878A8 /* CrewmanTaskNeedComponent.swift in Sources */,
+				74BC2B89225AD068002878A8 /* CrewmanNeedTask.swift in Sources */,
 				74BA5CEA2183D1610039A2D5 /* DataSeeder.swift in Sources */,
 				74B45386222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift in Sources */,
 				7415562621BC9F9A009EA087 /* TimeIntervalExtension.swift in Sources */,
@@ -530,6 +541,7 @@
 				743152C8219CE50100E3101F /* CrewmanInstance.swift in Sources */,
 				74BA5CF721867F190039A2D5 /* ModuleListViewController.swift in Sources */,
 				742C364A219A6258007FA1B5 /* ModuleEntity.swift in Sources */,
+				749573B5226E80C000F3F176 /* CrewmanJobTask.swift in Sources */,
 				74405C72218E438200BA3A69 /* DeckInstance.swift in Sources */,
 				74BA5CEF2183D4A50039A2D5 /* ModuleBlueprint.swift in Sources */,
 				748C49DB21E6CCE0004019D4 /* GridPoint3.swift in Sources */,
@@ -541,7 +553,7 @@
 				74BA5CE52183CB640039A2D5 /* NSPersistentContainerExtension.swift in Sources */,
 				74048369220919B8002B67BD /* Deck2DViewController.swift in Sources */,
 				74B97DD421B9FC23009973A3 /* CDPoint3.swift in Sources */,
-				74BC2B87225ACF0C002878A8 /* CrewmanTaskComponent.swift in Sources */,
+				74BC2B87225ACF0C002878A8 /* CrewmanTask.swift in Sources */,
 				74612C5121FCE79D00006E15 /* GridRect.swift in Sources */,
 				74BA5CE82183CD0D0039A2D5 /* Model.xcdatamodeld in Sources */,
 				749CB1592177F8C400949734 /* DeckEditingViewController.swift in Sources */,
