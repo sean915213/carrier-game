@@ -46,22 +46,20 @@ class CrewmanNeedTask: CrewmanTask {
         super.endTaskControl()
     }
     
-    override func update(deltaTime: TimeInterval, on crewman: CrewmanEntity) {
+    override func update(deltaTime: TimeInterval) {
+        super.update(deltaTime: deltaTime)
         // FIRST: Change need value based on current module
-        updateNeedValue(deltaTime: deltaTime, on: crewman)
+        updateNeedValue(deltaTime: deltaTime)
         // SECOND: Pursue based on whether this need has priority
         guard taskControl else { return }
         // Unless state is none, we're performing some kind of action so nothing to do
         guard case .none = state else { return }
-        
-//        logger.logDebug("== NEED STATE NONE. MOVING.")
-        
         // If we're in a fulfilling module then perform fulfilling action
         if let (module, _) = satisfyingModuleInfo {
-            performNeed(in: module, for: crewman)
+            performNeed(in: module)
         } else {
             // Otherwise begin moving to need
-            moveToNeed(for: crewman)
+            moveToNeed()
         }
     }
 
@@ -75,7 +73,7 @@ class CrewmanNeedTask: CrewmanTask {
         }
     }
     
-    private func updateNeedValue(deltaTime: TimeInterval, on crewman: CrewmanEntity) {
+    private func updateNeedValue(deltaTime: TimeInterval) {
         // Find a fulfilled need on this module matching crewman's lead
         if let (_, fulfillingNeed) = satisfyingModuleInfo {
             // Increment need value
@@ -86,7 +84,7 @@ class CrewmanNeedTask: CrewmanTask {
         }
     }
     
-    private func moveToNeed(for crewman: CrewmanEntity) {
+    private func moveToNeed() {
         // Find modules that would satisfy this need
         let satisfyingModules = crewman.ship.allModules.filter { module -> Bool in
             return module.blueprint.fulfilledNeeds.contains(where: { $0.action == need.action })
@@ -99,12 +97,12 @@ class CrewmanNeedTask: CrewmanTask {
         // Set to moving
         state = .moving
         // Move to module and set status when completed
-        setMovementPath(entranceInfo.path, for: crewman) { result in
+        setMovementPath(entranceInfo.path) { result in
             self.state = .none
         }
     }
     
-    private func performNeed(in module: ModuleInstance, for crewman: CrewmanEntity) {
+    private func performNeed(in module: ModuleInstance) {
         // Find a random coordinate within this module
         let rect = module.placement.absoluteRect
         let xCoord = rect.xRange.randomElement()!
@@ -114,7 +112,7 @@ class CrewmanNeedTask: CrewmanTask {
             return
         }
         // Find path
-        let path = getGraphNode(for: crewman).findPath(to: node) as! [GKGridGraphNode3D]
+        let path = getGraphNode().findPath(to: node) as! [GKGridGraphNode3D]
         // If empty then no path (which probably should not happen?)
         guard !path.isEmpty else {
             logger.logError("Found empty meander path. Why would an orphaned graph node exist? Destination: \(node)")
@@ -122,8 +120,14 @@ class CrewmanNeedTask: CrewmanTask {
         }
         // Set movement
         state = .moving
-        setMovementPath(path, for: crewman) { result in
+        setMovementPath(path) { result in
             self.state = .none
         }
+    }
+}
+
+extension CrewmanNeedTask: CustomDebugStringConvertible {
+    var debugDescription: String {
+        return "Need Action: \(need.action)"
     }
 }

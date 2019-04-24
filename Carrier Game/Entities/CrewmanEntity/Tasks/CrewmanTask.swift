@@ -10,9 +10,9 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO: UPDATE- Path finding and basic priority logic is done.
-// NEXT: Implement meander logic for jobs same as needs- this will replicate previous state.
-// THEN: Start fine tuning logic and adding more needs/jobs classes? Or did I begin this for some other reason?
+// TODO: Continue fleshing out jobs/needs.
+// - Expand job instance with locations where job is performed?
+// - Should job customization be done via class or via model options? I.e. cook adding food?
 
 typealias TaskPriority = Int
 extension TaskPriority {
@@ -22,8 +22,6 @@ extension TaskPriority {
     static let low = 25
     static let none = 0
 }
-
-// TODO: REMOVE?
 
 class CrewmanTask {
     
@@ -61,16 +59,12 @@ class CrewmanTask {
     }
     
     func update(deltaTime seconds: TimeInterval) {
-        update(deltaTime: seconds, on: crewman)
-    }
-    
-    func update(deltaTime: TimeInterval, on crewman: CrewmanEntity) {
-        assertionFailure("\(#function) is abstract and should be overriden.")
+        // Provided for common override
     }
     
     func findClosestEntrance(from crewman: CrewmanEntity, in modules: [ModuleInstance]) -> (module: ModuleInstance, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])? {
         // Get origin node in ship's graph
-        let originNode = getGraphNode(for: crewman)
+        let originNode = getGraphNode()
         // Collect distances to entrances
         var distanceInfo = [(module: ModuleInstance, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])]()
         for module in modules {
@@ -93,7 +87,7 @@ class CrewmanTask {
         return distanceInfo.min(by: { $0.path.count < $1.path.count })
     }
     
-    func setMovementPath(_ path: [GKGridGraphNode3D], for crewman: CrewmanEntity, completed: @escaping (MovementResult) -> Void) {
+    func setMovementPath(_ path: [GKGridGraphNode3D], completed: @escaping (MovementResult) -> Void) {
         guard let movementComponent = crewman.components.first(where: { $0 is MovementComponentProtocol }) as? MovementComponentProtocol else {
             assertionFailure("\(#function) called without a component conforming to MovementComponentProtocol.")
             return
@@ -102,7 +96,7 @@ class CrewmanTask {
         movementComponent.setPath(nodes: path, completed: completed)
     }
     
-    func getGraphNode(for crewman: CrewmanEntity) -> GKGridGraphNode3D {
+    func getGraphNode() -> GKGridGraphNode3D {
         guard let node = crewman.ship.blueprint.graph.node(atPoint: GridPoint3(crewman.instance.position)) else {
             assertionFailure("\(#function) unable to find a graph node associated with instance's position.")
             return GKGridGraphNode3D(point: GridPoint3.zero)

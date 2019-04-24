@@ -39,9 +39,12 @@ class CrewmanJobTask: CrewmanTask {
     
     override func endTaskControl() {
         super.endTaskControl()
+        // Reset state
+        state = .none
     }
     
-    override func update(deltaTime: TimeInterval, on crewman: CrewmanEntity) {
+    override func update(deltaTime: TimeInterval) {
+        super.update(deltaTime: deltaTime)
         // If task doesn't have control then no work to be done for job
         guard taskControl else { return }
         // Unless state is none, we're performing some kind of action so nothing to do
@@ -77,7 +80,7 @@ class CrewmanJobTask: CrewmanTask {
         // Set to moving
         state = .moving
         // Move to module and set status when completed
-        setMovementPath(entranceInfo.path, for: crewman) { result in
+        setMovementPath(entranceInfo.path) { result in
             switch result {
             case .interrupted:
                 // Reset to none if interrupted
@@ -111,4 +114,10 @@ class CrewmanJobTask: CrewmanTask {
 //            self.state = .none
 //        }
 //    }
+}
+
+extension CrewmanJobTask: CustomDebugStringConvertible {
+    var debugDescription: String {
+        return "Job Instance { action: \(job.blueprint.action), module: \(job.blueprint.module.identifier) }"
+    }
 }
