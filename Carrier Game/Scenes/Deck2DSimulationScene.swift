@@ -71,20 +71,23 @@ class Deck2DSimulationScene: BaseDeck2DScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        super.update(currentTime)
+        
+        let convertedTime = currentTime * Configuration.timeMultiplier
+        
+        super.update(convertedTime)
         // If simulation not enabled then do nothing
         guard enableSimulation else { return }
         // Save this update
-        defer { lastUpdate = currentTime }
+        defer { lastUpdate = convertedTime }
         // If lastUpdate is 0 then do nothing yet
         guard lastUpdate != 0 else { return }
         // Get real-time difference
-        let dt = currentTime - lastUpdate
-        // Convert to game time delta
-        let gameDT = dt * ((60 * 60) / 3.0) * 2
+        let dt = convertedTime - lastUpdate
+//        // Convert to game time delta
+//        let gameDT = dt * Configuration.timeMultiplier
         // Apply to ship instance
-        shipEntity.update(deltaTime: gameDT)
+        shipEntity.update(deltaTime: dt)
         // Update on stat reporter AFTER ship entity updates
-        reporter.update(deltaTime: gameDT)
+        reporter.update(deltaTime: dt)
     }
 }
