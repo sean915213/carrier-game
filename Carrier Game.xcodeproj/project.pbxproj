@@ -26,6 +26,7 @@
 		743152D2219CE80E00E3101F /* ModuleNeedBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152D1219CE80E00E3101F /* ModuleNeedBlueprint.swift */; };
 		743152D4219CF43D00E3101F /* CDPoint2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743152D3219CF43D00E3101F /* CDPoint2.swift */; };
 		74315D112280FAE300BA6058 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74315D102280FAE300BA6058 /* Configuration.swift */; };
+		74315D252281050000BA6058 /* Ampere.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74315D242281050000BA6058 /* Ampere.framework */; };
 		74347BCC2252DBCB000E53E7 /* ZAccessOverlayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74347BCB2252DBCB000E53E7 /* ZAccessOverlayNode.swift */; };
 		743D00362218CEED00AEA5DE /* SKSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D00352218CEED00AEA5DE /* SKSceneExtension.swift */; };
 		743D00382218D56C00AEA5DE /* SKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D00372218D56C00AEA5DE /* SKNode.swift */; };
@@ -95,6 +96,7 @@
 		743152D1219CE80E00E3101F /* ModuleNeedBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleNeedBlueprint.swift; sourceTree = "<group>"; };
 		743152D3219CF43D00E3101F /* CDPoint2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPoint2.swift; sourceTree = "<group>"; };
 		74315D102280FAE300BA6058 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		74315D242281050000BA6058 /* Ampere.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Ampere.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74347BCB2252DBCB000E53E7 /* ZAccessOverlayNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZAccessOverlayNode.swift; sourceTree = "<group>"; };
 		743D00352218CEED00AEA5DE /* SKSceneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSceneExtension.swift; sourceTree = "<group>"; };
 		743D00372218D56C00AEA5DE /* SKNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNode.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74315D252281050000BA6058 /* Ampere.framework in Frameworks */,
 				7727E3B9B88D48C6BC60CABE /* Pods_Carrier_Game.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,6 +164,7 @@
 		16C1C158367964A69A311F60 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				74315D242281050000BA6058 /* Ampere.framework */,
 				C1D105AD9CFC12333219AEE4 /* Pods_Carrier_Game.framework */,
 			);
 			name = Frameworks;

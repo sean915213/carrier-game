@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -62,7 +62,7 @@
 		3BEFDBC0AC6B5E1574B668ED8870334B /* Pods-Carrier Game.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Carrier Game.release.xcconfig"; sourceTree = "<group>"; };
 		3DEAF94560C0025DE68B8B4DF21DC795 /* SingleValueCodable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SingleValueCodable.swift; path = SGYSwiftUtility/Classes/Codable/SingleValueCodable.swift; sourceTree = "<group>"; };
 		426370FD7852FA2F470494DAECA240F5 /* AsyncOperation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AsyncOperation.swift; path = SGYSwiftUtility/Classes/Operations/AsyncOperation.swift; sourceTree = "<group>"; };
-		4EACD78FECEFBA93C1A78B4D69FB7271 /* Pods_Carrier_Game.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Carrier_Game.framework; path = "Pods-Carrier Game.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EACD78FECEFBA93C1A78B4D69FB7271 /* Pods_Carrier_Game.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Carrier_Game.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5494CDCFB74E902B38134D89E283087C /* URLComponentsExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = URLComponentsExtension.swift; path = SGYSwiftUtility/Classes/URLComponentsExtension.swift; sourceTree = "<group>"; };
 		5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		733AB1F7804F9DD12CB4CE43A1840727 /* Logger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = SGYSwiftUtility/Classes/Logger.swift; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 		8235060143597EF45DE07F09DD006D83 /* DataExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataExtension.swift; path = SGYSwiftUtility/Classes/DataExtension.swift; sourceTree = "<group>"; };
 		8A73AA3293060D5B05692562D764A8A4 /* SGYSwiftUtility.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SGYSwiftUtility.modulemap; sourceTree = "<group>"; };
 		91D23E7CB741BDE9CA309C1647C39AE5 /* Pods-Carrier Game.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Carrier Game.debug.xcconfig"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		96D31F04D364EC958E8E78CA6B3A28DE /* NSFetchedResultsChangeTypeExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NSFetchedResultsChangeTypeExtension.swift; path = SGYSwiftUtility/Classes/CoreData/NSFetchedResultsChangeTypeExtension.swift; sourceTree = "<group>"; };
 		A25DACEFEF03B87274A6C8CF1DB77D4F /* NamedManagedObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NamedManagedObject.swift; path = SGYSwiftUtility/Classes/CoreData/NamedManagedObject.swift; sourceTree = "<group>"; };
 		A421110699951C607F31434CBBDA7480 /* UITableViewExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UITableViewExtension.swift; path = SGYSwiftUtility/Classes/UITableViewExtension.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 		B8FD46BFE9AD471747B96F65F873A68A /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C1E80C0E6E6C7953989D67E7D8295038 /* Pods-Carrier Game-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Carrier Game-acknowledgements.markdown"; sourceTree = "<group>"; };
 		CB8D64E2F673826C6BF6BA427B047260 /* NSEntityDescriptionExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NSEntityDescriptionExtension.swift; path = SGYSwiftUtility/Classes/CoreData/NSEntityDescriptionExtension.swift; sourceTree = "<group>"; };
-		D1BB3876E2501B2E440940CE14686F29 /* SGYSwiftUtility.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SGYSwiftUtility.framework; path = SGYSwiftUtility.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1BB3876E2501B2E440940CE14686F29 /* SGYSwiftUtility.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SGYSwiftUtility.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2E7A76288502E3C1ABCB330CB825DB4 /* Pods-Carrier Game-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Carrier Game-dummy.m"; sourceTree = "<group>"; };
 		D3B9A90226712D02DDE623D79A0C457A /* Pods-Carrier Game-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Carrier Game-acknowledgements.plist"; sourceTree = "<group>"; };
 		D5611C12EE5B04C18F1F0BD7A374EDED /* CodableURL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CodableURL.swift; path = SGYSwiftUtility/Classes/Codable/CodableURL.swift; sourceTree = "<group>"; };
@@ -209,7 +209,6 @@
 				5494CDCFB74E902B38134D89E283087C /* URLComponentsExtension.swift */,
 				3E46AA9A915314CB6FE3DBD016B2FA60 /* Support Files */,
 			);
-			name = SGYSwiftUtility;
 			path = SGYSwiftUtility;
 			sourceTree = "<group>";
 		};
@@ -301,6 +300,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
@@ -447,11 +447,7 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-Carrier Game/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-Carrier Game/Pods-Carrier Game.modulemap";
 				OTHER_LDFLAGS = "";
@@ -486,11 +482,7 @@
 				INFOPLIST_FILE = "Target Support Files/SGYSwiftUtility/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/SGYSwiftUtility/SGYSwiftUtility.modulemap";
 				PRODUCT_MODULE_NAME = SGYSwiftUtility;
 				PRODUCT_NAME = SGYSwiftUtility;
@@ -523,11 +515,7 @@
 				INFOPLIST_FILE = "Target Support Files/SGYSwiftUtility/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/SGYSwiftUtility/SGYSwiftUtility.modulemap";
 				PRODUCT_MODULE_NAME = SGYSwiftUtility;
 				PRODUCT_NAME = SGYSwiftUtility;
@@ -618,11 +606,7 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-Carrier Game/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-Carrier Game/Pods-Carrier Game.modulemap";
 				OTHER_LDFLAGS = "";

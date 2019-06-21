@@ -11,10 +11,10 @@ import CoreGraphics
 
 enum Configuration {
     
-    static let timeMultiplier: Double = ((60 * 60) / 3.0) * 2
+//    static let gameSecondsPerRealSecond: Double = ((60 * 60) / 3.0) * 2
+    static let gameSecondsPerRealSecond: Double = 240
     
-    static let crewmanMovementSpeed: CGFloat = 1.4
-    
-    
+    // NOTE: A person's avg walking speed reduced slightly
+    static let crewmanMovementSpeed = Measurement(value: 1.3, unit: UnitSpeed.metersPerSecond)
     
 }

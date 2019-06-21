@@ -72,7 +72,9 @@ class Deck2DSimulationScene: BaseDeck2DScene {
     
     override func update(_ currentTime: TimeInterval) {
         
-        let convertedTime = currentTime * Configuration.timeMultiplier
+        // TODO: CLEAN UP (seems to be working, yah?)
+        
+        let convertedTime = currentTime * Configuration.gameSecondsPerRealSecond
         
         super.update(convertedTime)
         // If simulation not enabled then do nothing

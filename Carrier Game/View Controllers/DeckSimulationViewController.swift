@@ -36,7 +36,7 @@ class DeckSimulationViewController: Deck2DViewController<Deck2DSimulationScene> 
         deckButton.setTitleColor(.blue, for: [])
         deckButton.addTarget(self, action: #selector(displayNextDeck), for: .touchUpInside)
         view.addSubview(deckButton)
-        deckButton.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1.0).activate()
+        deckButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).activate()
         deckButton.trailingAnchor.constraint(equalToSystemSpacingAfter: view.layoutMarginsGuide.trailingAnchor, multiplier: 1.0).activate()
 
     }

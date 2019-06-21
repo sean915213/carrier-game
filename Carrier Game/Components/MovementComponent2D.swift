@@ -55,7 +55,12 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
         for node in nodes[1...] {
             // Always perform move action. If changing verticals then won't move anywhere but still serves to add a timing element
             let moveAction = SKAction.move(to: CGPoint(x: CGFloat(node.position.x), y: CGFloat(node.position.y)), duration: 1)
-            moveAction.speed = Configuration.crewmanMovementSpeed
+            
+            // Convert speed to m/s and assign
+//            moveAction.speed = CGFloat(Configuration.crewmanMovementSpeed.converted(to: .metersPerSecond).value)
+            moveAction.speed = CGFloat(Configuration.crewmanMovementSpeed.converted(to: .metersPerSecond).value * Configuration.gameSecondsPerRealSecond)
+            
+            
             // Create block action to remove from remaining path and assign on entity's instance
             let postAction = SKAction.run {
                 // Remove the position we just moved to
@@ -82,7 +87,7 @@ class MovementComponent2D: GKComponent, MovementComponentProtocol {
         cancelRunningAction()
         // Set position on node
         movementNode.position = CGPoint(x: position.x, y: position.y)
-        // Assign otherwise
+        // Assign on instances
         assignPosition(at: position)
     }
     

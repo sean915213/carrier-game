@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CDPoint2.registerTransformers()
         CDPoint3.registerTransformers()
         ModuleEntrance.registerTransformers()
-        
         // Initial logic block
         let setupBlock = {
             // Load data models
