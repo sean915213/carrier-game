@@ -30,7 +30,7 @@ class Deck2DSimulationScene: BaseDeck2DScene {
     
     private(set) lazy var reporter = StatReportingEntity()
     
-    private var lastUpdate: TimeInterval = 0
+    private var lastUpdate: TimeInterval?
     
     var enableSimulation: Bool = true {
         didSet { updateSimulationEnabled() }
@@ -71,25 +71,19 @@ class Deck2DSimulationScene: BaseDeck2DScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        
-        // TODO: CLEAN UP (seems to be working, yah?)
-        
-        let convertedTime = currentTime * Configuration.gameSecondsPerRealSecond
-        
-        super.update(convertedTime)
-        // If simulation not enabled then do nothing
+        super.update(currentTime)
+        // Always update
+        defer { lastUpdate = currentTime }
+        // Get last time or set to this time and wait until update
+        guard let lastTimeUpdate = lastUpdate else { return }
+        // If simulation not enabled do nothing else
         guard enableSimulation else { return }
-        // Save this update
-        defer { lastUpdate = convertedTime }
-        // If lastUpdate is 0 then do nothing yet
-        guard lastUpdate != 0 else { return }
-        // Get real-time difference
-        let dt = convertedTime - lastUpdate
-//        // Convert to game time delta
-//        let gameDT = dt * Configuration.timeMultiplier
-        // Apply to ship instance
-        shipEntity.update(deltaTime: dt)
-        // Update on stat reporter AFTER ship entity updates
-        reporter.update(deltaTime: dt)
+        // Get game-seconds update from our game seconds factor
+        let dtGame = (currentTime - lastTimeUpdate) * Configuration.gameSecondsPerRealSecond
+        // Apply to entities
+        // - SHIP
+        shipEntity.update(deltaTime: dtGame)
+        // - STAT REPORTER
+        reporter.update(deltaTime: dtGame)
     }
 }

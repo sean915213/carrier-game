@@ -90,7 +90,7 @@ class ShipEntity: GKEntity {
     }
     
     override func update(deltaTime seconds: TimeInterval) {
-        defer { super.update(deltaTime: seconds) }
+        super.update(deltaTime: seconds)
         guard let instance = instance else {
             assertionFailure("\(#function) called without an assigned ShipInstance.")
             return
