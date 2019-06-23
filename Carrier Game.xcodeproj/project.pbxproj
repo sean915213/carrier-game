@@ -58,6 +58,7 @@
 		749CB1592177F8C400949734 /* DeckEditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CB1582177F8C400949734 /* DeckEditingViewController.swift */; };
 		74B45384222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B45383222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift */; };
 		74B45386222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B45385222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift */; };
+		74B966C922BFFE6C009E18BB /* SleepNeedTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B966C822BFFE6C009E18BB /* SleepNeedTask.swift */; };
 		74B97DD421B9FC23009973A3 /* CDPoint3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B97DD321B9FC23009973A3 /* CDPoint3.swift */; };
 		74BA5CE52183CB640039A2D5 /* NSPersistentContainerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA5CE42183CB640039A2D5 /* NSPersistentContainerExtension.swift */; };
 		74BA5CE82183CD0D0039A2D5 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74BA5CE62183CD0D0039A2D5 /* Model.xcdatamodeld */; };
@@ -130,6 +131,7 @@
 		749CB1582177F8C400949734 /* DeckEditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckEditingViewController.swift; sourceTree = "<group>"; };
 		74B45383222DF29F00C833E1 /* SlidingMenuToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingMenuToolbarViewController.swift; sourceTree = "<group>"; };
 		74B45385222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingMenuToolbarCell.swift; sourceTree = "<group>"; };
+		74B966C822BFFE6C009E18BB /* SleepNeedTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepNeedTask.swift; sourceTree = "<group>"; };
 		74B97DD321B9FC23009973A3 /* CDPoint3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPoint3.swift; sourceTree = "<group>"; };
 		74BA5CE42183CB640039A2D5 /* NSPersistentContainerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentContainerExtension.swift; sourceTree = "<group>"; };
 		74BA5CE72183CD0D0039A2D5 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 		749573B1226E790B00F3F176 /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
+				74B966C722BFFE51009E18BB /* Need Classes */,
 				74BC2B88225AD068002878A8 /* CrewmanNeedTask.swift */,
 				74BC2B86225ACF0C002878A8 /* CrewmanTask.swift */,
 				749573B4226E80C000F3F176 /* CrewmanJobTask.swift */,
@@ -322,6 +325,14 @@
 				74B45385222DF3FA00C833E1 /* SlidingMenuToolbarCell.swift */,
 			);
 			path = SlidingMenuToolbarViewController;
+			sourceTree = "<group>";
+		};
+		74B966C722BFFE51009E18BB /* Need Classes */ = {
+			isa = PBXGroup;
+			children = (
+				74B966C822BFFE6C009E18BB /* SleepNeedTask.swift */,
+			);
+			path = "Need Classes";
 			sourceTree = "<group>";
 		};
 		74BA5CE02183CAA30039A2D5 /* CoreData */ = {
@@ -568,6 +579,7 @@
 				74405C76218E476800BA3A69 /* IdentifiableEntity.swift in Sources */,
 				7426BF0E225430F600E3BED4 /* ModuleEntityNodeComponent2D.swift in Sources */,
 				7471650D21AE0D2500F5AA48 /* ShipEntity.swift in Sources */,
+				74B966C922BFFE6C009E18BB /* SleepNeedTask.swift in Sources */,
 				74405C78218E4EF100BA3A69 /* DeckBlueprint.swift in Sources */,
 				74BDA0442192778E0034DD20 /* CGPointExtensions.swift in Sources */,
 				749CB13D2177E7F800949734 /* AppDelegate.swift in Sources */,

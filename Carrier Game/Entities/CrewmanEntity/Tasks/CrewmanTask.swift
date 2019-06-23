@@ -21,6 +21,8 @@ extension TaskPriority {
     static let high = 50
     static let low = 25
     static let none = 0
+    
+    static let workShift: TaskPriority = .urgent
 }
 
 class CrewmanTask {
@@ -34,7 +36,7 @@ class CrewmanTask {
     // MARK: - Properties
     
     var priority: TaskPriority {
-        return calculatePriorty()
+        return calculatePriority()
     }
     
     // TODO: DOES UNOWNED FIX WHAT WOULD BE A REF CYCLE HERE?
@@ -43,23 +45,28 @@ class CrewmanTask {
     private(set) lazy var logger = Logger(source: "\(type(of: self))")
     
     private(set) var taskControl: Bool = false
+    private(set) var controlDuration: Measurement<UnitDuration>?
 
     // MARK: - Methods
     
-    func calculatePriorty() -> TaskPriority {
+    func calculatePriority() -> TaskPriority {
         return .none
     }
     
     func beginTaskControl() {
         taskControl = true
+        controlDuration = Measurement(value: 0, unit: .seconds)
     }
     
     func endTaskControl() {
         taskControl = false
+        controlDuration = nil
     }
     
     func update(deltaTime seconds: TimeInterval) {
-        // Provided for common override
+        // If controlDuration is populated we have control so add to current duration
+        guard let duration = controlDuration else { return }
+        controlDuration = duration + Measurement(value: seconds, unit: .seconds)
     }
     
     func findClosestEntrance(from crewman: CrewmanEntity, in modules: [ModuleInstance]) -> (module: ModuleInstance, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])? {

@@ -58,10 +58,10 @@ class CrewmanJobTask: CrewmanTask {
         }
     }
     
-    override func calculatePriorty() -> TaskPriority {
+    override func calculatePriority() -> TaskPriority {
         // TODO: NEED BETTER LOGIC
         if crewman.isOnShift {
-            return .high
+            return .workShift
         } else {
             return .none
         }

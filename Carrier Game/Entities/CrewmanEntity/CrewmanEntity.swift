@@ -84,8 +84,15 @@ class CrewmanEntity: GKEntity, StatsProvider {
         addComponent(nodeComponent)
         // - Needs
         for need in instance.needs {
-            print("&& CREWMAN [\(instance.name)] ADDING NEED: \(need.action)")
-            let task = CrewmanNeedTask(crewman: self, need: need)
+            print("&& CREWMAN [\(instance.name)] ADDING NEED: \(need.action) [value: \(need.value)]. DECAY: \(need.decayFactor)")
+            // TODO: BETTER ORGANIZE SOMEWHERE
+            let task: CrewmanNeedTask
+            switch need.action {
+            case .sleep:
+                task = SleepNeedTask(crewman: self, need: need)
+            default:
+                task = CrewmanNeedTask(crewman: self, need: need)
+            }
             tasks.append(task)
         }
         // - Job
