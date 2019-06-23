@@ -57,7 +57,7 @@
         <relationship name="module" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ModuleBlueprint" inverseName="fulfilledNeeds" inverseEntity="ModuleBlueprint"/>
     </entity>
     <entity name="ModulePlacement" representedClassName=".ModulePlacement" syncable="YES">
-        <attribute name="origin" optional="YES" attributeType="Transformable" valueTransformerName="CDPoint2Transformer"/>
+        <attribute name="origin" attributeType="Transformable" valueTransformerName="CDPoint2Transformer"/>
         <attribute name="rotation" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="blueprint" maxCount="1" deletionRule="Nullify" destinationEntity="ModuleBlueprint"/>
         <relationship name="deck" maxCount="1" deletionRule="Nullify" destinationEntity="DeckBlueprint" inverseName="modulePlacements" inverseEntity="DeckBlueprint"/>
@@ -86,7 +86,7 @@
         <element name="ModuleJobBlueprint" positionX="-27" positionY="81" width="128" height="73"/>
         <element name="ModuleJobInstance" positionX="-36" positionY="72" width="128" height="88"/>
         <element name="ModuleNeedBlueprint" positionX="-9" positionY="99" width="128" height="90"/>
-        <element name="ModulePlacement" positionX="-36" positionY="54" width="128" height="120"/>
+        <element name="ModulePlacement" positionX="-36" positionY="54" width="128" height="118"/>
         <element name="ShipBlueprint" positionX="-54" positionY="27" width="128" height="105"/>
         <element name="ShipInstance" positionX="-36" positionY="45" width="128" height="120"/>
     </elements>
