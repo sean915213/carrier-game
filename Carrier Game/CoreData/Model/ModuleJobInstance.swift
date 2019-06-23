@@ -13,5 +13,5 @@ class ModuleJobInstance: NSManagedObject {
     
     @NSManaged var module: ModuleInstance
     @NSManaged var blueprint: ModuleJobBlueprint
-    @NSManaged var assignedCrewmen: Set<CrewmanInstance>
+    @NSManaged var assignedCrewman: CrewmanInstance?
 }

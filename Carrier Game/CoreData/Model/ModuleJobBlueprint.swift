@@ -11,7 +11,6 @@ import CoreData
 
 class ModuleJobBlueprint: NSManagedObject {
     
-    @NSManaged var requiredCrewmen: Int
     @NSManaged var action: Action
     
     @NSManaged var module: ModuleBlueprint

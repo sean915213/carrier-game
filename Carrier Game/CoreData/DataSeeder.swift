@@ -100,7 +100,6 @@ enum DataSeeder {
         // - Cook
         let cookJob = ModuleJobBlueprint.insertNew(into: context)
         cookJob.action = .cook
-        cookJob.requiredCrewmen = 2
         cafeModule.jobs.insert(cookJob)
         // Needs
         // - Food
@@ -122,7 +121,6 @@ enum DataSeeder {
         // - Engineer
         let engineJob = ModuleJobBlueprint.insertNew(into: context)
         engineJob.action = .engineer
-        engineJob.requiredCrewmen = 2
         engineModule.jobs.insert(engineJob)
         
         // Quarters
@@ -134,11 +132,8 @@ enum DataSeeder {
         // Attributes
         quartersModule.attributes = [ModuleAttribute.crewSupported: 4]
         // Entrances
-        for point in CDPoint2.map(from: CGRect(x: 0, y: 2, width: 5, height: 1)) {
-            // TODO: SHOULD NOT BE ADDING ENTIRE LINE
-            quartersModule.entrances.insert(ModuleEntrance(coordinate: point, zAccess: false))
-        }
         quartersModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 2), zAccess: true))
+        quartersModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 4, y: 2), zAccess: false))
         // Needs
         // - Sleep
         let sleepNeed = ModuleNeedBlueprint.insertNew(into: context)
@@ -158,7 +153,6 @@ enum DataSeeder {
         // - Weapon
         let weaponJob = ModuleJobBlueprint.insertNew(into: context)
         weaponJob.action = .weapon
-        weaponJob.requiredCrewmen = 1
         weaponModule.jobs.insert(weaponJob)
     }
     
@@ -361,11 +355,3 @@ extension DataSeeder {
         crew2.needs.insert(foodNeed2)
     }
 }
-
-// TODO: MOVE TO UTILITY
-//extension NamedManagedObject {
-//    
-//    static func insertNew(into context: NSManagedObjectContext) -> Self {
-//        return NSEntityDescription.insertNewObject(forEntityClass: Self.self, into: context)
-//    }
-//}
