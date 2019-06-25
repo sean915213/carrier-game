@@ -12,6 +12,7 @@ import CoreData
 class ModuleJobBlueprint: NSManagedObject {
     
     @NSManaged var action: Action
+    @NSManaged var position: CDPoint2?
     
     @NSManaged var module: ModuleBlueprint
 }

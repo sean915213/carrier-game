@@ -10,9 +10,10 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO: Continue fleshing out jobs/needs.
-// - Expand job instance with locations where job is performed?
-// - Should job customization be done via class or via model options? I.e. cook adding food?
+// TODO: Continue modifying pathfinding so that we can attempt simple movement to an arbitrary GridPoint3
+// 1. Expand base functions including those that calculate a path? Then composite those into existing find closest entrance function?
+// OR: Could make find closest entrance generic by passing a type that adheres to a protocol that exposes its gridpoint? Otherwise would need a few helper functions when getting closest among different types (or somehow associated closest found path with the matching item).
+// 2. Use new function(s) to convert move to entrance logic for jobs to move to the specific position if it exists?
 
 typealias TaskPriority = Int
 extension TaskPriority {
@@ -26,6 +27,8 @@ extension TaskPriority {
 }
 
 class CrewmanTask {
+    
+    enum PathFailure: Error { case invalidDestination, noPath }
     
     // MARK: - Initialization
     
@@ -42,7 +45,7 @@ class CrewmanTask {
     // TODO: DOES UNOWNED FIX WHAT WOULD BE A REF CYCLE HERE?
     unowned let crewman: CrewmanEntity
     
-    private(set) lazy var logger = Logger(source: "\(type(of: self))")
+    private(set) lazy var logger = Logger(source: "\(type(of: self)) [\(crewman.instance.name)]")
     
     private(set) var taskControl: Bool = false
     private(set) var controlDuration: Measurement<UnitDuration>?
@@ -69,29 +72,61 @@ class CrewmanTask {
         controlDuration = duration + Measurement(value: seconds, unit: .seconds)
     }
     
-    func findClosestEntrance(from crewman: CrewmanEntity, in modules: [ModuleInstance]) -> (module: ModuleInstance, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])? {
-        // Get origin node in ship's graph
-        let originNode = getGraphNode()
-        // Collect distances to entrances
-        var distanceInfo = [(module: ModuleInstance, entrance: GKGridGraphNode3D, path: [GKGridGraphNode3D])]()
+    // TODO: REVERT TO RETURNING JUST PATH UNLESS OTHER INFO IS BEING USED
+    func findClosestEntrance(in modules: [ModuleInstance]) -> (module: ModuleInstance, entrance: GridPoint3, path: [GKGridGraphNode3D])? {
+        // Collect shortest path info
+        var shortestInfo: (module: ModuleInstance, entrance: GridPoint3, path: [GKGridGraphNode3D])?
         for module in modules {
             let entranceCoords = module.placement.absoluteEntrances.map { $0.coordinate }
             for entrance in entranceCoords {
-                // Get node
-                guard let node = crewman.ship.blueprint.graph.node(atPoint: entrance) else {
-                    assertionFailure("\(#function) found module entrance with no associated graph node.")
-                    continue
-                }
                 // Get path
-                let path = originNode.findPath(to: node) as! [GKGridGraphNode3D]
-                // If empty then path doesn't exist
-                guard !path.isEmpty else { continue }
-                // Append info
-                distanceInfo.append((module: module, entrance: node, path: path))
+                do {
+                    let path = try findPath(to: entrance)
+                    // If existing path is <= new count then continue
+                    if let info = shortestInfo, info.path.count <= path.count { continue }
+                    // Assign new info
+                    shortestInfo = (module: module, entrance: entrance, path: path)
+                } catch {
+                    fatalError("Inability to find path not implemented. This is likely valid in some scenarios but they haven't been accounted for.")
+                }
             }
         }
-        // Return shortest entrance
-        return distanceInfo.min(by: { $0.path.count < $1.path.count })
+        return shortestInfo
+    }
+    
+    // TODO: Implement somehow or remove
+    func findShortestPath(among points: [GridPoint3]) -> (point: GridPoint3, path: [GKGridGraphNode3D])? {
+        // Get origin node in ship's graph
+        let originNode = getCrewmanGraphNode()
+        // Determine shortest path
+        var shortest: (point: GridPoint3, path: [GKGridGraphNode3D])?
+        for point in points {
+            // Get node
+            guard let node = crewman.ship.blueprint.graph.node(atPoint: point) else {
+                continue
+            }
+            // Get path
+            let path = originNode.findPath(to: node) as! [GKGridGraphNode3D]
+            // If empty then path doesn't exist
+            guard !path.isEmpty else { continue }
+            // If shortest exists and this path is longer continue
+            if let (_, currentPath) = shortest, currentPath.count <= path.count { continue }
+            // Assign new shortest
+            shortest = (point, path)
+        }
+        return shortest
+    }
+    
+    func findPath(to point: GridPoint3) throws -> [GKGridGraphNode3D] {
+        // Get destination node
+        guard let destinationNode = crewman.ship.blueprint.graph.node(atPoint: point) else {
+            throw PathFailure.invalidDestination
+        }
+        // Find path
+        let path = getCrewmanGraphNode().findPath(to: destinationNode) as! [GKGridGraphNode3D]
+        guard !path.isEmpty else { throw PathFailure.noPath }
+        // Return path
+        return path
     }
     
     func setMovementPath(_ path: [GKGridGraphNode3D], completed: @escaping (MovementResult) -> Void) {
@@ -103,7 +138,7 @@ class CrewmanTask {
         movementComponent.setPath(nodes: path, completed: completed)
     }
     
-    func getGraphNode() -> GKGridGraphNode3D {
+    func getCrewmanGraphNode() -> GKGridGraphNode3D {
         guard let node = crewman.ship.blueprint.graph.node(atPoint: GridPoint3(crewman.instance.position)) else {
             assertionFailure("\(#function) unable to find a graph node associated with instance's position.")
             return GKGridGraphNode3D(point: GridPoint3.zero)

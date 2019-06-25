@@ -153,6 +153,7 @@ enum DataSeeder {
         // - Weapon
         let weaponJob = ModuleJobBlueprint.insertNew(into: context)
         weaponJob.action = .weapon
+        weaponJob.position = CDPoint2(x: 1, y: 1)
         weaponModule.jobs.insert(weaponJob)
     }
     

@@ -90,10 +90,13 @@ class CrewmanNeedTask: CrewmanTask {
             return module.blueprint.fulfilledNeeds.contains(where: { $0.action == need.action })
         }
         // Find the closest entrance we could move to in one of these modules
-        guard let entranceInfo = findClosestEntrance(from: crewman, in: satisfyingModules) else {
+        guard let entranceInfo = findClosestEntrance(in: satisfyingModules) else {
             // TODO: Logging this results in spam if crewman is stuck in an orphaned module. But should note this somehow?
             return
         }
+        
+        logger.logDebug("Closest entrance [\(entranceInfo.module.blueprint.name)] count: \(entranceInfo.path.count)")
+        
         // Set to moving
         state = .moving
         // Move to module and set status when completed
@@ -112,7 +115,7 @@ class CrewmanNeedTask: CrewmanTask {
             return
         }
         // Find path
-        let path = getGraphNode().findPath(to: node) as! [GKGridGraphNode3D]
+        let path = getCrewmanGraphNode().findPath(to: node) as! [GKGridGraphNode3D]
         // If empty then no path (which probably should not happen?)
         guard !path.isEmpty else {
             logger.logError("Found empty meander path. Why would an orphaned graph node exist? Destination: \(node)")

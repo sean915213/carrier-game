@@ -49,6 +49,8 @@ class CrewmanJobTask: CrewmanTask {
         guard taskControl else { return }
         // Unless state is none, we're performing some kind of action so nothing to do
         guard case .none = state else { return }
+        
+        // TODO: CHECK IS INSUFFICIENT CONSIDERING NEW POSITION PARAM
         // If we're in the job's module then update work
         if crewman.currentModule == job.module {
             updateWork(deltaTime: deltaTime)
@@ -72,15 +74,28 @@ class CrewmanJobTask: CrewmanTask {
     }
     
     private func moveToJob() {
-        // Find the closest entrance we could move to for job
-        guard let entranceInfo = findClosestEntrance(from: crewman, in: [job.module]) else {
-            // TODO: Logging this results in spam if crewman is stuck in an orphaned module. But should note this somehow?
-            return
+        // Find the point we should move to
+        let path: [GKGridGraphNode3D]
+        if let jobPosition = job.blueprint.position {
+            let relativePosition = job.module.placement.absolutePoint(fromRelative: GridPoint2(jobPosition))
+            // Get path
+            guard let (_, positionPath) = findShortestPath(among: [relativePosition]) else {
+                // TODO: HANDLE
+                fatalError("Need to handle inability to move to assigned job position.")
+            }
+            path = positionPath
+        } else {
+            // Job has no specific position in module so try to move to an entrance
+            guard let entranceInfo = findClosestEntrance(in: [job.module]) else {
+                // TODO: HANDLE
+                fatalError("Need to handle inability to move to assigned job module's entrance.")
+            }
+            path = entranceInfo.path
         }
-        // Set to moving
+        // Set status to moving
         state = .moving
-        // Move to module and set status when completed
-        setMovementPath(entranceInfo.path) { result in
+        // Move to position and update status when complete
+        setMovementPath(path) { result in
             switch result {
             case .interrupted:
                 // Reset to none if interrupted
@@ -92,28 +107,21 @@ class CrewmanJobTask: CrewmanTask {
         }
     }
     
-//    private func performNeed(in module: ModuleInstance, for crewman: CrewmanEntity) {
-//        // Find a random coordinate within this module
-//        let rect = module.placement.absoluteRect
-//        let xCoord = rect.xRange.randomElement()!
-//        let yCoord = rect.yRange.randomElement()!
-//        // Check for open node here
-//        guard let node = crewman.ship.blueprint.graph.node(atPoint: GridPoint3(xCoord, yCoord, GridPoint(rawValue: Int(module.deck.blueprint.position)))) else {
-//            return
-//        }
-//        // Find path
-//        let path = getGraphNode(for: crewman).findPath(to: node) as! [GKGridGraphNode3D]
-//        // If empty then no path (which probably should not happen?)
-//        guard !path.isEmpty else {
-//            logger.logError("Found empty meander path. Why would an orphaned graph node exist? Destination: \(node)")
-//            return
-//        }
-//        // Set movement
-//        setMovementPath(path, for: crewman) { result in
-//            // Instead of checking for interrupted, etc just set state back to none and if we still have task control we'll continue next update
-//            self.state = .none
-//        }
-//    }
+    // TODO: USE OR REMOVE
+    
+    private func takeJobPosition() {
+        // Check for where we should perform this work
+        guard let position = job.blueprint.position else {
+            state = .none
+            return
+        }
+        let relativePosition = job.module.placement.absolutePoint(fromRelative: GridPoint2(position))
+        // Check whether currently there
+        guard relativePosition != crewman.gridPosition else {
+            print("&& WEAPON IN POSITION.")
+            return
+        }
+    }
 }
 
 extension CrewmanJobTask: CustomDebugStringConvertible {

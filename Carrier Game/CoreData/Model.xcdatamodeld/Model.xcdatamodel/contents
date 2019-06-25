@@ -44,6 +44,7 @@
     </entity>
     <entity name="ModuleJobBlueprint" representedClassName=".ModuleJobBlueprint" syncable="YES">
         <attribute name="action" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="position" optional="YES" attributeType="Transformable" valueTransformerName="CDPoint2Transformer"/>
         <relationship name="module" maxCount="1" deletionRule="Nullify" destinationEntity="ModuleBlueprint" inverseName="jobs" inverseEntity="ModuleBlueprint"/>
     </entity>
     <entity name="ModuleJobInstance" representedClassName=".ModuleJobInstance" syncable="YES">
@@ -83,7 +84,7 @@
         <element name="DeckInstance" positionX="-18" positionY="54" width="128" height="90"/>
         <element name="ModuleBlueprint" positionX="-63" positionY="-18" width="128" height="180"/>
         <element name="ModuleInstance" positionX="-45" positionY="45" width="128" height="90"/>
-        <element name="ModuleJobBlueprint" positionX="-27" positionY="81" width="128" height="73"/>
+        <element name="ModuleJobBlueprint" positionX="-27" positionY="81" width="128" height="88"/>
         <element name="ModuleJobInstance" positionX="-36" positionY="72" width="128" height="88"/>
         <element name="ModuleNeedBlueprint" positionX="-9" positionY="99" width="128" height="88"/>
         <element name="ModulePlacement" positionX="-36" positionY="54" width="128" height="118"/>

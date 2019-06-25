@@ -49,6 +49,14 @@ class ShipEntity: GKEntity {
         assert(instance == nil, "A ShipInstance may only be assigned once.")
         // Assign
         instance = newInstance
+        
+        // TODO: REALLY DEBUGGING
+        let newDate = Calendar.current.date(bySetting: .hour, value: 12, of: Date())
+        print("&& INSTANCE ASSIGNED DATE: \(newDate)")
+        instance?.time = newDate!
+        
+        
+        
         // Add existing crewmen
         for crewman in newInstance.crewmen { addCrewmanEntity(for: crewman) }
     }
