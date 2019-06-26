@@ -43,23 +43,6 @@ class CrewmanJobTask: CrewmanTask {
         state = .none
     }
     
-    override func update(deltaTime: TimeInterval) {
-        super.update(deltaTime: deltaTime)
-        // If task doesn't have control then no work to be done for job
-        guard taskControl else { return }
-        // Unless state is none, we're performing some kind of action so nothing to do
-        guard case .none = state else { return }
-        
-        // TODO: CHECK IS INSUFFICIENT CONSIDERING NEW POSITION PARAM
-        // If we're in the job's module then update work
-        if crewman.currentModule == job.module {
-            updateWork(deltaTime: deltaTime)
-        } else {
-            // Otherwise move to module
-            moveToJob()
-        }
-    }
-    
     override func calculatePriority() -> TaskPriority {
         // TODO: NEED BETTER LOGIC
         if crewman.isOnShift {
@@ -67,6 +50,36 @@ class CrewmanJobTask: CrewmanTask {
         } else {
             return .none
         }
+    }
+    
+    override func update(deltaTime: TimeInterval) {
+        super.update(deltaTime: deltaTime)
+        // If task doesn't have control then no work to be done for job
+        guard taskControl else { return }
+        // Unless state is none, we're performing some kind of action so nothing to do
+        guard case .none = state else { return }
+        // Check whether we need to reposition to perform job
+        if shouldRepositionForJob() {
+            moveToJob()
+        } else {
+            // Perform work
+            updateWork(deltaTime: deltaTime)
+        }
+    }
+    
+    private func shouldRepositionForJob() -> Bool {
+        // Check whether job has a specific position
+        if let jobPosition = job.blueprint.position {
+            // Check whether we're in position
+            if crewman.gridPosition != job.module.placement.absolutePoint(fromRelative: GridPoint2(jobPosition)) {
+                return true
+            }
+        } else {
+            // No specific position. Check whether we're in the job's module.
+            if crewman.currentModule != job.module { return true }
+        }
+        // Reposition not required
+        return false
     }
     
     private func updateWork(deltaTime: TimeInterval) {
@@ -104,22 +117,6 @@ class CrewmanJobTask: CrewmanTask {
                 // Set as working if moved
                 self.state = .working
             }
-        }
-    }
-    
-    // TODO: USE OR REMOVE
-    
-    private func takeJobPosition() {
-        // Check for where we should perform this work
-        guard let position = job.blueprint.position else {
-            state = .none
-            return
-        }
-        let relativePosition = job.module.placement.absolutePoint(fromRelative: GridPoint2(position))
-        // Check whether currently there
-        guard relativePosition != crewman.gridPosition else {
-            print("&& WEAPON IN POSITION.")
-            return
         }
     }
 }
