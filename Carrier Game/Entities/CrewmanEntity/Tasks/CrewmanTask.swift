@@ -10,11 +10,6 @@ import UIKit
 import GameplayKit
 import SGYSwiftUtility
 
-// TODO: Continue modifying pathfinding so that we can attempt simple movement to an arbitrary GridPoint3
-// 1. Expand base functions including those that calculate a path? Then composite those into existing find closest entrance function?
-// OR: Could make find closest entrance generic by passing a type that adheres to a protocol that exposes its gridpoint? Otherwise would need a few helper functions when getting closest among different types (or somehow associated closest found path with the matching item).
-// 2. Use new function(s) to convert move to entrance logic for jobs to move to the specific position if it exists?
-
 typealias TaskPriority = Int
 extension TaskPriority {
     static let required = 100
@@ -72,29 +67,13 @@ class CrewmanTask {
         controlDuration = duration + Measurement(value: seconds, unit: .seconds)
     }
     
-    // TODO: REVERT TO RETURNING JUST PATH UNLESS OTHER INFO IS BEING USED
-    func findClosestEntrance(in modules: [ModuleInstance]) -> (module: ModuleInstance, entrance: GridPoint3, path: [GKGridGraphNode3D])? {
-        // Collect shortest path info
-        var shortestInfo: (module: ModuleInstance, entrance: GridPoint3, path: [GKGridGraphNode3D])?
-        for module in modules {
-            let entranceCoords = module.placement.absoluteEntrances.map { $0.coordinate }
-            for entrance in entranceCoords {
-                // Get path
-                do {
-                    let path = try findPath(to: entrance)
-                    // If existing path is <= new count then continue
-                    if let info = shortestInfo, info.path.count <= path.count { continue }
-                    // Assign new info
-                    shortestInfo = (module: module, entrance: entrance, path: path)
-                } catch {
-                    fatalError("Inability to find path not implemented. This is likely valid in some scenarios but they haven't been accounted for.")
-                }
-            }
-        }
-        return shortestInfo
+    func findClosestEntrance(in modules: [ModuleInstance]) -> (point: GridPoint3, path: [GKGridGraphNode3D])? {
+        // Collect entrance coords from all modules
+        let entranceCoords = modules.flatMap({ $0.placement.absoluteEntrances.map { $0.coordinate } })
+        // Return shortest path
+        return findShortestPath(among: entranceCoords)
     }
     
-    // TODO: Implement somehow or remove
     func findShortestPath(among points: [GridPoint3]) -> (point: GridPoint3, path: [GKGridGraphNode3D])? {
         // Get origin node in ship's graph
         let originNode = getCrewmanGraphNode()

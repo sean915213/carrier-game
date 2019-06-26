@@ -94,9 +94,6 @@ class CrewmanNeedTask: CrewmanTask {
             // TODO: Logging this results in spam if crewman is stuck in an orphaned module. But should note this somehow?
             return
         }
-        
-        logger.logDebug("Closest entrance [\(entranceInfo.module.blueprint.name)] count: \(entranceInfo.path.count)")
-        
         // Set to moving
         state = .moving
         // Move to module and set status when completed
