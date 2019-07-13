@@ -72,7 +72,6 @@
 		74BDA0442192778E0034DD20 /* CGPointExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BDA0432192778E0034DD20 /* CGPointExtensions.swift */; };
 		74EE317F21BF2B3E00D4A5FC /* StatsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EE317E21BF2B3E00D4A5FC /* StatsProvider.swift */; };
 		74EE318121BF2D1900D4A5FC /* StatReportingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EE318021BF2D1900D4A5FC /* StatReportingEntity.swift */; };
-		74FC7A1521B0C856001B4E83 /* float3Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FC7A1421B0C856001B4E83 /* float3Extensions.swift */; };
 		7727E3B9B88D48C6BC60CABE /* Pods_Carrier_Game.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D105AD9CFC12333219AEE4 /* Pods_Carrier_Game.framework */; };
 /* End PBXBuildFile section */
 
@@ -145,7 +144,6 @@
 		74BDA0432192778E0034DD20 /* CGPointExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtensions.swift; sourceTree = "<group>"; };
 		74EE317E21BF2B3E00D4A5FC /* StatsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsProvider.swift; sourceTree = "<group>"; };
 		74EE318021BF2D1900D4A5FC /* StatReportingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatReportingEntity.swift; sourceTree = "<group>"; };
-		74FC7A1421B0C856001B4E83 /* float3Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = float3Extensions.swift; sourceTree = "<group>"; };
 		7C886EB8ABAF79B71BDACB79 /* Pods-Carrier Game.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrier Game.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game.debug.xcconfig"; sourceTree = "<group>"; };
 		C1D105AD9CFC12333219AEE4 /* Pods_Carrier_Game.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Carrier_Game.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -353,7 +351,6 @@
 				74BA5CE42183CB640039A2D5 /* NSPersistentContainerExtension.swift */,
 				74BDA04121926F950034DD20 /* CGRectExtensions.swift */,
 				74BDA0432192778E0034DD20 /* CGPointExtensions.swift */,
-				74FC7A1421B0C856001B4E83 /* float3Extensions.swift */,
 				7415562521BC9F9A009EA087 /* TimeIntervalExtension.swift */,
 				743D00352218CEED00AEA5DE /* SKSceneExtension.swift */,
 				743D00372218D56C00AEA5DE /* SKNode.swift */,
@@ -586,7 +583,6 @@
 				742C3646219A4DE2007FA1B5 /* MovementComponent2D.swift in Sources */,
 				749652FA2256DB5200D6FDA5 /* DeckSimulationViewController.swift in Sources */,
 				7415561E21BB3CBC009EA087 /* MovementComponentProtocol.swift in Sources */,
-				74FC7A1521B0C856001B4E83 /* float3Extensions.swift in Sources */,
 				742C3640219A4CAC007FA1B5 /* BaseDeck2DScene.swift in Sources */,
 				749652FD2256DC0100D6FDA5 /* Deck2DSimulationScene.swift in Sources */,
 				74315D112280FAE300BA6058 /* Configuration.swift in Sources */,
