@@ -41,10 +41,6 @@ struct GridPoint3: Hashable, Equatable {
     
     static let zero = GridPoint3(0, 0, 0)
     
-    init(_ point: float3) {
-        self.init(GridPoint(point.x), GridPoint(point.y), GridPoint(point.z))
-    }
-    
     init(_ point: CDPoint3) {
         self.init(GridPoint(point.x), GridPoint(point.y), GridPoint(point.z))
     }
