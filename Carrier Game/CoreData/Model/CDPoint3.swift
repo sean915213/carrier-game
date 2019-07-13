@@ -38,34 +38,12 @@ class CDPoint3: NSObject, Codable {
 
 extension CDPoint3 {
 
-    convenience init(_ point: float3) {
-        self.init(x: point.x, y: point.y, z: point.z)
-    }
-    
     override var description: String {
         return "{\(x), \(y), \(z)}"
     }
     
     override var debugDescription: String {
         return description
-    }
-}
-
-extension float3 {
-    init(_ point: CDPoint3) {
-        self.init(x: point.x, y: point.y, z: point.z)
-    }
-}
-
-extension Array where Element == float3 {
-    init(_ vectors: [CDPoint3]) {
-        self = vectors.map { float3($0) }
-    }
-}
-
-extension Set where Element == float3 {
-    init(_ vectors: Set<CDPoint3>) {
-        self.init(vectors.map { float3($0) })
     }
 }
 
