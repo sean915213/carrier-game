@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SGYSwiftUtility",
+        "repositoryURL": "https://github.com/sean915213/SGYSwiftUtility-spm.git",
+        "state": {
+          "branch": "master",
+          "revision": "7f702c1498ed4cec9ec0d5d58fb346180b9e9c78",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

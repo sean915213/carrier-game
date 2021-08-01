@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4883980426B7208C0058107F /* SGYSwiftUtility in Frameworks */ = {isa = PBXBuildFile; productRef = 4883980326B7208C0058107F /* SGYSwiftUtility */; };
 		74048369220919B8002B67BD /* Deck2DViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74048368220919B8002B67BD /* Deck2DViewController.swift */; };
 		740FD03621B5FCB400C34FF8 /* ModuleJobInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740FD03521B5FCB400C34FF8 /* ModuleJobInstance.swift */; };
 		7415561E21BB3CBC009EA087 /* MovementComponentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7415561D21BB3CBC009EA087 /* MovementComponentProtocol.swift */; };
@@ -72,11 +73,9 @@
 		74BDA0442192778E0034DD20 /* CGPointExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BDA0432192778E0034DD20 /* CGPointExtensions.swift */; };
 		74EE317F21BF2B3E00D4A5FC /* StatsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EE317E21BF2B3E00D4A5FC /* StatsProvider.swift */; };
 		74EE318121BF2D1900D4A5FC /* StatReportingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EE318021BF2D1900D4A5FC /* StatReportingEntity.swift */; };
-		7727E3B9B88D48C6BC60CABE /* Pods_Carrier_Game.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D105AD9CFC12333219AEE4 /* Pods_Carrier_Game.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5E91DE9759731EDC5892EA1A /* Pods-Carrier Game.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrier Game.release.xcconfig"; path = "Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game.release.xcconfig"; sourceTree = "<group>"; };
 		74048368220919B8002B67BD /* Deck2DViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck2DViewController.swift; sourceTree = "<group>"; };
 		740FD03521B5FCB400C34FF8 /* ModuleJobInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleJobInstance.swift; sourceTree = "<group>"; };
 		7415561D21BB3CBC009EA087 /* MovementComponentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponentProtocol.swift; sourceTree = "<group>"; };
@@ -144,8 +143,6 @@
 		74BDA0432192778E0034DD20 /* CGPointExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtensions.swift; sourceTree = "<group>"; };
 		74EE317E21BF2B3E00D4A5FC /* StatsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsProvider.swift; sourceTree = "<group>"; };
 		74EE318021BF2D1900D4A5FC /* StatReportingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatReportingEntity.swift; sourceTree = "<group>"; };
-		7C886EB8ABAF79B71BDACB79 /* Pods-Carrier Game.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carrier Game.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game.debug.xcconfig"; sourceTree = "<group>"; };
-		C1D105AD9CFC12333219AEE4 /* Pods_Carrier_Game.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Carrier_Game.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,7 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74315D252281050000BA6058 /* Ampere.framework in Frameworks */,
-				7727E3B9B88D48C6BC60CABE /* Pods_Carrier_Game.framework in Frameworks */,
+				4883980426B7208C0058107F /* SGYSwiftUtility in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,18 +162,8 @@
 			isa = PBXGroup;
 			children = (
 				74315D242281050000BA6058 /* Ampere.framework */,
-				C1D105AD9CFC12333219AEE4 /* Pods_Carrier_Game.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		2F923BE58044EE8B7D794DCB /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				7C886EB8ABAF79B71BDACB79 /* Pods-Carrier Game.debug.xcconfig */,
-				5E91DE9759731EDC5892EA1A /* Pods-Carrier Game.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		7415561C21BB3C5E009EA087 /* Protocols */ = {
@@ -279,7 +266,6 @@
 			children = (
 				749CB13B2177E7F800949734 /* Carrier Game */,
 				749CB13A2177E7F800949734 /* Products */,
-				2F923BE58044EE8B7D794DCB /* Pods */,
 				16C1C158367964A69A311F60 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -420,17 +406,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 749CB14D2177E7F900949734 /* Build configuration list for PBXNativeTarget "Carrier Game" */;
 			buildPhases = (
-				2BFAA8C2C7C8F0EE56CAAAF0 /* [CP] Check Pods Manifest.lock */,
 				749CB1352177E7F800949734 /* Sources */,
 				749CB1362177E7F800949734 /* Frameworks */,
 				749CB1372177E7F800949734 /* Resources */,
-				72582DFE949303BEFB17A3AB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Carrier Game";
+			packageProductDependencies = (
+				4883980326B7208C0058107F /* SGYSwiftUtility */,
+			);
 			productName = "Carrier Game";
 			productReference = 749CB1392177E7F800949734 /* Carrier Game.app */;
 			productType = "com.apple.product-type.application";
@@ -460,6 +447,9 @@
 				Base,
 			);
 			mainGroup = 749CB1302177E7F800949734;
+			packageReferences = (
+				4883980226B7208C0058107F /* XCRemoteSwiftPackageReference "SGYSwiftUtility-spm" */,
+			);
 			productRefGroup = 749CB13A2177E7F800949734 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -481,45 +471,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		2BFAA8C2C7C8F0EE56CAAAF0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Carrier Game-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		72582DFE949303BEFB17A3AB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SGYSwiftUtility/SGYSwiftUtility.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SGYSwiftUtility.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Carrier Game/Pods-Carrier Game-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		749CB1352177E7F800949734 /* Sources */ = {
@@ -722,7 +673,6 @@
 		};
 		749CB14E2177E7F900949734 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7C886EB8ABAF79B71BDACB79 /* Pods-Carrier Game.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -741,7 +691,6 @@
 		};
 		749CB14F2177E7F900949734 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5E91DE9759731EDC5892EA1A /* Pods-Carrier Game.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -780,6 +729,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4883980226B7208C0058107F /* XCRemoteSwiftPackageReference "SGYSwiftUtility-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sean915213/SGYSwiftUtility-spm.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4883980326B7208C0058107F /* SGYSwiftUtility */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4883980226B7208C0058107F /* XCRemoteSwiftPackageReference "SGYSwiftUtility-spm" */;
+			productName = SGYSwiftUtility;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		74BA5CE62183CD0D0039A2D5 /* Model.xcdatamodeld */ = {
