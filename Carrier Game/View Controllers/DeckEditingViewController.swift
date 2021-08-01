@@ -134,7 +134,7 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
     override func viewDidLoad() {
         super.viewDidLoad()
         // Add toolbar control
-        addChild(slidingMenuToolbarController) { (toolbarView, completed) in
+        addChild(slidingMenuToolbarController) { toolbarView in
             // Configure and add to view
             toolbarView.translatesAutoresizingMaskIntoConstraints = false
             toolbarView.backgroundColor = UIColor.white.withAlphaComponent(0.7)
@@ -144,7 +144,6 @@ class DeckEditingViewController: Deck2DViewController<BaseDeck2DScene>, ModuleLi
             toolbarView.bottomAnchor.constraint(equalTo: view.bottomAnchor).activate()
             // - Height constraint based on preferredContentSize
             slidingMenuToolbarHeightConstraint.activate()
-            completed()
         }
     }
 

@@ -19,6 +19,7 @@ extension IdentifiableEntity {
     static func entityWithIdentifier(_ identifier: String, using context: NSManagedObjectContext) throws -> Self? {
         let fetch = Self.makeFetchRequest()
         fetch.predicate = NSPredicate(format: "identifier = %@", identifier)
-        return try context.fetch(fetch)
+        fetch.fetchLimit = 1
+        return try context.fetch(fetch).first
     }
 }

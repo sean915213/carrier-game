@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // - Instance
                 let instanceFetch = ShipInstance.makeFetchRequest()
                 instanceFetch.predicate = NSPredicate(format: "name = %@", "Test Ship 2")
-                let instance = try! NSPersistentContainer.model.viewContext.fetch(instanceFetch)!
+                let instance = try! NSPersistentContainer.model.viewContext.fetch(instanceFetch).first!
                 
                 // Display controller
 //                self.window!.rootViewController = DeckEditingViewController(ship: instance.blueprint)

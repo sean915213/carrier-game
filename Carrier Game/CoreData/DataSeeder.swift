@@ -98,12 +98,12 @@ enum DataSeeder {
         cafeModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 4, y: 2), zAccess: false))
         // Jobs
         // - Cook
-        let cookJob = ModuleJobBlueprint.insertNew(into: context)
+        let cookJob = ModuleJobBlueprint(context: context)
         cookJob.action = .cook
         cafeModule.jobs.insert(cookJob)
         // Needs
         // - Food
-        let foodNeed = ModuleNeedBlueprint.insertNew(into: context)
+        let foodNeed = ModuleNeedBlueprint(context: context)
         foodNeed.action = .food
         foodNeed.increaseFactor = ActionFactor.overShift * 4.0 // Require 1/4 a shift for full
         cafeModule.fulfilledNeeds.insert(foodNeed)
@@ -119,7 +119,7 @@ enum DataSeeder {
         engineModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 4, y: 2), zAccess: false))
         // Jobs
         // - Engineer
-        let engineJob = ModuleJobBlueprint.insertNew(into: context)
+        let engineJob = ModuleJobBlueprint(context: context)
         engineJob.action = .engineer
         engineModule.jobs.insert(engineJob)
         
@@ -136,7 +136,7 @@ enum DataSeeder {
         quartersModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 4, y: 2), zAccess: false))
         // Needs
         // - Sleep
-        let sleepNeed = ModuleNeedBlueprint.insertNew(into: context)
+        let sleepNeed = ModuleNeedBlueprint(context: context)
         sleepNeed.action = .sleep
         sleepNeed.increaseFactor = ActionFactor.overShift
         quartersModule.fulfilledNeeds.insert(sleepNeed)
@@ -151,7 +151,7 @@ enum DataSeeder {
         weaponModule.entrances.insert(ModuleEntrance(coordinate: CDPoint2(x: 0, y: 1), zAccess: false))
         // Jobs
         // - Weapon
-        let weaponJob = ModuleJobBlueprint.insertNew(into: context)
+        let weaponJob = ModuleJobBlueprint(context: context)
         weaponJob.action = .weapon
         weaponJob.position = CDPoint2(x: 1, y: 1)
         weaponModule.jobs.insert(weaponJob)
@@ -172,7 +172,7 @@ extension DataSeeder {
     
     fileprivate static func seedTestBlueprint1(using context: NSManagedObjectContext) {
         // Make ship
-        let ship = ShipBlueprint.insertNew(into: context)
+        let ship = ShipBlueprint(context: context)
         ship.identifier = "ship.test"
         ship.name = "Test Ship 1"
         
@@ -207,7 +207,7 @@ extension DataSeeder {
     
     fileprivate static func seedTestBlueprint2(using context: NSManagedObjectContext) {
         // Make ship
-        let ship = ShipBlueprint.insertNew(into: context)
+        let ship = ShipBlueprint(context: context)
         ship.identifier = "ship.test2"
         ship.name = "Test Ship 2"
         
@@ -261,7 +261,7 @@ extension DataSeeder {
         let allJobs = ship.allModules.flatMap({ $0.jobs })
         
         // Add crewmen to only deck
-        let crew1 = CrewmanInstance.insertNew(into: context)
+        let crew1 = CrewmanInstance(context: context)
         crew1.name = "Crew 1"
         crew1.position = CDPoint3(x: 6, y: 1, z: 0)
         crew1.shift = .second
@@ -270,19 +270,19 @@ extension DataSeeder {
         crew1.job = allJobs.first(where: { $0.blueprint.action == .weapon })!
         // Needs
         // - Sleep
-        let sleepNeed1 = CrewmanNeed.insertNew(into: context)
+        let sleepNeed1 = CrewmanNeed(context: context)
         sleepNeed1.action = .sleep
         sleepNeed1.priority = .normal
         sleepNeed1.decayFactor = ActionFactor.overShift / 2 // Should decay over 2 shifts shift
         crew1.needs.insert(sleepNeed1)
         // - Food
-        let foodNeed1 = CrewmanNeed.insertNew(into: context)
+        let foodNeed1 = CrewmanNeed(context: context)
         foodNeed1.action = .food
         foodNeed1.priority = .normal
         foodNeed1.decayFactor = ActionFactor.overShift // Should decay over a single shift
         crew1.needs.insert(foodNeed1)
         
-        let crew2 = CrewmanInstance.insertNew(into: context)
+        let crew2 = CrewmanInstance(context: context)
         crew2.name = "Crew 2"
         crew2.position = CDPoint3(x: 2, y: 2, z: 0)
         crew2.shift = .second
@@ -291,13 +291,13 @@ extension DataSeeder {
         crew2.job = allJobs.first(where: { $0.blueprint.action == .engineer })!
         // Needs
         // - Sleep
-        let sleepNeed2 = CrewmanNeed.insertNew(into: context)
+        let sleepNeed2 = CrewmanNeed(context: context)
         sleepNeed2.action = .sleep
         sleepNeed2.priority = .normal
         sleepNeed2.decayFactor = ActionFactor.overShift // Should decay over a single shift
         crew2.needs.insert(sleepNeed2)
         // - Food
-        let foodNeed2 = CrewmanNeed.insertNew(into: context)
+        let foodNeed2 = CrewmanNeed(context: context)
         foodNeed2.action = .food
         foodNeed2.priority = .normal
         foodNeed2.decayFactor = ActionFactor.overShift / 2 // Should decay over 2 shifts
@@ -313,7 +313,7 @@ extension DataSeeder {
         let allJobs = ship.allModules.flatMap({ $0.jobs })
         
         // CREWMEN
-        let crew1 = CrewmanInstance.insertNew(into: context)
+        let crew1 = CrewmanInstance(context: context)
         crew1.name = "Crew 1"
         crew1.position = CDPoint3(x: -2, y: 2, z: 0)
         crew1.shift = .second
@@ -322,19 +322,19 @@ extension DataSeeder {
         crew1.job = allJobs.first(where: { $0.blueprint.action == .weapon })!
         // Needs
         // - Sleep
-        let sleepNeed1 = CrewmanNeed.insertNew(into: context)
+        let sleepNeed1 = CrewmanNeed(context: context)
         sleepNeed1.action = .sleep
         sleepNeed1.priority = .normal
         sleepNeed1.decayFactor = ActionFactor.overShift / 2 // Should decay over 2 shifts shift
         crew1.needs.insert(sleepNeed1)
         // - Food
-        let foodNeed1 = CrewmanNeed.insertNew(into: context)
+        let foodNeed1 = CrewmanNeed(context: context)
         foodNeed1.action = .food
         foodNeed1.priority = .normal
         foodNeed1.decayFactor = ActionFactor.overShift // Should decay over a single shift
         crew1.needs.insert(foodNeed1)
         
-        let crew2 = CrewmanInstance.insertNew(into: context)
+        let crew2 = CrewmanInstance(context: context)
         crew2.name = "Crew 2"
         crew2.position = CDPoint3(x: -3, y: 3, z: 0)
         crew2.shift = .second
@@ -343,13 +343,13 @@ extension DataSeeder {
         crew2.job = allJobs.first(where: { $0.blueprint.action == .cook })!
         // Needs
         // - Sleep
-        let sleepNeed2 = CrewmanNeed.insertNew(into: context)
+        let sleepNeed2 = CrewmanNeed(context: context)
         sleepNeed2.action = .sleep
         sleepNeed2.priority = .normal
         sleepNeed2.decayFactor = ActionFactor.overShift // Should decay over a single shift
         crew2.needs.insert(sleepNeed2)
         // - Food
-        let foodNeed2 = CrewmanNeed.insertNew(into: context)
+        let foodNeed2 = CrewmanNeed(context: context)
         foodNeed2.action = .food
         foodNeed2.priority = .normal
         foodNeed2.decayFactor = ActionFactor.overShift / 2 // Should decay over 2 shifts

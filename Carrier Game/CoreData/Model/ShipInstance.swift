@@ -34,7 +34,7 @@ extension ShipInstance {
     
     class func insertNew(into context: NSManagedObjectContext, using blueprint: ShipBlueprint) -> ShipInstance {
         // Make instance
-        let ship = ShipInstance.insertNew(into: context)
+        let ship = ShipInstance(context: context)
         ship.time = Date()
         ship.blueprint = blueprint
         // Make deck instances

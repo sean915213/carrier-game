@@ -32,7 +32,7 @@ extension DeckInstance {
     
     class func insertNew(into context: NSManagedObjectContext, using blueprint: DeckBlueprint) -> DeckInstance {
         // Make instance
-        let deck = DeckInstance.insertNew(into: context)
+        let deck = DeckInstance(context: context)
         deck.blueprint = blueprint
         // Make modules
         for placement in blueprint.modulePlacements {

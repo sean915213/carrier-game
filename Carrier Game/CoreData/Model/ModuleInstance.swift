@@ -28,11 +28,11 @@ extension ModuleInstance {
     
     class func insertNew(into context: NSManagedObjectContext, using placement: ModulePlacement) -> ModuleInstance {
         // Make instance
-        let module = ModuleInstance.insertNew(into: context)
+        let module = ModuleInstance(context: context)
         module.placement = placement
         // Create job instances
         for blueprint in placement.blueprint.jobs {
-            let job = ModuleJobInstance.insertNew(into: context)
+            let job = ModuleJobInstance(context: context)
             job.blueprint = blueprint
             module.jobs.insert(job)
         }

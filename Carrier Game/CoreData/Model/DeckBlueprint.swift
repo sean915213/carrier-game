@@ -92,7 +92,7 @@ extension DeckBlueprint {
     
     class func insertNew(into context: NSManagedObjectContext, on ship: ShipBlueprint, at position: Int16) -> DeckBlueprint {
         // Make instance
-        let deck = DeckBlueprint.insertNew(into: context)
+        let deck = DeckBlueprint(context: context)
         deck.position = position
         // Add to ship
         ship.decks.insert(deck)
@@ -113,7 +113,7 @@ extension DeckBlueprint {
     func placeModule(_ module: ModuleBlueprint, at origin: CDPoint2) -> ModulePlacement {
         // Insert a new module placement into our current context
         guard let context = managedObjectContext else { fatalError("Attempt to place a module on a DeckBlueprint with no associated context.") }
-        let placement = ModulePlacement.insertNew(into: context)
+        let placement = ModulePlacement(context: context)
         placement.blueprint = module
         placement.origin = origin
         // Add to our list and return
